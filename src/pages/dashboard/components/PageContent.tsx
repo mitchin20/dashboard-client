@@ -4,6 +4,12 @@ import { CovidData } from "../../../types";
 import StatesPopulation from "./StatesPopulation";
 import StatesVaccinationRatios from "./StatesVaccinationRatios";
 import Trends from "./Trends";
+import {
+    setSessionStorage,
+    getSessionStorage,
+} from "../../../helpers/sessionStorage";
+
+const ttl = 10 * 60 * 1000;
 
 const PageContent = () => {
     // State variables
@@ -13,6 +19,13 @@ const PageContent = () => {
 
     // Fetch data from API endpoint
     useEffect(() => {
+        const cachedData: any = getSessionStorage("all-us-states-covid-data");
+
+        if (cachedData && !cachedData?.value?.expiry) {
+            setData(cachedData);
+            return;
+        }
+
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -20,6 +33,11 @@ const PageContent = () => {
                     `${process.env.REACT_APP_SERVER_URL}/all-us-states-covid-data`
                 );
                 const results = await response.data;
+                setSessionStorage(
+                    "all-us-states-covid-data",
+                    results.data,
+                    ttl
+                );
                 setData(results.data);
             } catch (error) {
                 setError(error as AxiosError);
