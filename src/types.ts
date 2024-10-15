@@ -92,6 +92,7 @@ export interface DataTableProps {
     height?: number;
     width?: string;
     disablePageSizeOption?: boolean;
+    props?: any;
 }
 
 export interface BarChartProps {

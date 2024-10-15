@@ -161,6 +161,7 @@ const Trends = () => {
         <div
             style={{
                 marginLeft: "20px",
+                marginBottom: "50px",
             }}
         >
             <Typography
@@ -168,7 +169,7 @@ const Trends = () => {
                 sx={{
                     display: "flex",
                     justifyContent: "center",
-                    marginTop: "50px",
+                    marginTop: "100px",
                     marginBottom: "20px",
                     fontWeight: "bold",
                 }}

@@ -45,31 +45,48 @@ const StatesPopulation: React.FC<StatesDashboardComponentsProps> = ({
     ];
 
     return (
-        <div>
+        <div
+            style={{
+                marginBottom: "50px",
+            }}
+        >
             <Typography
-                variant="h5"
+                variant="h4"
+                textAlign="center"
                 sx={{
-                    marginTop: "20px",
+                    marginTop: "100px",
                     marginBottom: "20px",
+                    fontWeight: "bold",
                 }}
             >
                 States Population
             </Typography>
 
-            <Typography variant="body1">
+            <Typography
+                variant="body1"
+                sx={{
+                    marginLeft: "20%",
+                    marginRight: "20%",
+                    textAlign: "center",
+                    marginBottom: "50px",
+                }}
+            >
                 This table displays state-level population data, including
                 information on CDC transmission levels, COVID-19 cases, and
                 related deaths. Use this data to monitor and compare the impact
                 of COVID-19 across different states.
             </Typography>
+
             <DataTable
                 columns={columns}
                 rows={data}
                 pageSize={pageSize}
                 loading={loading}
                 height={300}
-                // disablePageSizeOption={true}
-                // width="300px"
+                props={{
+                    paddingLeft: "20%",
+                    paddingRight: "20%",
+                }}
             />
         </div>
     );

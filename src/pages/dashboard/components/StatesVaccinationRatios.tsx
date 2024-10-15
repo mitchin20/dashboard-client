@@ -66,15 +66,37 @@ const StatesVaccinationRatios: React.FC<StatesDashboardComponentsProps> = ({
         },
     };
     return (
-        <div>
+        <div
+            style={{
+                marginLeft: "5%",
+                marginRight: "5%",
+            }}
+        >
             <Typography
-                variant="h5"
+                variant="h4"
                 sx={{
-                    marginTop: "20px",
+                    marginTop: "100px",
                     marginBottom: "20px",
+                    fontWeight: "bold",
+                    textAlign: "center",
                 }}
             >
                 States Vaccination Ratios
+            </Typography>
+            <Typography
+                variant="body1"
+                sx={{
+                    marginLeft: "20%",
+                    marginRight: "20%",
+                    textAlign: "center",
+                    marginBottom: "50px",
+                }}
+            >
+                This chart displays the vaccination ratios across U.S. states,
+                showing the percentage of each state's population that has been
+                fully vaccinated. It allows for quick comparisons of vaccination
+                coverage between states, highlighting areas with higher or lower
+                vaccination rates.
             </Typography>
             <BarChart
                 dataKey="state"

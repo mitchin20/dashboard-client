@@ -11,12 +11,14 @@ const DataTable: React.FC<DataTableProps> = ({
     height,
     width,
     disablePageSizeOption,
+    props,
 }) => {
     return (
         <Box
             sx={{
                 height: height || 400,
                 width: width || "100%",
+                ...props,
             }}
         >
             <DataGrid
