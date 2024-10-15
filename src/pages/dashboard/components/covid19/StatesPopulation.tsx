@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import DataTable from "../../components/DataTable";
+import DataTable from "../../../components/DataTable";
 import { Typography } from "@mui/material";
-import { StatesDashboardComponentsProps } from "../../../types";
+import { StatesDashboardComponentsProps } from "../../../../types";
 import { GridValueOptionsParams } from "@mui/x-data-grid";
 
 const StatesPopulation: React.FC<StatesDashboardComponentsProps> = ({

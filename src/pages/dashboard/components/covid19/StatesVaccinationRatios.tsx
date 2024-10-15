@@ -1,8 +1,8 @@
 import React from "react";
-import { StatesDashboardComponentsProps } from "../../../types";
+import { StatesDashboardComponentsProps } from "../../../../types";
 import { Typography } from "@mui/material";
 import { axisClasses } from "@mui/x-charts";
-import BarChart from "../../components/BarChart";
+import BarChart from "../../../components/BarChart";
 
 const StatesVaccinationRatios: React.FC<StatesDashboardComponentsProps> = ({
     data,

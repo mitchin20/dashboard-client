@@ -3,7 +3,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import { createTheme } from "@mui/material/styles";
 import type { Router } from "@toolpad/core";
 import { DashboardLayout, AppProvider, NavigationItem } from "@toolpad/core";
-import PageContent from "./components/PageContent";
+import PageContent from "./components/covid19/PageContent";
 import { DashboardProps } from "../../types";
 
 const demoTheme = createTheme({

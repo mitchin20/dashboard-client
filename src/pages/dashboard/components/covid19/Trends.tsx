@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import LineChart from "../../components/LineChart";
+import LineChart from "../../../components/LineChart";
 import {
     Typography,
     Select,
@@ -18,7 +18,7 @@ import { usStateAbbreviations } from "./varData";
 import {
     setSessionStorage,
     getSessionStorage,
-} from "../../../helpers/sessionStorage";
+} from "../../../../helpers/sessionStorage";
 
 const filterTypes = ["Days", "Months"];
 const ttl = 3 * 60 * 1000; // 3 minutes in milliseconds

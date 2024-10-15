@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
-import { CovidData } from "../../../types";
+import { CovidData } from "../../../../types";
 import StatesPopulation from "./StatesPopulation";
 import StatesVaccinationRatios from "./StatesVaccinationRatios";
 import Trends from "./Trends";
 import {
     setSessionStorage,
     getSessionStorage,
-} from "../../../helpers/sessionStorage";
+} from "../../../../helpers/sessionStorage";
 
 const ttl = 10 * 60 * 1000;
 
