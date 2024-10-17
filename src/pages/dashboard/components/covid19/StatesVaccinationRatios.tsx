@@ -59,11 +59,12 @@ const StatesVaccinationRatios: React.FC<StatesDashboardComponentsProps> = ({
                 label: "Vaccination Coverage (%)",
             },
         ],
-        sx: {
-            [`.${axisClasses.left} .${axisClasses.label}`]: {
-                transform: "translate(-20px, 0)",
+        xAxis: [
+            {
+                scaleType: "band",
+                dataKey: "state",
             },
-        },
+        ],
     };
     return (
         <div
@@ -99,7 +100,6 @@ const StatesVaccinationRatios: React.FC<StatesDashboardComponentsProps> = ({
                 vaccination rates.
             </Typography>
             <BarChart
-                dataKey="state"
                 dataset={barChartData()}
                 series={series}
                 height={500}

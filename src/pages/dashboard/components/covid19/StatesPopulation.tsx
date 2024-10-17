@@ -2,13 +2,26 @@ import React, { useState } from "react";
 import DataTable from "../../../components/DataTable";
 import { Typography } from "@mui/material";
 import { StatesDashboardComponentsProps } from "../../../../types";
-import { GridValueOptionsParams } from "@mui/x-data-grid";
+import { GridRowParams, GridValueOptionsParams } from "@mui/x-data-grid";
+import StatePopulationDetails from "./StatePopulationDetails";
 
 const StatesPopulation: React.FC<StatesDashboardComponentsProps> = ({
     data,
     loading,
 }) => {
     const [pageSize, setPageSize] = useState<number>(10);
+    const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const [selectedRow, setSelectedRow] = useState<any>(null);
+
+    const handleOnRowClick = (params: GridRowParams) => {
+        setShowDrawer(true);
+        setSelectedRow(params.row);
+    };
+
+    const handleCloseDrawer = () => {
+        setShowDrawer(false);
+        setSelectedRow(null);
+    };
 
     // Table Columns configuration
     const columns = [
@@ -82,11 +95,18 @@ const StatesPopulation: React.FC<StatesDashboardComponentsProps> = ({
                 rows={data}
                 pageSize={pageSize}
                 loading={loading}
+                onRowClick={handleOnRowClick}
                 height={300}
                 props={{
                     paddingLeft: "20%",
                     paddingRight: "20%",
                 }}
+            />
+
+            <StatePopulationDetails
+                data={selectedRow}
+                showDrawer={showDrawer}
+                handleCloseDrawer={handleCloseDrawer}
             />
         </div>
     );

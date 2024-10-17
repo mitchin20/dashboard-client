@@ -1,3 +1,4 @@
+import { AnchorX, AnchorY } from "@mui/x-charts/ChartsLegend/legend.types";
 import { GridColDef } from "@mui/x-data-grid";
 
 // Define the Metrics interface
@@ -93,22 +94,56 @@ export interface DataTableProps {
     width?: string;
     disablePageSizeOption?: boolean;
     props?: any;
+    onRowClick?: (params: any) => void;
 }
 
 export interface BarChartProps {
-    dataKey: string;
     dataset: any[];
     series: {
         dataKey: string;
         label?: string;
     }[];
     height?: number;
-    width?: string;
     chartSetting?: any;
     loading?: boolean;
+    layout?: string;
+    width?: string;
 }
 
 export interface StatesDashboardComponentsProps {
     data: any[];
     loading: boolean;
+}
+
+export interface MuiDrawerProps {
+    children: React.ReactNode;
+    anchor?: "left" | "top" | "right" | "bottom";
+    open?: boolean;
+    onClose?: () => void;
+    PaperProps?: any;
+    props?: any;
+}
+
+export interface StatePopulationDetailsProps {
+    data: any;
+    showDrawer: boolean;
+    handleCloseDrawer: () => void;
+}
+
+interface PieChartLegendPadding {
+    left?: number;
+    right?: number;
+    top?: number;
+    bottom?: number;
+}
+
+export interface MuiPieChartProps {
+    series: any;
+    width?: number;
+    height?: number;
+    legendPositionV?: AnchorY;
+    legendPositionH?: AnchorX;
+    fontSize?: number;
+    padding?: PieChartLegendPadding;
+    legendDirection?: "row" | "column";
 }

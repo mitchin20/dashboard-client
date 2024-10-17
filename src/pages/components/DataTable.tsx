@@ -11,6 +11,7 @@ const DataTable: React.FC<DataTableProps> = ({
     height,
     width,
     disablePageSizeOption,
+    onRowClick,
     props,
 }) => {
     return (
@@ -31,6 +32,7 @@ const DataTable: React.FC<DataTableProps> = ({
                         },
                     },
                 }}
+                onRowClick={onRowClick}
                 pageSizeOptions={
                     disablePageSizeOption
                         ? []
