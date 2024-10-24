@@ -1,5 +1,10 @@
 import React, { useMemo, useState } from "react";
 import DescriptionIcon from "@mui/icons-material/Description";
+import {
+    QueryClient,
+    QueryClientProvider,
+    QueryCache,
+} from "@tanstack/react-query";
 import { createTheme } from "@mui/material/styles";
 import type { Router } from "@toolpad/core";
 import { DashboardLayout, AppProvider, NavigationItem } from "@toolpad/core";
@@ -21,6 +26,12 @@ const demoTheme = createTheme({
         },
     },
 });
+
+// Create query cache instance
+const queryCache = new QueryCache();
+
+// Create query client instance
+const queryClient = new QueryClient({ queryCache });
 
 const Dashboard: React.FC<DashboardProps> = (props) => {
     const { window } = props;
@@ -58,7 +69,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
                 title="Dashboard"
                 icon={<DescriptionIcon />}
             >
-                <PageContent />
+                <QueryClientProvider client={queryClient}>
+                    <PageContent />
+                </QueryClientProvider>
             </DashboardLayout>
         </AppProvider>
     );

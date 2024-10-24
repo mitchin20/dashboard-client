@@ -1,13 +1,21 @@
 import React from "react";
 import { StatesDashboardComponentsProps } from "../../../../types";
 import { Typography } from "@mui/material";
-import { axisClasses } from "@mui/x-charts";
 import BarChart from "../../../components/BarChart";
 
 const StatesVaccinationRatios: React.FC<StatesDashboardComponentsProps> = ({
     data,
     loading,
 }) => {
+    // Check to handle loading and data availability
+    if (loading || !data || data.length === 0) {
+        return (
+            <div style={{ textAlign: "center", padding: "20px" }}>
+                <Typography variant="h6">Loading...</Typography>
+            </div>
+        );
+    }
+
     // Bar chart data configuration
     // Extract & transform data for the bar chart
     const barChartData = () => {
