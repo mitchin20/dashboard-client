@@ -45,6 +45,10 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         };
     }, [pathname]);
 
+    const windowInstance = (
+        typeof window !== "undefined" ? window : undefined
+    ) as Window | undefined;
+
     const branding = {
         logo: false,
         title: "Dashboard",
@@ -63,12 +67,9 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
             theme={demoTheme}
             router={router}
             branding={branding}
+            window={windowInstance}
         >
-            <DashboardLayout
-                window={window}
-                title="Dashboard"
-                icon={<DescriptionIcon />}
-            >
+            <DashboardLayout title="Dashboard" icon={<DescriptionIcon />}>
                 <QueryClientProvider client={queryClient}>
                     <PageContent />
                 </QueryClientProvider>
