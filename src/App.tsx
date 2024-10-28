@@ -1,3 +1,5 @@
+// src/index.js or src/App.js
+import "./index.css";
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Dashboard from "./pages/dashboard/Dashboard";

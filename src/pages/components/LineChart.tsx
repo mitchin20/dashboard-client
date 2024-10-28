@@ -1,5 +1,5 @@
 import React from "react";
-import { LineChart as MuiLineChart, LineSeriesType } from "@mui/x-charts";
+import { LineChart as MuiLineChart } from "@mui/x-charts";
 
 interface LineChartProps {
     labels: string[];
