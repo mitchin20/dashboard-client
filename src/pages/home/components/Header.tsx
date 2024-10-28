@@ -2,21 +2,6 @@ import React, { useState } from "react";
 import MobileNav from "./navViews/MobileNav";
 import DesktopNav from "./navViews/DesktopNav";
 
-{
-    /* <a href="#home" className="text-gray-700 hover:text-blue-600">
-    Home
-</a>
-<a href="#features" className="text-gray-700 hover:text-blue-600">
-    Features
-</a>
-<a href="#pricing" className="text-gray-700 hover:text-blue-600">
-    Pricing
-</a>
-<a href="#contact" className="text-gray-700 hover:text-blue-600">
-    Contact
-</a> */
-}
-
 const navItems = [
     {
         label: "Home",

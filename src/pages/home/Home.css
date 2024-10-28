@@ -1,0 +1,59 @@
+.gradient-text-0 {
+    background-image: radial-gradient(
+        286% 412% at -179.5% 50%,
+        rgb(243, 202, 77) 0%,
+        rgb(255, 151, 154) 50%,
+        rgb(203, 171, 255) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-1 {
+    background-image: linear-gradient(
+        5112deg,
+        rgb(242, 201, 76) -59%,
+        rgb(255, 90, 94) -20%,
+        rgb(143, 111, 219) 75%,
+        rgb(97, 166, 242) 124%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-2 {
+    background-image: radial-gradient(
+        154.313% 1824.85% at -3.59833% 90.3409%,
+        rgb(97, 166, 242) 1.56053%,
+        rgb(143, 111, 219) 23.4364%,
+        rgb(255, 90, 94) 53.125%,
+        rgb(242, 201, 76) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.3); /* Soft gray color */
+    transform: scaleX(0.001) scaleY(0.001); /* Elliptical shape */
+    animation: ripple-animation 10s ease-in-out;
+    pointer-events: none;
+    box-shadow:
+        0 8px 15px rgba(0, 0, 0, 0.3),
+        0 4px 5px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scaleX(0.7) scaleY(0.05) rotateX(1deg); /* Larger X scale for 3D */
+        opacity: 0;
+    }
+}
