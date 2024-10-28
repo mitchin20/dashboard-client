@@ -147,3 +147,19 @@ export interface MuiPieChartProps {
     padding?: PieChartLegendPadding;
     legendDirection?: "row" | "column";
 }
+
+interface NavItems {
+    label: string;
+    href: string;
+}
+
+export interface MobileNavProps {
+    isOpen: boolean;
+    onClose: () => void;
+    navItems: NavItems[];
+}
+
+export interface DesktopNavProps {
+    isView: boolean;
+    navItems: NavItems[];
+}
