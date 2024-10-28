@@ -42,18 +42,20 @@
 .ripple {
     position: absolute;
     border-radius: 50%;
-    background: rgba(128, 128, 128, 0.3); /* Soft gray color */
-    transform: scaleX(0.001) scaleY(0.001); /* Elliptical shape */
-    animation: ripple-animation 10s ease-in-out;
+    background: radial-gradient(
+        circle at center,
+        rgba(128, 128, 128, 0.3),
+        rgba(128, 128, 128, 0)
+    );
+    /* transform-origin: top; */
+    transform: scaleX(0.001) scaleY(0.001) rotateX(10deg);
+    animation: ripple-animation 1s ease-in-out;
     pointer-events: none;
-    box-shadow:
-        0 8px 15px rgba(0, 0, 0, 0.3),
-        0 4px 5px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes ripple-animation {
     to {
-        transform: scaleX(0.7) scaleY(0.05) rotateX(1deg); /* Larger X scale for 3D */
+        transform: scaleX(1.1) scaleY(0.1) rotateX(10deg);
         opacity: 0;
     }
 }
