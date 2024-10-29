@@ -29,16 +29,16 @@ const Header: React.FC = () => {
     };
     return (
         <header className="sticky top-0 bg-white shadow-md z-10">
-            <nav className="container mx-auto flex justify-center p-4">
+            <nav className="container mx-auto flex justify-center md:p-4 xxs:p-0">
                 {/* Navigation Links */}
                 <DesktopNav isView={isMenuOpen} navItems={navItems} />
 
                 {/* Mobile Menu Button */}
-                <div className="md:hidden">
+                <div className="md:hidden p-2">
                     <button
                         onClick={toggleMenu}
                         type="button"
-                        className="text-gray-700 hover:text-white hover:bg-[#831843] px-4 py-4 rounded-full transition duration-200 ease-in-out"
+                        className="text-gray-700 hover:text-white hover:bg-[#831843] p-4 rounded-full transition duration-200 ease-in-out"
                     >
                         <svg
                             className="h-6 w-6"
@@ -57,6 +57,7 @@ const Header: React.FC = () => {
                     </button>
                 </div>
 
+                {/* Mobile Nav */}
                 <MobileNav
                     isOpen={isMenuOpen}
                     onClose={toggleMenu}
