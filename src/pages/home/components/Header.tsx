@@ -5,11 +5,11 @@ import DesktopNav from "./navViews/DesktopNav";
 const navItems = [
     {
         label: "Home",
-        href: "#home",
+        href: "#hero",
     },
     {
-        label: "Features",
-        href: "#features",
+        label: "About",
+        href: "#about",
     },
     {
         label: "Pricing",

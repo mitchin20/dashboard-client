@@ -46,19 +46,20 @@ const Hero = () => {
     };
 
     return (
-        <section
+        <div
             ref={heroRef}
+            id="hero"
             onClick={createRipple}
-            className="relative h-screen flex items-center justify-center bg-white overflow-hidden"
+            className="relative h-[66vh] flex items-center justify-center bg-white overflow-hidden"
         >
-            <div className="lg:w-1/2 md:w-3/4 xs:w-full text-center mx-auto py-8 h-[80vh] flex flex-col justify-center xxs:p-[10px]">
+            <div className="lg:w-1/2 md:w-3/4 xs:w-full text-center mx-auto py-8 flex flex-col justify-center xxs:p-[10px]">
                 <h1 className="ml-auto mr-auto md:text-5xl xxs:text-4xl font-bold gradient-text-1 pt-5 pb-5">
                     Hello, I'm Giang
                 </h1>
                 <p className="text-2xl xxs:text-lg leading-10 mt-10">
                     I'm a full-stack developer with 5 years of experience. I
                     enjoy building{" "}
-                    <span className="inline-block whitespace-nowrap font-bold italic gradient-text-1">
+                    <span className="font-bold italic gradient-text-1">
                         websites & applications,
                     </span>{" "}
                     concentrating primarily on{" "}
@@ -75,7 +76,7 @@ const Hero = () => {
                     </span>
                 </p>
             </div>
-        </section>
+        </div>
     );
 };
 

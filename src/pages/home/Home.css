@@ -39,6 +39,7 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* Ripple effect */
 .ripple {
     position: absolute;
     border-radius: 50%;
@@ -59,3 +60,4 @@
         opacity: 0;
     }
 }
+/* Ripple effect end */

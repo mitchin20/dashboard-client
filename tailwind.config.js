@@ -28,6 +28,11 @@ module.exports = {
                 warning: "#FFFF00",
                 error: "#FF0000",
             },
+            backgroundImage: {
+                // "gradient-conic": "conic-gradient(var(--tw-gradient-stops))",
+                "gradient-conic":
+                    "conic-gradient(#3b82f6 0%, #a855f7 25%, #ec4899 50%, #f59e0b 75%, #3b82f6 100%)",
+            },
             keyframes: {
                 scroll: {
                     "0%": { transform: "translateX(100%)" },
