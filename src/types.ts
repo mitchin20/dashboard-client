@@ -163,3 +163,17 @@ export interface DesktopNavProps {
     isView: boolean;
     navItems: NavItems[];
 }
+
+export interface HeaderTextProps {
+    children: React.ReactNode;
+    disableDivide?: boolean;
+    styles?: string;
+    props?: any;
+}
+
+export interface CardProps {
+    children: React.ReactNode;
+    cardContainerStyles?: string;
+    disableSpinAnimation?: boolean;
+    cardContentStyles?: string;
+}
