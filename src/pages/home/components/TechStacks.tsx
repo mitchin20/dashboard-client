@@ -5,7 +5,7 @@ import HeaderText from "../../components/HeaderText";
 const TechStacks = () => {
     return (
         <div className="py-14">
-            <div className="grid grid-cols-2 grid-flow-row gap-4 px-4 min-w-0">
+            <div className="grid grid-cols-2 grid-flow-row gap-4 px-4 min-w-0 md:grid-cols-3 md:w-1/2 md:mx-auto">
                 {techStackList.map(
                     ({ name, icon: Icon, textColor, textStyle }, index) => (
                         <Card
