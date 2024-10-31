@@ -173,7 +173,13 @@ export interface HeaderTextProps {
 
 export interface CardProps {
     children: React.ReactNode;
+    width?: string;
+    height?: string;
     cardContainerStyles?: string;
     disableSpinAnimation?: boolean;
     cardContentStyles?: string;
+    cardContentBgColor?: string;
+    cardContentTextColor?: string;
+    slideEffect?: boolean;
+    [key: string]: any;
 }

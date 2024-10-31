@@ -7,7 +7,7 @@ const HeaderText: React.FC<HeaderTextProps> = memo(
         // Add the line before and after the text
         return (
             <h4
-                className={`${disableDivide ? "" : "text-center font-bold text-3xl pt-8 pb-8 z-50 before:content-[''] before:w-[100px] before:h-px md:before:bg-black xxs:before:bg-white before:mr-4 before:inline-block after:content-[''] after:w-[100px] after:h-px md:after:bg-black xxs:after:bg-white after:ml-4 after:inline-block"}
+                className={`${disableDivide ? "" : "text-center font-bold text-3xl pt-8 pb-8 z-1 before:content-[''] before:w-[100px] before:h-px md:before:bg-black xxs:before:bg-white before:mr-4 before:inline-block after:content-[''] after:w-[100px] after:h-px md:after:bg-black xxs:after:bg-white after:ml-4 after:inline-block"}
                     ${styles}
                 `}
                 {...props}

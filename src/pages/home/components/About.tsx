@@ -5,12 +5,16 @@ const About = () => {
     return (
         <div
             id="about"
-            className="w-full flex justify-center items-center h-1/3 my-20"
+            className="w-full flex justify-center items-center h-1/3 my-4"
         >
             {/* Styling spinning border gradient */}
-            <Card>
+            <Card
+                width="xxs:w-[95%] md:w-[60%] lg:w-[50%]"
+                height="h-[500px]"
+                cardContentStyles="md:bg-white md:text-black xxs:bg-gray-900 xxs:text-white"
+            >
                 <HeaderText>About Me</HeaderText>
-                <p className="px-4 py-10 xxs:text-lg leading-10 z-50">
+                <p className="px-4 py-10 xxs:text-lg leading-10 z-1">
                     Throughout my career, I've had the opportunity to
                     contributing to projects at{" "}
                     <span className="font-bold gradient-text-1">Comcast</span>,

@@ -1,22 +1,20 @@
-import {
-    ReactIcon,
-    NextIcon,
-    HtmlIcon,
-    CssIcon,
-    JavaScriptIcon,
-    NodeJsIcon,
-    ExpressIcon,
-    DynamoDbIcon,
-    MongoDbIcon,
-    RestApiIcon,
-    LambdaIcon,
-    GitHubIcon,
-    VercelIcon,
-    DockerIcon,
-    AgileIcon,
-} from "../../../../svgs";
+import AgileIcon from "../../../../svgIcons/AgileIcon";
+import CssIcon from "../../../../svgIcons/CssIcon";
+import DockerIcon from "../../../../svgIcons/DockerIcon";
+import DynamoDbIcon from "../../../../svgIcons/DynamoDbIcon";
+import ExpressIcon from "../../../../svgIcons/ExpressIcon";
+import GitHubIcon from "../../../../svgIcons/GitHubIcon";
+import HtmlIcon from "../../../../svgIcons/HtmlIcon";
+import JavaScriptIcon from "../../../../svgIcons/JavaScriptIcon";
+import LambdaIcon from "../../../../svgIcons/LambdaIcon";
+import MongoDbIcon from "../../../../svgIcons/MongoDbIcon";
+import NextIcon from "../../../../svgIcons/NextIcon";
+import NodeJsIcon from "../../../../svgIcons/NodeJsIcon";
+import ReactIcon from "../../../../svgIcons/ReactIcon";
+import RestApiIcon from "../../../../svgIcons/RestApiIcon";
+import VercelIcon from "../../../../svgIcons/VercelIcon";
 
-export const TechStackList = [
+export const techStackList = [
     {
         name: "React",
         icon: ReactIcon,
@@ -81,7 +79,7 @@ export const TechStackList = [
             "stat-value text-sm text-[#58AA50] hover:text-3xl transition-all duration-300 ease-in-out",
     },
     {
-        name: "RESTful API Design",
+        name: "RESTful API",
         icon: RestApiIcon,
         textColor: "",
         textStyle:

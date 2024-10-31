@@ -34,6 +34,10 @@ module.exports = {
                     "conic-gradient(#3b82f6 0%, #a855f7 25%, #ec4899 50%, #f59e0b 75%, #3b82f6 100%)",
             },
             keyframes: {
+                slideIn: {
+                    "0%": { transform: "translateX(-100%)" },
+                    "100%": { transform: "translateX(0)" },
+                },
                 scroll: {
                     "0%": { transform: "translateX(100%)" },
                     "100%": { transform: "translateX(-100%)" },
@@ -41,6 +45,7 @@ module.exports = {
             },
             animation: {
                 scroll: "scroll 10s linear infinite",
+                slideIn: "slideIn 0.5s ease-in-out",
             },
         },
     },
