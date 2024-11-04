@@ -1,5 +1,9 @@
 import "../Home.css";
 import React, { useRef } from "react";
+import Button from "../../components/Button";
+import DownloadIcon from "../../../svgIcons/DownloadIcon";
+import MenuIcon from "../../../svgIcons/MenuIcon";
+import ReactIcon from "../../../svgIcons/ReactIcon";
 
 const textStyle = "font-semibold italic";
 
@@ -52,7 +56,7 @@ const Hero = () => {
             onClick={createRipple}
             className="relative h-[66vh] flex items-center justify-center bg-white overflow-hidden"
         >
-            <div className="lg:w-1/2 md:w-3/4 xxs:w-full text-center mx-auto py-8 flex flex-col justify-center xxs:p-[10px] xs:p-2">
+            <div className="lg:w-1/2 md:w-3/4 xxs:w-full text-center mx-auto py-8 flex flex-col justify-center items-center xxs:p-[10px] xs:p-2">
                 <h1 className="ml-auto mr-auto xs:text-4xl xxs:text-3xl font-bold gradient-text-1 pt-5 pb-5">
                     Hello, I'm Giang
                 </h1>
@@ -75,6 +79,12 @@ const Hero = () => {
                         NextJS.
                     </span>
                 </p>
+
+                <Button
+                    text="Download CV"
+                    endIcon={<DownloadIcon className="w-6 h-6 text-gray-600" />}
+                    className="text-gray-900 font-thin mt-14 w-1/3 xxs:w-3/4 xs:w-[200px] rounded-full"
+                />
             </div>
         </div>
     );

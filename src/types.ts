@@ -182,3 +182,12 @@ export interface CardChildrenProps {
     children: React.ReactNode;
     className?: string;
 }
+
+export interface ButtonProps {
+    text: string;
+    type?: "button" | "submit" | "reset";
+    className?: string;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    onClick?: () => void;
+}

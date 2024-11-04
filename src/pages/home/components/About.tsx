@@ -14,7 +14,7 @@ const About = () => {
                before:-z-10 p-[2px]"
             >
                 <div className="relative h-full z-1 text-white bg-gray-900 md:text-black md:bg-white rounded-[10px] p-2 transition duration-500">
-                    <CardHeader>About Me</CardHeader>
+                    <CardHeader className="py-10">About Me</CardHeader>
                     <CardContent className="flex items-center justify-center py-20">
                         <p>
                             Throughout my career, I've had the opportunity to
