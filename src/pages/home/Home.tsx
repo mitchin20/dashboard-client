@@ -4,6 +4,7 @@ const Header = lazy(() => import("./components/Header"));
 const Hero = lazy(() => import("./components/Hero"));
 const About = lazy(() => import("./components/About"));
 const TechStacks = lazy(() => import("./components/TechStacks"));
+const Contact = lazy(() => import("./components/Contact"));
 
 const Home = () => {
     return (
@@ -12,6 +13,7 @@ const Home = () => {
             <Hero />
             <About />
             <TechStacks />
+            <Contact />
         </Suspense>
     );
 };

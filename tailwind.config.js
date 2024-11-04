@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {
             screens: {
-                xxs: "320px", // Extra extra small screens (small mobile devices)
+                xxs: { min: "100px", max: "374px" }, // Extra extra small screens (small mobile devices)
                 xs: "375px", // Extra small screens (iPhone SE, small Androids)
                 sm: "640px", // Small screens (default, larger phones)
                 md: "768px", // Medium screens (default, tablets)
@@ -32,6 +32,8 @@ module.exports = {
                 // "gradient-conic": "conic-gradient(var(--tw-gradient-stops))",
                 "gradient-conic":
                     "conic-gradient(#3b82f6 0%, #a855f7 25%, #ec4899 50%, #f59e0b 75%, #3b82f6 100%)",
+                "white-gradient-conic":
+                    "conic-gradient(white 0%, #f0f0f0 25%, #e0e0e0 50%, #d0d0d0 75%, white 100%)",
             },
             keyframes: {
                 slideIn: {

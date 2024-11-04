@@ -52,11 +52,11 @@ const Hero = () => {
             onClick={createRipple}
             className="relative h-[66vh] flex items-center justify-center bg-white overflow-hidden"
         >
-            <div className="lg:w-1/2 md:w-3/4 xs:w-full text-center mx-auto py-8 flex flex-col justify-center xxs:p-[10px]">
-                <h1 className="ml-auto mr-auto md:text-5xl xxs:text-4xl font-bold gradient-text-1 pt-5 pb-5">
+            <div className="lg:w-1/2 md:w-3/4 xxs:w-full text-center mx-auto py-8 flex flex-col justify-center xxs:p-[10px] xs:p-2">
+                <h1 className="ml-auto mr-auto xs:text-4xl xxs:text-3xl font-bold gradient-text-1 pt-5 pb-5">
                     Hello, I'm Giang
                 </h1>
-                <p className="text-2xl xxs:text-lg leading-10 mt-10">
+                <p className="text-2xl xxs:text-base xs:text-lg leading-10 mt-10">
                     I'm a full-stack developer with 5 years of experience. I
                     enjoy building{" "}
                     <span className="font-bold italic gradient-text-1">

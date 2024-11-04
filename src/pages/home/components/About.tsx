@@ -1,41 +1,47 @@
-import Card from "../../components/Card";
-import HeaderText from "../../components/HeaderText";
+import Card2 from "../../components/Card2";
+import CardContent from "../../components/CardContent";
+import CardHeader from "../../components/CardHeader";
 
 const About = () => {
     return (
         <div
             id="about"
-            className="w-full flex justify-center items-center h-1/3 my-4"
+            className="w-full flex justify-center items-center my-4 px-2"
         >
-            {/* Styling spinning border gradient */}
-            <Card
-                width="xxs:w-[95%] md:w-[60%] lg:w-[50%]"
-                height="h-[500px]"
-                cardContentStyles="md:bg-white md:text-black xxs:bg-gray-900 xxs:text-white"
+            <Card2
+                className="relative h-auto w-full md:w-1/2 lg:w-1/3 text-center rounded-[10px] overflow-hidden before:absolute 
+               before:inset-[-200%] before:bg-gradient-conic before:animate-spin before:rounded-[10px] 
+               before:-z-10 p-[2px]"
             >
-                <HeaderText>About Me</HeaderText>
-                <p className="px-4 py-10 xxs:text-lg leading-10 z-1">
-                    Throughout my career, I've had the opportunity to
-                    contributing to projects at{" "}
-                    <span className="font-bold gradient-text-1">Comcast</span>,
-                    a leader in the{" "}
-                    <span className="font-bold gradient-text-1">
-                        telecommunications industry
-                    </span>
-                    . This experience has allowed me to{" "}
-                    <span className="font-bold gradient-text-2">
-                        impact thousands of users
-                    </span>{" "}
-                    with my work. I'm passionate about building{" "}
-                    <span className="font-bold gradient-text-0">
-                        accessible web applications
-                    </span>{" "}
-                    that enhance user experience and{" "}
-                    <span className="font-bold gradient-text-2">
-                        solve real-world problems.
-                    </span>
-                </p>
-            </Card>
+                <div className="relative h-full z-1 text-white bg-gray-900 md:text-black md:bg-white rounded-[10px] p-2 transition duration-500">
+                    <CardHeader>About Me</CardHeader>
+                    <CardContent className="flex items-center justify-center py-20">
+                        <p>
+                            Throughout my career, I've had the opportunity to
+                            contributing to projects at{" "}
+                            <span className="font-bold gradient-text-1">
+                                Comcast
+                            </span>
+                            , a leader in the{" "}
+                            <span className="font-bold gradient-text-1">
+                                telecommunications industry
+                            </span>
+                            . This experience has allowed me to{" "}
+                            <span className="font-bold gradient-text-2">
+                                impact thousands of users
+                            </span>{" "}
+                            with my work. I'm passionate about building{" "}
+                            <span className="font-bold gradient-text-0">
+                                accessible web applications
+                            </span>{" "}
+                            that enhance user experience and{" "}
+                            <span className="font-bold gradient-text-2">
+                                solve real-world problems.
+                            </span>
+                        </p>
+                    </CardContent>
+                </div>
+            </Card2>
         </div>
     );
 };

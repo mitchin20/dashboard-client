@@ -42,6 +42,7 @@ const Card: React.FC<CardProps> = memo(
         }, [isVisible]);
 
         // Define container and content styles separately for readability
+        // relative rounded-[10px] overflow-hidden before:absolute before:top-[-100%] before:right-[-100%] before:bottom-[-100%] before:left-[-100%] before:bg-gradient-conic before:animate-spin
         const slide = `${slideEffect ? (isVisible ? "animate-slideIn" : "opacity-0 translate-x-0") : ""}`;
         const containerClasses = `
                 relative ${width} ${height} rounded-[10px] overflow-hidden 

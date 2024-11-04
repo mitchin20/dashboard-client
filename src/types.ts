@@ -167,19 +167,18 @@ export interface DesktopNavProps {
 export interface HeaderTextProps {
     children: React.ReactNode;
     disableDivide?: boolean;
-    styles?: string;
+    className?: string;
     props?: any;
 }
 
 export interface CardProps {
     children: React.ReactNode;
-    width?: string;
-    height?: string;
-    cardContainerStyles?: string;
-    disableSpinAnimation?: boolean;
-    cardContentStyles?: string;
-    cardContentBgColor?: string;
-    cardContentTextColor?: string;
+    className?: string;
     slideEffect?: boolean;
     [key: string]: any;
+}
+
+export interface CardChildrenProps {
+    children: React.ReactNode;
+    className?: string;
 }

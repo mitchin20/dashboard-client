@@ -19,17 +19,17 @@ const MongoDbIcon: React.FC<MongoDbIconProps> = ({ className }) => {
             <g
                 id="databases-and-servers/databases/mongodb"
                 stroke="none"
-                stroke-width="1"
+                strokeWidth="1"
                 fill="none"
-                fill-rule="evenodd"
+                fillRule="evenodd"
             >
                 <g
                     id="container"
                     transform="translate(2.000000, 2.000000)"
                     fill="#FFFFFF"
-                    fill-rule="nonzero"
+                    fillRule="nonzero"
                     stroke="#134514"
-                    stroke-width="2"
+                    strokeWidth="2"
                 >
                     <rect
                         id="mask"
@@ -43,7 +43,7 @@ const MongoDbIcon: React.FC<MongoDbIconProps> = ({ className }) => {
                 <g
                     id="Group"
                     transform="translate(25.000000, 11.000000)"
-                    fill-rule="nonzero"
+                    fillRule="nonzero"
                 >
                     <path
                         d="M12.4944775,50.7282275 L11.1460449,50.2673438 C11.1460449,50.2673438 11.3107227,43.3929395 8.8434082,42.8996191 C7.19912598,40.9915674 9.10717773,-38.0181006 15.0277344,42.6362061 C15.0277344,42.6362061 12.9881543,43.6556396 12.6263623,45.3993701 C12.2314209,47.1099512 12.4944775,50.7282275 12.4944775,50.7282275 Z"
