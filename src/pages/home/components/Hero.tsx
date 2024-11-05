@@ -15,7 +15,7 @@ export interface DownloadResponse {
     message: string;
 }
 
-const ttl = 5 * 60 * 1000;
+const ttl = 24 * 60 * 60 * 1000;
 const textStyle = "font-semibold italic";
 
 const Hero = () => {
