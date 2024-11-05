@@ -2,8 +2,6 @@ import "../Home.css";
 import React, { useRef } from "react";
 import Button from "../../components/Button";
 import DownloadIcon from "../../../svgIcons/DownloadIcon";
-import MenuIcon from "../../../svgIcons/MenuIcon";
-import ReactIcon from "../../../svgIcons/ReactIcon";
 
 const textStyle = "font-semibold italic";
 
