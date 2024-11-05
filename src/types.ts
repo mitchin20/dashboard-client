@@ -190,4 +190,6 @@ export interface ButtonProps {
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     onClick?: () => void;
+    href?: string;
+    download?: string;
 }

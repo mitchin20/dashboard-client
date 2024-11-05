@@ -2,7 +2,20 @@ import "../Home.css";
 import React, { useRef } from "react";
 import Button from "../../components/Button";
 import DownloadIcon from "../../../svgIcons/DownloadIcon";
+import axios from "axios";
+import {
+    setSessionStorage,
+    getSessionStorage,
+} from "../../../helpers/sessionStorage";
 
+export interface DownloadResponse {
+    success: boolean;
+    url?: string;
+    error?: string;
+    message: string;
+}
+
+const ttl = 5 * 60 * 1000;
 const textStyle = "font-semibold italic";
 
 const Hero = () => {
@@ -47,6 +60,40 @@ const Hero = () => {
         }
     };
 
+    const fetchData = async () => {
+        const cachedData = getSessionStorage("download-url");
+        if (cachedData) {
+            const link = document.createElement("a");
+            link.href = cachedData;
+            link.download = "resume.pdf";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.click();
+            return;
+        }
+
+        try {
+            const response = await axios.get<DownloadResponse>(
+                `${process.env.REACT_APP_SERVER_URL}/download-resume`
+            );
+            if (!response.data.success) {
+                console.error(
+                    response.data.message || "Failed to fetch the download URL."
+                );
+            } else {
+                setSessionStorage("download-url", response.data.url, ttl);
+                const link = document.createElement("a");
+                link.href = response.data.url || "";
+                link.download = "resume.pdf";
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.click();
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
     return (
         <div
             ref={heroRef}
@@ -80,6 +127,7 @@ const Hero = () => {
 
                 <Button
                     text="Download CV"
+                    onClick={fetchData}
                     endIcon={<DownloadIcon className="w-6 h-6 text-gray-600" />}
                     className="text-gray-900 font-thin mt-14 w-1/3 xxs:w-3/4 xs:w-[200px] rounded-full"
                 />
