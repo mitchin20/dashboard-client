@@ -2,11 +2,13 @@ import "../Home.css";
 import React, { useRef } from "react";
 import Button from "../../components/Button";
 import DownloadIcon from "../../../svgIcons/DownloadIcon";
+import BuildIcon from "../../../svgIcons/BuildIcon";
 import axios from "axios";
 import {
     setSessionStorage,
     getSessionStorage,
 } from "../../../helpers/sessionStorage";
+import Link from "../../components/Link";
 
 export interface DownloadResponse {
     success: boolean;
@@ -129,7 +131,14 @@ const Hero = () => {
                     text="Download CV"
                     onClick={fetchData}
                     endIcon={<DownloadIcon className="w-6 h-6 text-gray-600" />}
-                    className="text-gray-900 font-thin mt-14 w-1/3 xxs:w-3/4 xs:w-[200px] rounded-full"
+                    className="text-gray-900 font-thin mt-14 w-1/3 xxs:w-3/4 xs:w-[200px] rounded-bl-[60px] rounded-tl-2xl rounded-tr-[50px] rounded-br-xl shadow-lg shadow-slate-600 hover:rounded-tl-[50px] hover:rounded-bl-xl hover:rounded-tr-2xl hover:rounded-br-[60px] hover:bg-white-gradient-conic hover:text-gray-900 hover:border-amber-700 hover:font-normal"
+                />
+
+                <Link
+                    text="Let's build something together"
+                    href="#contact"
+                    startIcon={<BuildIcon className="w-6 h-6 text-green-600" />}
+                    className="flex items-center justify-center font-thin !text-green-600 !no-underline p-4 border-solid border-2 border-gray-400 rounded-tl-[50px] rounded-bl-xl rounded-tr-2xl rounded-br-[60px] hover:rounded-bl-[60px] hover:rounded-tl-2xl hover:rounded-tr-xl hover:rounded-br-[60px] shadow-lg shadow-slate-600 mt-10 hover:border-amber-700 hover:bg-white-gradient-conic hover:text-sm transform duration-500"
                 />
             </div>
         </div>
