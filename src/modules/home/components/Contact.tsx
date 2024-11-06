@@ -29,9 +29,7 @@ const trimInputsValue = (payload: any) => {
 
 const Contact = () => {
     const [error, setError] = React.useState<string | null>(null);
-    const [message, setMessage] = React.useState<string | null>(
-        "Message sent successfully"
-    );
+    const [message, setMessage] = React.useState<string | null>(null);
 
     const sendEmail = async (payload: InferType<typeof ContactSchema>) => {
         try {
