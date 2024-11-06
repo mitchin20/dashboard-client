@@ -50,6 +50,7 @@ const TextInput: React.FC<TextInputProps> = memo(
         const [isFilled, setIsFilled] = useState<boolean>(!!value);
         const [wordCount, setWordCount] = useState<number>(0);
         const [isLimitExceeded, setIsLimitExceeded] = useState<boolean>(false);
+
         // Calculate word count in the textarea input field
         useEffect(() => {
             if (value) {

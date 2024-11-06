@@ -1,32 +1,78 @@
 import React from "react";
+import axios from "axios";
+import { object, string, InferType } from "yup";
 import TextInput from "../../components/TextInput";
 import HeaderText from "../../components/HeaderText";
 
+const ContactSchema = object({
+    fullName: string().min(2).required("Full name is required"),
+    email: string().email("Invalid email").required("Email is required"),
+    message: string().min(2).max(2000).required("Message is required"),
+});
+
+const trimInputsValue = (payload: any) => {
+    return Object.keys(payload).reduce(
+        (acc: Record<string, any>, key: string) => {
+            const value = payload[key];
+            if (typeof value === "string") {
+                acc[key] = value.trim();
+            } else {
+                acc[key] = value;
+            }
+
+            return acc;
+        },
+        {} as Record<string, any>
+    );
+};
+
 const Contact = () => {
-    const submitForm = (event: React.FormEvent) => {
+    const [error, setError] = React.useState<string | null>(null);
+    const [message, setMessage] = React.useState<string | null>(null);
+
+    const sendEmail = async (payload: InferType<typeof ContactSchema>) => {
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_SERVER_URL}/contact-email`,
+                payload,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            if (response.status === 200) {
+                setMessage("Email sent successfully");
+            }
+        } catch (error) {
+            console.error(error);
+            setError("Failed to send email");
+        }
+    };
+
+    const submitForm = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        const formData = new FormData(event.target as HTMLFormElement);
-        // Returns an object created by key-value entries for properties and methods
-        const payload = Object.fromEntries(formData);
+        try {
+            const formData = new FormData(event.target as HTMLFormElement);
+            // Returns an object created by key-value entries for properties and methods
+            const payload = Object.fromEntries(formData);
 
-        // Process each field in payload
-        const processedPayload = Object.keys(payload).reduce(
-            (acc: Record<string, any>, key: string) => {
-                const value = payload[key];
-                if (typeof value === "string") {
-                    // Trim whitespace and check if empty
-                    acc[key] = value.trim();
-                } else {
-                    acc[key] = value;
-                }
+            // Process each field in payload
+            const processedPayload = trimInputsValue(payload);
 
-                return acc;
-            },
-            {} as Record<string, any>
-        );
+            const validatedPayload: InferType<typeof ContactSchema> =
+                await ContactSchema.validateSync(processedPayload, {
+                    abortEarly: false,
+                });
 
-        console.log(processedPayload);
+            await sendEmail(validatedPayload);
+        } catch (error) {
+            console.error(error);
+            setError(
+                "Failed to send the message. Please check your input field and try again."
+            );
+        }
     };
     return (
         <div
