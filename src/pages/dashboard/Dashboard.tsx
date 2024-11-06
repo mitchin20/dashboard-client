@@ -69,7 +69,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
             branding={branding}
             window={windowInstance}
         >
-            <DashboardLayout title="Dashboard" icon={<DescriptionIcon />}>
+            <DashboardLayout title="Dashboard">
                 <QueryClientProvider client={queryClient}>
                     <PageContent />
                 </QueryClientProvider>

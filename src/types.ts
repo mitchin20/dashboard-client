@@ -193,3 +193,19 @@ export interface ButtonProps {
     href?: string;
     download?: string;
 }
+
+export interface LinkProps {
+    text: string;
+    href?: string;
+    rel?: string;
+    target?: string;
+    ariaLabel?: string;
+    id?: string;
+    role?: string;
+    download?: string;
+    tabIndex?: number;
+    onClick?: () => void;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    className?: string;
+}

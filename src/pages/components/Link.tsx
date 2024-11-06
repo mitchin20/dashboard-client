@@ -1,20 +1,5 @@
-import React from "react";
-
-interface LinkProps {
-    text: string;
-    href?: string;
-    rel?: string;
-    target?: string;
-    ariaLabel?: string;
-    id?: string;
-    role?: string;
-    download?: string;
-    tabIndex?: number;
-    onClick?: () => void;
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
-    className?: string;
-}
+import React, { memo } from "react";
+import { LinkProps } from "../../types";
 
 const Link: React.FC<LinkProps> = ({
     text,
@@ -51,4 +36,4 @@ const Link: React.FC<LinkProps> = ({
     );
 };
 
-export default Link;
+export default memo(Link);
