@@ -3,6 +3,7 @@ import axios from "axios";
 import { object, string, InferType } from "yup";
 import TextInput from "../../components/TextInput";
 import HeaderText from "../../components/HeaderText";
+import Snackbar from "../../components/Snackbar";
 
 const ContactSchema = object({
     fullName: string().min(2).required("Full name is required"),
@@ -28,7 +29,9 @@ const trimInputsValue = (payload: any) => {
 
 const Contact = () => {
     const [error, setError] = React.useState<string | null>(null);
-    const [message, setMessage] = React.useState<string | null>(null);
+    const [message, setMessage] = React.useState<string | null>(
+        "Message sent successfully"
+    );
 
     const sendEmail = async (payload: InferType<typeof ContactSchema>) => {
         try {
@@ -42,11 +45,11 @@ const Contact = () => {
                 }
             );
             if (response.status === 200) {
-                setMessage("Email sent successfully");
+                setMessage("Message sent successfully");
             }
         } catch (error) {
             console.error(error);
-            setError("Failed to send email");
+            setError("Failed to send message");
         }
     };
 
@@ -92,7 +95,7 @@ const Contact = () => {
             </div>
 
             <form onSubmit={submitForm}>
-                <div className="mx-4">
+                <div className="mx-4 mb-3">
                     <div className="my-8">
                         <TextInput
                             label="Full Name"
@@ -120,6 +123,28 @@ const Contact = () => {
                     </button>
                 </div>
             </form>
+
+            {message && (
+                <Snackbar
+                    message={message}
+                    open={!!message}
+                    autoHideDuration={5000}
+                    onClose={() => setMessage(null)}
+                    severity="success"
+                    position="top"
+                />
+            )}
+
+            {error && (
+                <Snackbar
+                    message={error}
+                    open={!!error}
+                    autoHideDuration={5000}
+                    onClose={() => setError(null)}
+                    severity="error"
+                    position="top"
+                />
+            )}
         </div>
     );
 };
