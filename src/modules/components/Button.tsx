@@ -16,7 +16,7 @@ const Button: React.FC<ButtonProps> = ({
             className={`flex items-center justify-center gap-2 p-4 border-solid border-2 border-gray-400 shadow-md transform duration-500 ${className}`}
         >
             {startIcon && <span className="mr-2">{startIcon}</span>}
-            {text || "New Button"}
+            {text || ""}
             {endIcon && <span className="ml-2">{endIcon}</span>}
         </button>
     );

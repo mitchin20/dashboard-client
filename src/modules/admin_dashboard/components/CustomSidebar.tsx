@@ -1,0 +1,151 @@
+import React, { memo, SetStateAction } from "react";
+import {
+    Sidebar,
+    Menu,
+    MenuItem,
+    SidebarProps,
+    SubMenu,
+} from "react-pro-sidebar";
+import { Link as RouterLink } from "react-router-dom";
+import { themes, menuItemStyles } from "./themes";
+import BuildIcon from "../../../svgIcons/BuildIcon";
+import PathIcon from "../../../svgIcons/PathIcon";
+import MenuIcon from "../../../svgIcons/MenuIcon";
+import GitHubIcon from "../../../svgIcons/GitHubIcon";
+import Card2 from "../../components/Card2";
+import CardContent from "../../components/CardContent";
+import Link from "../../components/Link";
+
+const GITHUB_URL = "https://github.com/mitchin20/dashboard-client";
+
+interface CustomSidebarProps extends SidebarProps {
+    menuItems: any[];
+    collapsed?: boolean;
+    theme?: "light" | "dark";
+    broken?: boolean;
+    setToggled?: React.Dispatch<SetStateAction<boolean>> | undefined;
+}
+
+const CustomSidebar: React.FC<CustomSidebarProps> = ({
+    collapsed = false,
+    menuItems,
+    theme = "dark",
+    toggled,
+    broken,
+    setToggled,
+    onBreakPoint,
+}) => {
+    return (
+        <Sidebar
+            collapsed={collapsed}
+            toggled={toggled}
+            breakPoint="md"
+            onBreakPoint={onBreakPoint}
+            onBackdropClick={() => setToggled && setToggled(false)}
+            backgroundColor={themes[theme].sidebar.backgroundColor}
+            rootStyles={{
+                color: themes[theme].sidebar.color,
+                borderRightWidth: "1px",
+                borderRightStyle: "solid",
+                borderRightColor: themes[theme].sidebar.borderRightColor,
+                boxShadow: "0 0 10px rgba(0, 0, 0, 1)",
+            }}
+        >
+            <div className="flex flex-col h-full">
+                {/* Sizebar Header */}
+
+                <div
+                    className={`flex items-center justify-center !text-sky-700 mx-auto my-10`}
+                >
+                    <PathIcon
+                        className={`${collapsed ? "h-10 w-10" : "h-10 w-h-10"}`}
+                    />
+                    <h1
+                        className={`font-bold text-sm transform duration-1000 transition-all ${collapsed ? "opacity-0 max-w-0 overflow-hidden" : "ml-2 opacity-100 max-w-full"}`}
+                    >
+                        A<span className="font-thin">DMIN</span> D
+                        <span className="font-thin">ashboard</span>
+                    </h1>
+                </div>
+                {broken && (
+                    <div className="flex justify-end mt-1 mr-1">
+                        <button onClick={() => setToggled && setToggled(false)}>
+                            <MenuIcon className="w-6 h-6 text-sky-900" />
+                        </button>
+                    </div>
+                )}
+
+                {/* Sizebar Menu */}
+                <Menu
+                    menuItemStyles={menuItemStyles(theme, collapsed)}
+                    className="text-center h-full"
+                >
+                    <h6
+                        className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}
+                    >
+                        General
+                    </h6>
+                    <SubMenu
+                        label="Covid/Weather"
+                        icon={<BuildIcon className="h-6 w-6" />}
+                    >
+                        {menuItems.map((item, index) => (
+                            <MenuItem
+                                key={index}
+                                component={<RouterLink to={item.to} />}
+                                className=""
+                            >
+                                {item.label}
+                            </MenuItem>
+                        ))}
+                    </SubMenu>
+                    <h6
+                        className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}
+                    >
+                        Extra
+                    </h6>
+                </Menu>
+
+                {/* Sidebar Footer */}
+                {collapsed ? (
+                    <div className="flex justify-center h-auto p-5">
+                        <Link href={GITHUB_URL} target="_blank">
+                            <GitHubIcon
+                                className={`h-12 w-12 ${theme === "dark" ? "text-white" : "text-black"}`}
+                            />
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="h-auto w-full p-10 text-white">
+                        <Card2
+                            slideEffect
+                            className="relative h-auto w-full rounded-[10px] overflow-hidden before:absolute before:inset-[-200%] hover:before:animate-spin before:bg-gradient-conic before:rounded-[10px] before:-z-10 p-[2px]"
+                        >
+                            <div
+                                className={`relative h-full z-1 bg-gray-500 hover:bg-gray-400 hover:text-white xxs:hover:text-lg xs:hover:text-lg rounded-[10px] p-2 transition duration-500`}
+                            >
+                                <CardContent
+                                    className={`flex flex-col justify-center items-center text-center`}
+                                >
+                                    <GitHubIcon className="h-12 w-12" />
+                                    <p className="italic text-xs my-5">
+                                        GitHub repository
+                                    </p>
+                                    <Link
+                                        href={GITHUB_URL}
+                                        target="_blank"
+                                        className="no-underline text-white text-sm border-solid border-2 border-gray-600 p-2 hover:text-gray-600 hover:bg-white-gradient-conic rounded-full shadow-sm hover:shadow-black transform duration-700 ease-in-out"
+                                    >
+                                        View Code
+                                    </Link>
+                                </CardContent>
+                            </div>
+                        </Card2>
+                    </div>
+                )}
+            </div>
+        </Sidebar>
+    );
+};
+
+export default memo(CustomSidebar);

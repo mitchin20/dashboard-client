@@ -135,11 +135,12 @@ const Hero = () => {
                 />
 
                 <Link
-                    text="Let's build something together"
                     href="#contact"
                     startIcon={<BuildIcon className="w-6 h-6 text-green-600" />}
                     className="flex items-center justify-center font-thin !text-green-600 !no-underline p-4 border-solid border-2 border-gray-400 rounded-tl-[50px] rounded-bl-xl rounded-tr-2xl rounded-br-[60px] hover:rounded-bl-[60px] hover:rounded-tl-2xl hover:rounded-tr-xl hover:rounded-br-[60px] shadow-lg shadow-slate-600 mt-10 hover:border-amber-700 hover:bg-white-gradient-conic hover:text-sm transform duration-500"
-                />
+                >
+                    Let's build something together
+                </Link>
             </div>
         </div>
     );

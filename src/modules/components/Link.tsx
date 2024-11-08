@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { LinkProps } from "../../types";
 
 const Link: React.FC<LinkProps> = ({
-    text,
+    children,
     href,
     rel,
     target,
@@ -30,7 +30,7 @@ const Link: React.FC<LinkProps> = ({
             className={`underline text-blue-500 hover:text-blue-700 ${className}`}
         >
             {startIcon && <span className="mr-2">{startIcon}</span>}
-            {text}
+            {children}
             {endIcon && <span className="ml-2">{endIcon}</span>}
         </a>
     );

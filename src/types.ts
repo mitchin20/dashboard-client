@@ -184,7 +184,7 @@ export interface CardChildrenProps {
 }
 
 export interface ButtonProps {
-    text: string;
+    text?: string;
     type?: "button" | "submit" | "reset";
     className?: string;
     startIcon?: React.ReactNode;
@@ -195,7 +195,7 @@ export interface ButtonProps {
 }
 
 export interface LinkProps {
-    text: string;
+    children?: React.ReactNode;
     href?: string;
     rel?: string;
     target?: string;
