@@ -1,4 +1,4 @@
-import React, { memo, SetStateAction } from "react";
+import React, { memo, SetStateAction, useEffect, useState } from "react";
 import {
     Sidebar,
     Menu,
@@ -15,11 +15,18 @@ import GitHubIcon from "../../../svgIcons/GitHubIcon";
 import Card2 from "../../components/Card2";
 import CardContent from "../../components/CardContent";
 import Link from "../../components/Link";
+import LandingPageIcon from "../../../svgIcons/LandingPageIcon";
+import DashboardIcon from "../../../svgIcons/DashboardIcon";
 
 const GITHUB_URL = "https://github.com/mitchin20/dashboard-client";
 
+type MenuItem = {
+    label: string;
+    to: string;
+};
+
 interface CustomSidebarProps extends SidebarProps {
-    menuItems: any[];
+    menuItems?: MenuItem[];
     collapsed?: boolean;
     theme?: "light" | "dark";
     broken?: boolean;
@@ -35,6 +42,9 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({
     setToggled,
     onBreakPoint,
 }) => {
+    const getTextColorClass = (theme: string) =>
+        theme === "dark" ? "text-white" : "text-emerald-700";
+
     return (
         <Sidebar
             collapsed={collapsed}
@@ -55,7 +65,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({
                 {/* Sizebar Header */}
 
                 <div
-                    className={`flex items-center justify-center !text-sky-700 mx-auto my-10`}
+                    className={`flex items-center justify-center ${getTextColorClass(theme)} mx-auto my-16`}
                 >
                     <PathIcon
                         className={`${collapsed ? "h-10 w-10" : "h-10 w-h-10"}`}
@@ -67,37 +77,62 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({
                         <span className="font-thin">ashboard</span>
                     </h1>
                 </div>
-                {broken && (
-                    <div className="flex justify-end mt-1 mr-1">
+
+                <div className="flex justify-center gap-4 mb-4">
+                    <RouterLink to="/">
+                        <LandingPageIcon
+                            className={`w-6 h-6 ${getTextColorClass(theme)}`}
+                        />
+                    </RouterLink>
+                    <RouterLink to="/admin-dashboard">
+                        <DashboardIcon
+                            className={`w-6 h-6 ${getTextColorClass(theme)}`}
+                        />
+                    </RouterLink>
+                    {broken && (
                         <button onClick={() => setToggled && setToggled(false)}>
-                            <MenuIcon className="w-6 h-6 text-sky-900" />
+                            <MenuIcon
+                                className={`w-6 h-6 ${getTextColorClass(theme)}`}
+                            />
                         </button>
-                    </div>
-                )}
+                    )}
+                </div>
+
+                <h6
+                    className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}
+                >
+                    General
+                </h6>
+                <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+                    <MenuItem component={<RouterLink to="/" />}>
+                        <div className="pl-5">Landing Page</div>
+                    </MenuItem>
+                </Menu>
+                <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+                    <MenuItem component={<RouterLink to="/admin-dashboard" />}>
+                        <div className="pl-5">Dashboard</div>
+                    </MenuItem>
+                </Menu>
 
                 {/* Sizebar Menu */}
                 <Menu
                     menuItemStyles={menuItemStyles(theme, collapsed)}
-                    className="text-center h-full"
+                    className=" h-full"
                 >
-                    <h6
-                        className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}
-                    >
-                        General
-                    </h6>
                     <SubMenu
                         label="Covid/Weather"
                         icon={<BuildIcon className="h-6 w-6" />}
                     >
-                        {menuItems.map((item, index) => (
-                            <MenuItem
-                                key={index}
-                                component={<RouterLink to={item.to} />}
-                                className=""
-                            >
-                                {item.label}
-                            </MenuItem>
-                        ))}
+                        {menuItems &&
+                            menuItems.map((item, index) => (
+                                <MenuItem
+                                    key={index}
+                                    component={<RouterLink to={item.to} />}
+                                    className=""
+                                >
+                                    {item.label}
+                                </MenuItem>
+                            ))}
                     </SubMenu>
                     <h6
                         className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}

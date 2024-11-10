@@ -37,8 +37,14 @@ module.exports = {
             },
             keyframes: {
                 slideIn: {
-                    "0%": { transform: "translateY(100%)" },
-                    "100%": { transform: "translateY(0)" },
+                    "0%": {
+                        transform: "translateY(100%)",
+                        opacity: 0,
+                    },
+                    "100%": {
+                        transform: "translateY(0)",
+                        opacity: 1,
+                    },
                 },
                 scroll: {
                     "0%": { transform: "translateX(100%)" },

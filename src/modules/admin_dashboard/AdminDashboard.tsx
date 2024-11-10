@@ -1,7 +1,9 @@
-import React, { lazy, SetStateAction, useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { lazy, useState } from "react";
 import MenuIcon from "../../svgIcons/MenuIcon";
-// import Switch from "@mui/material/Switch";
+import { Outlet } from "react-router-dom";
+import Layout from "./layouts/Layout";
+import LightThemeIcon from "../../svgIcons/LightThemeIcon";
+import DarkThemeIcon from "../../svgIcons/DarkThemeIcon";
 
 const CustomSidebar = lazy(() => import("./components/CustomSidebar"));
 
@@ -21,7 +23,6 @@ const menuItems = [
 const AdminDashboard = () => {
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const [theme, setTheme] = React.useState<Theme>("light");
-    // const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
     const [toggled, setToggled] = useState<boolean>(true);
     const [broken, setBroken] = useState<boolean>(false);
 
@@ -35,7 +36,7 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className={`flex min-h-screen transform duration-1000`}>
+        <Layout>
             <CustomSidebar
                 collapsed={collapsed}
                 theme={theme}
@@ -47,7 +48,7 @@ const AdminDashboard = () => {
             />
             <main className={`w-full overflow-hidden p-3 bg-cyan-900`}>
                 <div
-                    className={`flex ${broken ? "justify-end" : "justify-start"}`}
+                    className={`flex ${broken ? "justify-end" : "justify-start"} gap-4`}
                 >
                     {broken ? (
                         <button onClick={() => setToggled(!toggled)}>
@@ -58,20 +59,29 @@ const AdminDashboard = () => {
                             <MenuIcon className="w-6 h-6 text-white" />
                         </button>
                     )}
+                    {theme === "dark" ? (
+                        <button
+                            key="dark"
+                            onClick={handleThemeChange}
+                            className="animate-slideIn"
+                        >
+                            <LightThemeIcon className="w-6 h-6 text-white" />
+                        </button>
+                    ) : (
+                        <button
+                            key="light"
+                            onClick={handleThemeChange}
+                            className="animate-slideIn"
+                        >
+                            <DarkThemeIcon className="w-6 h-6 text-white" />
+                        </button>
+                    )}
                 </div>
                 <div>
-                    <button onClick={handleThemeChange}>Theme</button>
-                </div>
-                {/* I want the content of each menu Item to be display in this main area */}
-                <div>
-                    <Routes>
-                        <Route path="/covid19" element={<div>Covid19</div>} />
-                        <Route path="/weather" element={<div>Weather</div>} />
-                        <Route path="/charts" element={<div>Charts</div>} />
-                    </Routes>
+                    <Outlet />
                 </div>
             </main>
-        </div>
+        </Layout>
     );
 };
 
