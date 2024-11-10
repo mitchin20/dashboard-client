@@ -17,6 +17,7 @@ import CardContent from "../../components/CardContent";
 import Link from "../../components/Link";
 import LandingPageIcon from "../../../svgIcons/LandingPageIcon";
 import DashboardIcon from "../../../svgIcons/DashboardIcon";
+import Tooltip from "../../components/Tooltip";
 
 const GITHUB_URL = "https://github.com/mitchin20/dashboard-client";
 
@@ -79,22 +80,30 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({
                 </div>
 
                 <div className="flex justify-center gap-4 mb-4">
-                    <RouterLink to="/">
-                        <LandingPageIcon
-                            className={`w-6 h-6 ${getTextColorClass(theme)}`}
-                        />
-                    </RouterLink>
-                    <RouterLink to="/admin-dashboard">
-                        <DashboardIcon
-                            className={`w-6 h-6 ${getTextColorClass(theme)}`}
-                        />
-                    </RouterLink>
-                    {broken && (
-                        <button onClick={() => setToggled && setToggled(false)}>
-                            <MenuIcon
+                    <Tooltip content="Landing Page">
+                        <RouterLink to="/">
+                            <LandingPageIcon
                                 className={`w-6 h-6 ${getTextColorClass(theme)}`}
                             />
-                        </button>
+                        </RouterLink>
+                    </Tooltip>
+                    <Tooltip content="Menu">
+                        <RouterLink to="/admin-dashboard">
+                            <DashboardIcon
+                                className={`w-6 h-6 ${getTextColorClass(theme)}`}
+                            />
+                        </RouterLink>
+                    </Tooltip>
+                    {broken && (
+                        <Tooltip content="Close Sidebar">
+                            <button
+                                onClick={() => setToggled && setToggled(false)}
+                            >
+                                <MenuIcon
+                                    className={`w-6 h-6 ${getTextColorClass(theme)}`}
+                                />
+                            </button>
+                        </Tooltip>
                     )}
                 </div>
 

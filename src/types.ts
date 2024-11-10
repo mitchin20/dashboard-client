@@ -209,3 +209,12 @@ export interface LinkProps {
     endIcon?: React.ReactNode;
     className?: string;
 }
+
+export interface TooltipProps {
+    content: string; // The text or content displayed in the tooltip
+    children: React.ReactNode; // The element over which the tooltip will be shown
+    position?: "top" | "right" | "bottom" | "left"; // Tooltip position relative to the children
+    delay?: number; // Optional delay for showing the tooltip (in milliseconds)
+    className?: string; // Optional additional classes for custom styles
+    arrowClassName?: string; // Optional additional array class for custom styles
+}
