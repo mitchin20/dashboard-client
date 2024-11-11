@@ -1,11 +1,9 @@
 import React, { lazy, useState } from "react";
-import MenuIcon from "../../svgIcons/MenuIcon";
 import { Outlet } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import LightThemeIcon from "../../svgIcons/LightThemeIcon";
-import DarkThemeIcon from "../../svgIcons/DarkThemeIcon";
 
 const CustomSidebar = lazy(() => import("./components/CustomSidebar"));
+const MainHeader = lazy(() => import("./components/MainHeader"));
 
 type Theme = "light" | "dark";
 
@@ -46,37 +44,22 @@ const AdminDashboard = () => {
                 setToggled={setToggled}
                 onBreakPoint={setBroken}
             />
-            <main className={`w-full overflow-hidden p-3 bg-cyan-900`}>
-                <div
-                    className={`flex ${broken ? "justify-end" : "justify-start"} gap-4`}
-                >
-                    {broken ? (
-                        <button onClick={() => setToggled(!toggled)}>
-                            <MenuIcon className="w-6 h-6 text-white" />
-                        </button>
-                    ) : (
-                        <button onClick={handleCollapseSidebar}>
-                            <MenuIcon className="w-6 h-6 text-white" />
-                        </button>
-                    )}
-                    {theme === "dark" ? (
-                        <button
-                            key="dark"
-                            onClick={handleThemeChange}
-                            className="animate-slideIn"
-                        >
-                            <LightThemeIcon className="w-6 h-6 text-white" />
-                        </button>
-                    ) : (
-                        <button
-                            key="light"
-                            onClick={handleThemeChange}
-                            className="animate-slideIn"
-                        >
-                            <DarkThemeIcon className="w-6 h-6 text-white" />
-                        </button>
-                    )}
-                </div>
+            <main
+                className={`w-full overflow-y-scroll p-3 ${theme === "dark" ? "bg-cyan-900" : "bg-white"}`}
+            >
+                {/* Main header */}
+                <MainHeader
+                    toggled={toggled}
+                    theme={theme}
+                    broken={broken}
+                    setToggled={setToggled}
+                    handleCollapseSidebar={handleCollapseSidebar}
+                    handleThemeChange={handleThemeChange}
+                />
+
+                {/* Dashboard info */}
+
+                {/* Main content */}
                 <div>
                     <Outlet />
                 </div>
