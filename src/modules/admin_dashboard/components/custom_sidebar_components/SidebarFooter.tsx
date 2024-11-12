@@ -1,17 +1,19 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import GitHubIcon from "../../../../svgIcons/GitHubIcon";
 import Link from "../../../components/Link";
 import Card2 from "../../../components/Card2";
 import CardContent from "../../../components/CardContent";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 const GITHUB_URL = "https://github.com/mitchin20/dashboard-client";
 
 interface SidebarFooterProps {
     collapsed?: boolean;
-    theme?: "light" | "dark";
 }
 
-const SidebarFooter: React.FC<SidebarFooterProps> = ({ collapsed, theme }) => {
+const SidebarFooter: React.FC<SidebarFooterProps> = ({ collapsed }) => {
+    const { theme } = useContext(ThemeContext);
+
     return (
         <div
             className={`sticky bottom-0 z-50 ${theme === "dark" ? "bg-gray-950" : "bg-gray-50"} ${collapsed ? "p-5" : "p-10"} border-t-[1px] border-solid`}

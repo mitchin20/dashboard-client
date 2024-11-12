@@ -1,6 +1,8 @@
-import React, { lazy, useState } from "react";
+import React, { lazy, useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Layout from "./layouts/Layout";
+import { getTheme, setNewTheme } from "../../helpers/theme";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const CustomSidebar = lazy(() => import("./components/CustomSidebar"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
@@ -19,8 +21,8 @@ const menuItems = [
 ];
 
 const AdminDashboard = () => {
+    const { theme } = useContext(ThemeContext);
     const [collapsed, setCollapsed] = useState<boolean>(false);
-    const [theme, setTheme] = React.useState<Theme>("light");
     const [toggled, setToggled] = useState<boolean>(true);
     const [broken, setBroken] = useState<boolean>(false);
 
@@ -28,16 +30,10 @@ const AdminDashboard = () => {
         setCollapsed((prev) => !prev);
     };
 
-    // handle on theme change event
-    const handleThemeChange = () => {
-        setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-    };
-
     return (
         <Layout>
             <CustomSidebar
                 collapsed={collapsed}
-                theme={theme}
                 toggled={toggled}
                 menuItems={menuItems}
                 broken={broken}
@@ -50,11 +46,9 @@ const AdminDashboard = () => {
                 {/* Main header */}
                 <MainHeader
                     toggled={toggled}
-                    theme={theme}
                     broken={broken}
                     setToggled={setToggled}
                     handleCollapseSidebar={handleCollapseSidebar}
-                    handleThemeChange={handleThemeChange}
                 />
 
                 {/* Main content */}

@@ -1,31 +1,29 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import MenuIcon from "../../../svgIcons/MenuIcon";
 import LightThemeIcon from "../../../svgIcons/LightThemeIcon";
 import DarkThemeIcon from "../../../svgIcons/DarkThemeIcon";
 import NotificationIcon from "../../../svgIcons/NotificationIcon";
 import SearchIcon from "../../../svgIcons/SearchIcon";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 interface MainHeaderProps {
     broken: boolean;
-    theme: string;
     toggled: boolean;
     handleCollapseSidebar: () => void;
-    handleThemeChange: () => void;
     setToggled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MainHeader: React.FC<MainHeaderProps> = ({
     toggled,
-    theme,
     broken,
     setToggled,
     handleCollapseSidebar,
-    handleThemeChange,
 }) => {
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const iconColor = theme === "dark" ? "text-white" : "text-black";
     return (
         <header
-            className={`sticky top-0 z-50 bg-gray-400 p-2 rounded-full align-middle items-center ${broken ? "flex justify-self-end gap-4" : "grid grid-cols-2 gap-2"}`}
+            className={`sticky top-0 z-50 bg-gray-400 p-2 rounded-full align-middle items-center shadow-md shadow-black ${broken ? "flex justify-self-end gap-4" : "grid grid-cols-2 gap-2"}`}
         >
             <div
                 className={`${!broken ? "grid justify-items-start" : "flex items-center"}`}
@@ -48,7 +46,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
                     {theme === "dark" ? (
                         <button
                             key="dark"
-                            onClick={handleThemeChange}
+                            onClick={toggleTheme}
                             className="animate-slideIn"
                         >
                             <LightThemeIcon
@@ -58,7 +56,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
                     ) : (
                         <button
                             key="light"
-                            onClick={handleThemeChange}
+                            onClick={toggleTheme}
                             className="animate-slideIn"
                         >
                             <DarkThemeIcon className={`w-6 h-6 ${iconColor}`} />

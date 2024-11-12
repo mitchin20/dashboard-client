@@ -1,8 +1,9 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { menuItemStyles } from "../themes";
 import BuildIcon from "../../../../svgIcons/BuildIcon";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 type MenuItem = {
     label: string;
@@ -11,15 +12,14 @@ type MenuItem = {
 
 interface SidebarMenuProps {
     collapsed?: boolean;
-    theme?: "light" | "dark";
     menuItems?: MenuItem[];
 }
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({
     collapsed = false,
-    theme = "dark",
     menuItems,
 }) => {
+    const { theme } = useContext(ThemeContext);
     return (
         <div className={`flex-grow overflow-y-auto`}>
             <h6

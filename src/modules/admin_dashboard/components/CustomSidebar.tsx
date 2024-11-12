@@ -1,6 +1,7 @@
-import React, { lazy, memo, SetStateAction } from "react";
+import React, { lazy, memo, SetStateAction, useContext } from "react";
 import { Sidebar, MenuItem, SidebarProps } from "react-pro-sidebar";
 import { themes } from "./themes";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const SidebarHeader = lazy(
     () => import("./custom_sidebar_components/SidebarHeader")
@@ -20,7 +21,6 @@ type MenuItem = {
 interface CustomSidebarProps extends SidebarProps {
     menuItems?: MenuItem[];
     collapsed?: boolean;
-    theme?: "light" | "dark";
     broken?: boolean;
     setToggled?: React.Dispatch<SetStateAction<boolean>> | undefined;
 }
@@ -28,12 +28,12 @@ interface CustomSidebarProps extends SidebarProps {
 const CustomSidebar: React.FC<CustomSidebarProps> = ({
     collapsed = false,
     menuItems,
-    theme = "dark",
     toggled,
     broken,
     setToggled,
     onBreakPoint,
 }) => {
+    const { theme } = useContext(ThemeContext);
     const getTextColorClass = (theme: string) =>
         theme === "dark" ? "text-white" : "text-emerald-700";
 
@@ -64,14 +64,10 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({
                 />
 
                 {/* Menu Items */}
-                <SidebarMenu
-                    collapsed={collapsed}
-                    theme={theme}
-                    menuItems={menuItems}
-                />
+                <SidebarMenu collapsed={collapsed} menuItems={menuItems} />
 
                 {/* Sidebar Footer */}
-                <SidebarFooter collapsed={collapsed} theme={theme} />
+                <SidebarFooter collapsed={collapsed} />
             </div>
         </Sidebar>
     );

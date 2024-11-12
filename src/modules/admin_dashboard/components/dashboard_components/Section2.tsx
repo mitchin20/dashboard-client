@@ -38,6 +38,12 @@ const Section2 = () => {
                         </span>
                     </p>
                 </div>
+                <div className={`${listStyle}`}>
+                    <p>CI/CD:</p>
+                    <p className="flex justify-center items-center gap-5">
+                        GitHub Action
+                    </p>
+                </div>
                 <p className="italic mt-5">
                     "My portfolio is built with a client-server architecture,
                     with the client-side (React and TypeScript) and server-side
