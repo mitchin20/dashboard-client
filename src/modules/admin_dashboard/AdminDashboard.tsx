@@ -57,8 +57,6 @@ const AdminDashboard = () => {
                     handleThemeChange={handleThemeChange}
                 />
 
-                {/* Dashboard info */}
-
                 {/* Main content */}
                 <div>
                     <Outlet />

@@ -8,6 +8,9 @@ const Dashboard = lazy(() => import("./modules/dashboard/Dashboard"));
 const AdminDashboard = lazy(
     () => import("./modules/admin_dashboard/AdminDashboard")
 );
+const DefaultAdminDashboard = lazy(
+    () => import("./modules/admin_dashboard/pages/DefaultAdminDashboard")
+);
 
 function App() {
     return (
@@ -17,6 +20,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/admin-dashboard" element={<AdminDashboard />}>
+                        <Route index element={<DefaultAdminDashboard />} />
                         <Route path="covid19" element={<div>Covid19</div>} />
                         <Route path="weather" element={<div>Weather</div>} />
                         <Route path="charts" element={<div>Charts</div>} />

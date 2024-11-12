@@ -218,3 +218,7 @@ export interface TooltipProps {
     className?: string; // Optional additional classes for custom styles
     arrowClassName?: string; // Optional additional array class for custom styles
 }
+
+export interface DashboardSummaryProps {
+    theme?: string;
+}
