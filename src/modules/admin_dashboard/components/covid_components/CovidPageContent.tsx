@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { lazy, useContext, useEffect } from "react";
 import {
     getSessionStorage,
     setSessionStorage,
@@ -6,8 +6,10 @@ import {
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { setRecentPageVisited } from "../../../../helpers/recentPageVisited";
-import { getTheme } from "../../../../helpers/theme";
 import { ThemeContext } from "../../../../context/ThemeContext";
+// import StatesPopulation from "./StatesPopulation";
+
+const StatesPopulation = lazy(() => import("./StatesPopulation"));
 
 const ttl = 10 * 60 * 1000;
 
@@ -54,7 +56,11 @@ const CovidPageContent = () => {
         });
     }, []);
 
-    return <div className={`${textColor}`}>CovidPageContent</div>;
+    return (
+        <div className={`mt-5 ${textColor}`}>
+            <StatesPopulation data={covidData} loading={isLoading} />
+        </div>
+    );
 };
 
 export default CovidPageContent;

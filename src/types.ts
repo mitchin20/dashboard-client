@@ -126,8 +126,9 @@ export interface MuiDrawerProps {
 
 export interface StatePopulationDetailsProps {
     data: any;
-    showDrawer: boolean;
-    handleCloseDrawer: () => void;
+    showDrawer?: boolean;
+    handleCloseDrawer?: () => void;
+    winSize?: number;
 }
 
 interface PieChartLegendPadding {
