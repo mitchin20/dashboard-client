@@ -1,24 +1,10 @@
-import React, { lazy, useContext, useState } from "react";
+import { lazy, useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import { getTheme, setNewTheme } from "../../helpers/theme";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const CustomSidebar = lazy(() => import("./components/CustomSidebar"));
 const MainHeader = lazy(() => import("./components/MainHeader"));
-
-type Theme = "light" | "dark";
-
-const menuItems = [
-    {
-        label: "Covid 19",
-        to: "covid19",
-    },
-    {
-        label: "Weather",
-        to: "weather",
-    },
-];
 
 const AdminDashboard = () => {
     const { theme } = useContext(ThemeContext);
@@ -35,7 +21,6 @@ const AdminDashboard = () => {
             <CustomSidebar
                 collapsed={collapsed}
                 toggled={toggled}
-                menuItems={menuItems}
                 broken={broken}
                 setToggled={setToggled}
                 onBreakPoint={setBroken}

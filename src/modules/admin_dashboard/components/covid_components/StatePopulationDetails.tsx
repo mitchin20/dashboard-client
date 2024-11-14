@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { lazy, useContext } from "react";
 import { StatePopulationDetailsProps } from "../../../../types";
 import Card2 from "../../../components/Card2";
 import CardHeader from "../../../components/CardHeader";
@@ -6,6 +6,8 @@ import CardContent from "../../../components/CardContent";
 import Link from "../../../components/Link";
 import { BarChart, PieChart } from "@mui/x-charts";
 import { ThemeContext } from "../../../../context/ThemeContext";
+
+const CovidTrends = lazy(() => import("./CovidTrends"));
 
 const extractObjKeysAndValues = (
     data: any,
@@ -179,7 +181,7 @@ const StatePopulationDetails: React.FC<StatePopulationDetailsProps> = ({
                     />
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 text-xs">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 xxs:text-xs sm:text-sm text-base">
                     {Object.entries({
                         "Updated on": data.lastUpdatedDate || "N/A",
                         Population: data.population,
@@ -206,7 +208,7 @@ const StatePopulationDetails: React.FC<StatePopulationDetailsProps> = ({
                     ))}
                 </div>
 
-                {stateVaccinationDoses && (
+                {stateVaccinationDoses && stateVaccinationDoses.length > 0 && (
                     <div className="w-full mt-10">
                         <PieChart
                             series={[{ data: stateVaccinationDoses }]}
@@ -285,6 +287,8 @@ const StatePopulationDetails: React.FC<StatePopulationDetailsProps> = ({
                             ))}
                     </div>
                 </div>
+
+                <CovidTrends selectedState={data.state} />
             </CardContent>
         </Card2>
     );

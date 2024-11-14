@@ -7,7 +7,6 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { setRecentPageVisited } from "../../../../helpers/recentPageVisited";
 import { ThemeContext } from "../../../../context/ThemeContext";
-// import StatesPopulation from "./StatesPopulation";
 
 const StatesPopulation = lazy(() => import("./StatesPopulation"));
 

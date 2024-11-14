@@ -5,20 +5,18 @@ import { menuItemStyles } from "../themes";
 import BuildIcon from "../../../../svgIcons/BuildIcon";
 import { ThemeContext } from "../../../../context/ThemeContext";
 
-type MenuItem = {
-    label: string;
-    to: string;
-};
-
 interface SidebarMenuProps {
     collapsed?: boolean;
-    menuItems?: MenuItem[];
 }
 
-const SidebarMenu: React.FC<SidebarMenuProps> = ({
-    collapsed = false,
-    menuItems,
-}) => {
+const menuItems = [
+    {
+        label: "States Data",
+        to: "covid19",
+    },
+];
+
+const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
     const { theme } = useContext(ThemeContext);
     return (
         <div className={`flex-grow overflow-y-auto`}>
@@ -41,7 +39,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
             {/* Sizebar Menu */}
             <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
                 <SubMenu
-                    label="Covid/Weather"
+                    label="States/Counties Summary"
                     icon={<BuildIcon className="h-6 w-6" />}
                 >
                     {menuItems &&

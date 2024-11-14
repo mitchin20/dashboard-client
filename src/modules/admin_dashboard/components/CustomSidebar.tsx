@@ -1,5 +1,5 @@
 import React, { lazy, memo, SetStateAction, useContext } from "react";
-import { Sidebar, MenuItem, SidebarProps } from "react-pro-sidebar";
+import { Sidebar, SidebarProps } from "react-pro-sidebar";
 import { themes } from "./themes";
 import { ThemeContext } from "../../../context/ThemeContext";
 
@@ -13,13 +13,7 @@ const SidebarFooter = lazy(
     () => import("./custom_sidebar_components/SidebarFooter")
 );
 
-type MenuItem = {
-    label: string;
-    to: string;
-};
-
 interface CustomSidebarProps extends SidebarProps {
-    menuItems?: MenuItem[];
     collapsed?: boolean;
     broken?: boolean;
     setToggled?: React.Dispatch<SetStateAction<boolean>> | undefined;
@@ -27,7 +21,6 @@ interface CustomSidebarProps extends SidebarProps {
 
 const CustomSidebar: React.FC<CustomSidebarProps> = ({
     collapsed = false,
-    menuItems,
     toggled,
     broken,
     setToggled,
@@ -64,7 +57,7 @@ const CustomSidebar: React.FC<CustomSidebarProps> = ({
                 />
 
                 {/* Menu Items */}
-                <SidebarMenu collapsed={collapsed} menuItems={menuItems} />
+                <SidebarMenu collapsed={collapsed} />
 
                 {/* Sidebar Footer */}
                 <SidebarFooter collapsed={collapsed} />
