@@ -20,6 +20,7 @@ import {
     setSessionStorage,
 } from "../../../../helpers/sessionStorage";
 import axios from "axios";
+import { setRecentPageVisited } from "../../../../helpers/recentPageVisited";
 
 const StatePopulationDetails = lazy(() => import("./StatePopulationDetails"));
 const CovidTrends = lazy(() => import("./CovidTrends"));
@@ -168,6 +169,14 @@ const StatesPopulation = () => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
+    }, []);
+
+    useEffect(() => {
+        const currentPath = window.location.pathname;
+        setRecentPageVisited("recentPageVisited", {
+            name: "Covid-19",
+            url: currentPath,
+        });
     }, []);
 
     const textColor = theme === "dark" ? "text-white" : "text-black";

@@ -52,7 +52,7 @@ const TechStacks = () => {
                 <div className="flex justify-center items-center text-gray-900 border-solid border-2 border-gray-500 rounded-full py-1 bg-white-gradient-conic xxs:text-sm">
                     <p className="mr-3 italic">Start with a</p>
                     <a
-                        href="/dashboard"
+                        href="/admin-dashboard"
                         className="border-solid border-[1px] border-gray-500 rounded-full p-4 bg-white font-thin hover:font-normal hover:italic hover:px-6 transform duration-700"
                     >
                         Demo
