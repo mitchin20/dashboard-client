@@ -1,4 +1,4 @@
-import React, { lazy, useContext } from "react";
+import React, { memo, useContext } from "react";
 import { StatePopulationDetailsProps } from "../../../../types";
 import Card2 from "../../../components/Card2";
 import CardHeader from "../../../components/CardHeader";
@@ -6,8 +6,6 @@ import CardContent from "../../../components/CardContent";
 import Link from "../../../components/Link";
 import { BarChart, PieChart } from "@mui/x-charts";
 import { ThemeContext } from "../../../../context/ThemeContext";
-
-const CovidTrends = lazy(() => import("./CovidTrends"));
 
 const extractObjKeysAndValues = (
     data: any,
@@ -52,6 +50,7 @@ const extractObjKeysAndValues = (
 const StatePopulationDetails: React.FC<StatePopulationDetailsProps> = ({
     data,
     winSize,
+    children,
 }) => {
     const { theme } = useContext(ThemeContext);
     const icuBedsKeys = ["capacity", "currentUsageTotal", "currentUsageCovid"];
@@ -118,7 +117,7 @@ const StatePopulationDetails: React.FC<StatePopulationDetailsProps> = ({
     ];
 
     return (
-        <Card2 className="my-8 p-1">
+        <Card2 className={`my-8 p-1`}>
             <CardHeader>
                 {data.state.toUpperCase()} - {data.country.toUpperCase()} -
                 Covid details
@@ -288,10 +287,10 @@ const StatePopulationDetails: React.FC<StatePopulationDetailsProps> = ({
                     </div>
                 </div>
 
-                <CovidTrends selectedState={data.state} />
+                {children}
             </CardContent>
         </Card2>
     );
 };
 
-export default StatePopulationDetails;
+export default memo(StatePopulationDetails);

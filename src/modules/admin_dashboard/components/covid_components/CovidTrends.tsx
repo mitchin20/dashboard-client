@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { LineChart } from "@mui/x-charts";
 import {
     FormControl,
@@ -7,24 +7,12 @@ import {
     Select,
     SelectChangeEvent,
 } from "@mui/material";
-import axios, { AxiosError } from "axios";
-import {
-    getSessionStorage,
-    setSessionStorage,
-} from "../../../../helpers/sessionStorage";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import { CovidTrendsProps } from "../../../../types";
 
-const ttl = 3 * 60 * 1000; // 3 minutes in milliseconds
-
-export interface CovidTrendsProps {
-    selectedState: string;
-}
-
-const CovidTrends: React.FC<CovidTrendsProps> = ({ selectedState }) => {
+const CovidTrends: React.FC<CovidTrendsProps> = ({ covidTrendsData }) => {
     const { theme, winSize } = useContext(ThemeContext);
     const [extractedData, setExtractedData] = useState<object[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<AxiosError | null>(null);
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
     const [originalDayLabels, setOriginalDayLabels] = useState<string[]>([]);
@@ -32,43 +20,16 @@ const CovidTrends: React.FC<CovidTrendsProps> = ({ selectedState }) => {
     const [series, setSeries] = useState<object[]>([]);
 
     useEffect(() => {
-        const cachedData: any = getSessionStorage(
-            `monthly-state-metrics-timeseries-${selectedState}`
-        );
-        if (cachedData && !cachedData?.value?.expiry) {
-            setExtractedData(cachedData);
-            return;
+        if (covidTrendsData) {
+            const extractData = covidTrendsData.filter(
+                (record: any) => record.cases !== null
+            );
+            setOriginalDayLabels(extractData.map((item: any) => item.date));
+            setStartDate((extractData[0] as any).date);
+            setEndDate((extractData[extractData.length - 1] as any).date);
+            setExtractedData(extractData);
         }
-
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(
-                    `${process.env.REACT_APP_SERVER_URL}/monthly-state-metrics-timeseries/${selectedState}`
-                );
-
-                const extractData = response.data.data.filter(
-                    (item: any) => item.cases !== null
-                );
-                setOriginalDayLabels(extractData.map((item: any) => item.date));
-                setStartDate((extractData[0] as any).date);
-                setEndDate((extractData[extractData.length - 1] as any).date);
-                setExtractedData(extractData);
-
-                setSessionStorage(
-                    `monthly-state-metrics-timeseries-${selectedState}`,
-                    extractData,
-                    ttl
-                );
-            } catch (error) {
-                setError(error as AxiosError);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [selectedState]);
+    }, [covidTrendsData]);
 
     useEffect(() => {
         if (extractedData.length > 0 && startDate && endDate) {
@@ -95,10 +56,6 @@ const CovidTrends: React.FC<CovidTrendsProps> = ({ selectedState }) => {
             ]);
         }
     }, [endDate, startDate, extractedData]);
-
-    if (error) {
-        return <p>Error: {error.message}</p>;
-    }
 
     // Handle start date input change
     const handleStartDateChange = (event: SelectChangeEvent) => {
@@ -212,7 +169,7 @@ const CovidTrends: React.FC<CovidTrendsProps> = ({ selectedState }) => {
                             },
                         },
                     ]}
-                    loading={loading}
+                    // loading={loading}
                     height={lgScreen ? 450 : 300}
                     grid={{ vertical: false, horizontal: true }}
                     tooltip={{
@@ -239,4 +196,4 @@ const CovidTrends: React.FC<CovidTrendsProps> = ({ selectedState }) => {
     );
 };
 
-export default CovidTrends;
+export default memo(CovidTrends);

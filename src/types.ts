@@ -129,6 +129,11 @@ export interface StatePopulationDetailsProps {
     showDrawer?: boolean;
     handleCloseDrawer?: () => void;
     winSize?: number;
+    children?: React.ReactNode;
+}
+
+export interface CovidTrendsProps {
+    covidTrendsData: any[];
 }
 
 interface PieChartLegendPadding {

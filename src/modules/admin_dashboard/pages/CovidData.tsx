@@ -11,14 +11,14 @@ const queryCache = new QueryCache();
 // Create query client instance
 const queryClient = new QueryClient({ queryCache });
 
-const CovidPageContent = lazy(
-    () => import("../components/covid_components/CovidPageContent")
+const StatesPopulation = lazy(
+    () => import("../components/covid_components/StatesPopulation")
 );
 
 const CovidData = () => {
     return (
         <QueryClientProvider client={queryClient}>
-            <CovidPageContent />
+            <StatesPopulation />
         </QueryClientProvider>
     );
 };
