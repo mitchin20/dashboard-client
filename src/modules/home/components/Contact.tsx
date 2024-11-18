@@ -34,7 +34,7 @@ const Contact = () => {
     const sendEmail = async (payload: InferType<typeof ContactSchema>) => {
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_SERVER_URL}/contact-email`,
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/contact-email`,
                 payload,
                 {
                     headers: {

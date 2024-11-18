@@ -55,7 +55,7 @@ const StatesPopulation = () => {
 
             try {
                 const response = await axios.get(
-                    `${process.env.REACT_APP_SERVER_URL}/all-us-states-covid-data`
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/all-us-states-covid-data`
                 );
 
                 if (Array.isArray(response.data.data)) {

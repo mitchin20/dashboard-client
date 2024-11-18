@@ -50,7 +50,7 @@ const Trends = () => {
             try {
                 setLoading(true);
                 const response = await axios.get(
-                    `${process.env.REACT_APP_SERVER_URL}/state-metrics-timeseries/${input}`
+                    `${process.env.NEXT_PUBLIC_SERVER_URL}/state-metrics-timeseries/${input}`
                 );
 
                 const extractData = response.data.data.filter(

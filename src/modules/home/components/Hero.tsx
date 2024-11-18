@@ -76,7 +76,7 @@ const Hero = () => {
 
         try {
             const response = await axios.get<DownloadResponse>(
-                `${process.env.REACT_APP_SERVER_URL}/download-resume`
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/download-resume`
             );
             if (!response.data.success) {
                 console.error(

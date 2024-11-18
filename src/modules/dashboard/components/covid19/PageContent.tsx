@@ -26,7 +26,7 @@ const PageContent = () => {
         }
 
         const response = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/all-us-states-covid-data`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/all-us-states-covid-data`
         );
         setSessionStorage("all-states-covid-data", response.data.data, ttl);
 
@@ -68,7 +68,7 @@ const PageContent = () => {
     //         setLoading(true);
     //         try {
     //             const response = await axios.get(
-    //                 `${process.env.REACT_APP_SERVER_URL}/all-us-states-covid-data`
+    //                 `${process.env.NEXT_PUBLIC_SERVER_URL}/all-us-states-covid-data`
     //             );
     //             const results = await response.data;
     //             setSessionStorage(
