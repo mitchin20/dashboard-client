@@ -27,6 +27,9 @@ const CovidTrends = lazy(() => import("./CovidTrends"));
 
 const ttl = 10 * 60 * 1000;
 
+const API_URL =
+    process.env.NEXT_PUBLIC_SERVER_URL || process.env.REACT_APP_SERVER_URL;
+
 const StatesPopulation = () => {
     const { theme } = useContext(ThemeContext);
     const [data, setData] = useState<any[]>([]);
@@ -55,7 +58,7 @@ const StatesPopulation = () => {
 
             try {
                 const response = await axios.get(
-                    `${process.env.NEXT_PUBLIC_SERVER_URL}/all-us-states-covid-data`
+                    `${API_URL}/all-us-states-covid-data`
                 );
 
                 if (Array.isArray(response.data.data)) {
@@ -92,7 +95,7 @@ const StatesPopulation = () => {
             const fetchCovidTrendsData = async () => {
                 try {
                     const response = await axios.get(
-                        `${process.env.REACT_APP_SERVER_URL}/monthly-state-metrics-timeseries/${selectedData.state}`
+                        `${API_URL}/monthly-state-metrics-timeseries/${selectedData.state}`
                     );
                     setCovidTrendsData(response.data.data);
                     setSessionStorage(

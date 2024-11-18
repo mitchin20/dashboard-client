@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const Home = lazy(() => import("./modules/home/Home"));
-const Dashboard = lazy(() => import("./modules/dashboard/Dashboard"));
+// const Dashboard = lazy(() => import("./modules/dashboard/Dashboard"));
 const AdminDashboard = lazy(
     () => import("./modules/admin_dashboard/AdminDashboard")
 );
@@ -23,7 +23,7 @@ function App() {
                 <Suspense fallback={<div>Loading...</div>}>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
                         <Route
                             path="/admin-dashboard"
                             element={<AdminDashboard />}
