@@ -1,13 +1,16 @@
 import React, { useMemo, useState } from "react";
-import DescriptionIcon from "@mui/icons-material/Description";
 import {
     QueryClient,
     QueryClientProvider,
     QueryCache,
 } from "@tanstack/react-query";
 import { createTheme } from "@mui/material/styles";
-import type { Router } from "@toolpad/core";
-import { DashboardLayout, AppProvider, NavigationItem } from "@toolpad/core";
+import {
+    Router,
+    DashboardLayout,
+    AppProvider,
+    NavigationItem,
+} from "@toolpad/core";
 import PageContent from "./components/covid19/PageContent";
 import { DashboardProps } from "../../types";
 
