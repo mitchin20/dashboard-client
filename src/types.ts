@@ -228,3 +228,10 @@ export interface TooltipProps {
 export interface DashboardSummaryProps {
     theme?: string;
 }
+
+export interface DownloadResponse {
+    success: boolean;
+    url?: string;
+    error?: string;
+    message: string;
+}
