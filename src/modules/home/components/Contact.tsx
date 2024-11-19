@@ -1,53 +1,26 @@
-import React from "react";
-import axios from "axios";
-import { object, string, InferType } from "yup";
+import React, { useRef } from "react";
+import { InferType } from "yup";
 import TextInput from "../../components/TextInput";
 import HeaderText from "../../components/HeaderText";
 import Snackbar from "../../components/Snackbar";
-
-const ContactSchema = object({
-    fullName: string().min(2).required("Full name is required"),
-    email: string().email("Invalid email").required("Email is required"),
-    message: string().min(2).max(2000).required("Message is required"),
-});
-
-const trimInputsValue = (payload: any) => {
-    return Object.keys(payload).reduce(
-        (acc: Record<string, any>, key: string) => {
-            const value = payload[key];
-            if (typeof value === "string") {
-                acc[key] = value.trim();
-            } else {
-                acc[key] = value;
-            }
-
-            return acc;
-        },
-        {} as Record<string, any>
-    );
-};
+import { trimInputsValue } from "../utils/trimInputValue";
+import { sendContactEmail, ContactSchema } from "../utils/sendContactEmail";
 
 const Contact = () => {
+    // Create refs for each input field
+    const fullNameRef = useRef<HTMLInputElement | null>(null);
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const messageRef = useRef<HTMLTextAreaElement | null>(null);
+
     const [error, setError] = React.useState<string | null>(null);
     const [message, setMessage] = React.useState<string | null>(null);
 
-    const sendEmail = async (payload: InferType<typeof ContactSchema>) => {
-        try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_SERVER_URL}/contact-email`,
-                payload,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
-            if (response.status === 200) {
-                setMessage("Message sent successfully");
-            }
-        } catch (error) {
-            console.error(error);
-            setError("Failed to send message");
+    // Clear out the input field
+    const clearInput = (
+        ref: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        if (ref.current) {
+            ref.current.value = "";
         }
     };
 
@@ -63,11 +36,19 @@ const Contact = () => {
             const processedPayload = trimInputsValue(payload);
 
             const validatedPayload: InferType<typeof ContactSchema> =
-                await ContactSchema.validateSync(processedPayload, {
+                await ContactSchema.validate(processedPayload, {
                     abortEarly: false,
                 });
 
-            await sendEmail(validatedPayload);
+            await sendContactEmail({
+                payload: validatedPayload,
+                setMessage,
+                setError,
+            });
+
+            clearInput(fullNameRef);
+            clearInput(emailRef);
+            clearInput(messageRef);
         } catch (error) {
             console.error(error);
             setError(
@@ -99,10 +80,16 @@ const Contact = () => {
                             label="Full Name"
                             type="text"
                             name="fullName"
+                            ref={fullNameRef}
                         />
                     </div>
                     <div className="my-8">
-                        <TextInput label="Email" type="email" name="email" />
+                        <TextInput
+                            label="Email"
+                            type="email"
+                            name="email"
+                            ref={emailRef}
+                        />
                     </div>
                     <div className="my-8">
                         <TextInput
@@ -111,6 +98,7 @@ const Contact = () => {
                             name="message"
                             multiline
                             rows={5}
+                            ref={messageRef}
                         />
                     </div>
                     <button

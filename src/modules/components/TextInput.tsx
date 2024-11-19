@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState, memo, forwardRef } from "react";
 
 // type: Allow the component to support different input types, such as "text", "password", "email", etc.
 // placeholder: Optionally show placeholder text if the label is not enough or for accessibility.
@@ -28,25 +28,33 @@ export interface TextInputProps {
     multiline?: boolean;
     rows?: number;
     maxChars?: number;
+    ref?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
 }
 
-const TextInput: React.FC<TextInputProps> = memo(
-    ({
-        label,
-        value,
-        onChange,
-        type = "text",
-        placeholder = " ",
-        name,
-        id = "floatingInput",
-        disabled = false,
-        error,
-        required = false,
-        className = "",
-        multiline = false,
-        rows = 3,
-        maxChars = 2000,
-    }) => {
+const TextInput = forwardRef<
+    HTMLInputElement | HTMLTextAreaElement,
+    TextInputProps
+>(
+    (
+        {
+            label,
+            value = "",
+            onChange,
+            type = "text",
+            placeholder = " ",
+            name,
+            id = "floatingInput",
+            disabled = false,
+            error,
+            required = false,
+            className = "",
+            multiline = false,
+            rows = 3,
+            maxChars = 2000,
+        },
+        ref
+    ) => {
+        const [currentValue, setCurrentValue] = useState<string>(value);
         const [isFilled, setIsFilled] = useState<boolean>(!!value);
         const [wordCount, setWordCount] = useState<number>(0);
         const [isLimitExceeded, setIsLimitExceeded] = useState<boolean>(false);
@@ -65,10 +73,19 @@ const TextInput: React.FC<TextInputProps> = memo(
         const handleOnChange = (
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
         ) => {
-            // Update isFilled based on content
-            setIsFilled(event.target.value.length > 0);
-            // Call the external onChange handler if provided
-            onChange && onChange(event);
+            const newValue = event.target.value;
+
+            // Enforce max character limit
+            if (newValue.length <= maxChars) {
+                setCurrentValue(newValue);
+                setWordCount(newValue.length);
+                setIsLimitExceeded(newValue.length > maxChars);
+
+                // Call the external onChange handler if provided
+                if (onChange) {
+                    onChange(event);
+                }
+            }
         };
 
         return (
@@ -77,12 +94,13 @@ const TextInput: React.FC<TextInputProps> = memo(
                     <textarea
                         id={id}
                         placeholder={placeholder}
-                        value={value}
+                        value={currentValue}
                         onChange={handleOnChange}
                         name={name}
                         disabled={disabled}
                         required={required}
                         rows={rows}
+                        ref={ref as React.Ref<HTMLTextAreaElement>}
                         className={`border-solid border-2 rounded-lg p-2 w-full shadow-lg peer focus:outline-none resize-none ${error ? "border-red-500" : "border-gray-400"} ${disabled ? "bg-gray-100" : ""} ${className}`}
                     />
                 ) : (
@@ -95,6 +113,7 @@ const TextInput: React.FC<TextInputProps> = memo(
                         name={name}
                         disabled={disabled}
                         required={required}
+                        ref={ref as React.Ref<HTMLInputElement>}
                         className={`border-solid border-2 rounded-lg p-2 w-full shadow-lg peer focus:outline-none ${error ? "border-red-500" : "border-gray-400"} ${disabled ? "bg-gray-100" : ""} ${className}`}
                     />
                 )}
@@ -129,5 +148,4 @@ const TextInput: React.FC<TextInputProps> = memo(
         );
     }
 );
-
-export default TextInput;
+export default memo(TextInput);
