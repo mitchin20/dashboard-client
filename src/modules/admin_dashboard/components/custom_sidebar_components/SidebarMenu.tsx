@@ -20,21 +20,21 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
     const { theme } = useContext(ThemeContext);
     return (
         <div className={`flex-grow overflow-y-auto`}>
-            <h6
+            {/* <h6
                 className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}
             >
                 General
-            </h6>
-            <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
-                <MenuItem component={<RouterLink to="/" />}>
-                    <div className="pl-5">Landing Page</div>
+            </h6> */}
+            {/* <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+                <MenuItem component={<RouterLink to="/admin-dashboard" />}>
+                    <div className="pl-5">Comming Soon</div>
                 </MenuItem>
-            </Menu>
-            <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+            </Menu> */}
+            {/* <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
                 <MenuItem component={<RouterLink to="/admin-dashboard" />}>
                     <div className="pl-5">Dashboard</div>
                 </MenuItem>
-            </Menu>
+            </Menu> */}
 
             {/* Sizebar Menu */}
             <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
@@ -53,11 +53,11 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
                             </MenuItem>
                         ))}
                 </SubMenu>
-                <h6
+                {/* <h6
                     className={`text-xs text-left pl-4 my-4 font-semibold ${theme === "light" ? "text-sky-950" : "text-sky-50"}`}
                 >
                     Extra
-                </h6>
+                </h6> */}
             </Menu>
         </div>
     );

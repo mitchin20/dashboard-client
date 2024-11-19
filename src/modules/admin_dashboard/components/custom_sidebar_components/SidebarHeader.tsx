@@ -46,7 +46,7 @@ const SidebarHeader: React.FC<SidebarHeaderProps> = ({
                         <LandingPageIcon className={`w-6 h-6 ${themeColor}`} />
                     </RouterLink>
                 </Tooltip>
-                <Tooltip content="Menu">
+                <Tooltip content="Dashboard">
                     <RouterLink to="/admin-dashboard">
                         <DashboardIcon className={`w-6 h-6 ${themeColor}`} />
                     </RouterLink>
