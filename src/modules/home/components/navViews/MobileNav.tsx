@@ -32,7 +32,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose, navItems }) => {
             <div className="flex justify-center items-center h-full">
                 <div
                     ref={modalRef}
-                    className="bg-[#fff1f2] border-double border-2 border-[#4c0519] w-4/5 max-w-md p-6 rounded-2xl shadow-lg"
+                    className="bg-[#ffffff] border-double border-2 border-[#4c0519] w-4/5 max-w-md p-6 rounded-2xl shadow-lg"
                 >
                     {/* NavItems */}
                     <nav className="flex flex-col space-y-4 mt-8 text-center">
