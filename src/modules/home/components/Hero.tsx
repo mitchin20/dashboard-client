@@ -1,24 +1,190 @@
 import "../Home.css";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button";
 import DownloadIcon from "../../../svgIcons/DownloadIcon";
 import BuildIcon from "../../../svgIcons/BuildIcon";
 import Link from "../../components/Link";
 import { createRipple } from "../utils/createRuppleEffect";
 import { downloadResume } from "../utils/downloadResume";
+import {
+    drag as d3Drag,
+    forceCenter,
+    forceLink,
+    forceManyBody,
+    forceSimulation,
+    select,
+    SimulationNodeDatum,
+} from "d3";
+
+interface Node extends SimulationNodeDatum {
+    id: string;
+    group: number;
+    fx?: number | null;
+    fy?: number | null;
+}
+
+interface Link {
+    source: string;
+    target: string;
+}
+
+interface GraphData {
+    nodes: Node[];
+    links: Link[];
+}
+
+// Helper function to safely get x or y from source/target
+const getNodeCoordinate = (
+    node: string | Node | undefined,
+    coordinate: "x" | "y"
+): number => {
+    if (typeof node !== "string" && node !== undefined) {
+        return node[coordinate] ?? 0;
+    }
+    return 0;
+};
+
+const generateInitialGraphData = (
+    nodeCount: number,
+    linkCount: number
+): GraphData => {
+    const nodes: Node[] = [];
+
+    // Generate random nodes
+    for (let i = 0; i < nodeCount; i++) {
+        nodes.push({
+            id: `Node ${i + 1}`, // Create unique ID for each node
+            group: Math.floor(Math.random() * 5) + 1, // Random group between 1 and 5
+            x: Math.random() * 800, // Random initial x position
+            y: Math.random() * 600, // Random initial y position
+        });
+    }
+
+    // Generate random links between nodes
+    const links: Link[] = [];
+    for (let i = 0; i < linkCount; i++) {
+        const sourceIndex = Math.floor(Math.random() * nodeCount);
+        let targetIndex = Math.floor(Math.random() * nodeCount);
+
+        // Ensure source and target are not the same
+        while (targetIndex === sourceIndex) {
+            targetIndex = Math.floor(Math.random() * nodeCount);
+        }
+
+        links.push({
+            source: nodes[sourceIndex].id,
+            target: nodes[targetIndex].id,
+        });
+    }
+
+    return { nodes, links };
+};
+
+// Create initial graph data with 20 nodes and 30 links
+const initialGraphData = generateInitialGraphData(20, 30);
 
 const textStyle = "font-semibold italic";
 
 const Hero = () => {
     const heroRef = useRef<HTMLDivElement>(null);
+    const svgRef = useRef<SVGSVGElement>(null);
+
+    useEffect(() => {
+        if (!svgRef.current) return;
+
+        const width = 800;
+        const height = 800;
+
+        // Set up SVG
+        const svg = select(svgRef.current)
+            .attr("viewBox", [0, 0, width, height])
+            .attr("width", width)
+            .attr("height", height);
+
+        // ** Remove any existing nodes and links **
+        svg.selectAll("circle").remove();
+        svg.selectAll("line").remove();
+
+        const simulation = forceSimulation<Node>(initialGraphData.nodes)
+            .force(
+                "link",
+                forceLink<Node, Link>()
+                    .id((d) => d.id)
+                    .links(initialGraphData.links)
+                    .distance(500) // Increase link distance to push connected nodes farther apart
+            )
+            .force("charge", forceManyBody().strength(-500)) // Increase the negative value to make nodes repel each other more strongly
+            .force("center", forceCenter(width / 2, height / 2));
+
+        // Create Links
+        const link = svg
+            .append("g")
+            .attr("stroke", "#cbd5e1")
+            .attr("stroke-opacity", 0.2)
+            .selectAll("line")
+            .data(initialGraphData.links)
+            .enter()
+            .append("line")
+            .attr("stroke-width", 1);
+
+        // Create Nodes
+        const node = svg
+            .append("g")
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5)
+            .selectAll("circle")
+            .data(initialGraphData.nodes)
+            .enter()
+            .append("circle")
+            .attr("r", Math.floor(Math.random() * 10) + 5)
+            .attr(
+                "fill",
+                (d) => `#${((d.group * 4321) % 0xffffff).toString(16)}`
+            )
+            .call(
+                d3Drag<SVGCircleElement, Node>()
+                    .on("start", (event, d) => {
+                        if (!event.active)
+                            simulation.alphaTarget(0.1).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                        // Bring the node to the front when dragging starts
+                        // select(event.sourceEvent.target).raise();
+                    })
+                    .on("drag", (event, d) => {
+                        d.fx = event.x;
+                        d.fy = event.y;
+                    })
+                    .on("end", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    })
+            );
+
+        // Update simulation at every tick
+        simulation.on("tick", () => {
+            link.attr("x1", (d) => getNodeCoordinate(d.source, "x"))
+                .attr("y1", (d) => getNodeCoordinate(d.source, "y"))
+                .attr("x2", (d) => getNodeCoordinate(d.target, "x"))
+                .attr("y2", (d) => getNodeCoordinate(d.target, "y"));
+
+            node.attr("cx", (d) => d.x ?? 0).attr("cy", (d) => d.y ?? 0);
+        });
+    }, []);
 
     return (
         <div
             ref={heroRef}
             id="hero"
-            onClick={(e) => createRipple(e, heroRef)}
-            className="relative h-[66vh] flex items-center justify-center bg-white overflow-hidden"
+            // onClick={(e) => createRipple(e, heroRef)}
+            className="relative h-[80vh] flex items-center justify-center bg-white overflow-hidden"
         >
+            <svg
+                ref={svgRef}
+                className="absolute top-0 left-0 w-full h-full"
+            ></svg>
+
             <div className="lg:w-1/2 md:w-3/4 xxs:w-full text-center mx-auto py-8 flex flex-col justify-center items-center xxs:p-[10px] xs:p-2">
                 <h1 className="ml-auto mr-auto xs:text-4xl xxs:text-3xl font-bold gradient-text-1 pt-5 pb-5">
                     Hello, I'm Giang
