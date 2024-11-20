@@ -81,7 +81,7 @@ const generateInitialGraphData = (
 };
 
 // Create initial graph data with 20 nodes and 30 links
-const initialGraphData = generateInitialGraphData(20, 30);
+const initialGraphData = generateInitialGraphData(200, 210);
 
 const textStyle = "font-semibold italic";
 
@@ -111,9 +111,9 @@ const Hero = () => {
                 forceLink<Node, Link>()
                     .id((d) => d.id)
                     .links(initialGraphData.links)
-                    .distance(500) // Increase link distance to push connected nodes farther apart
+                    .distance(300) // Increase link distance to push connected nodes farther apart
             )
-            .force("charge", forceManyBody().strength(-500)) // Increase the negative value to make nodes repel each other more strongly
+            .force("charge", forceManyBody().strength(-200)) // Increase the negative value to make nodes repel each other more strongly
             .force("center", forceCenter(width / 2, height / 2));
 
         // Create Links
@@ -136,7 +136,7 @@ const Hero = () => {
             .data(initialGraphData.nodes)
             .enter()
             .append("circle")
-            .attr("r", Math.floor(Math.random() * 10) + 5)
+            .attr("r", 10)
             .attr(
                 "fill",
                 (d) => `#${((d.group * 4321) % 0xffffff).toString(16)}`
