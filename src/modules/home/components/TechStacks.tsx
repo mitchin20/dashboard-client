@@ -1,6 +1,8 @@
+import { lazy } from "react";
 import { techStackList } from "./techStacks/techStacks";
 import Card2 from "../../components/Card2";
-import CardContent from "../../components/CardContent";
+
+const CardContent = lazy(() => import("../../components/CardContent"));
 
 const TechStacks = () => {
     return (
