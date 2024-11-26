@@ -41,6 +41,7 @@ export const getCountyMetricData = async ({
             return;
         }
 
+        console.log("API_URL: ", API_URL);
         const response = await axios.get(
             `${API_URL}/county-metric/${countyFips}`
         );
@@ -53,16 +54,16 @@ export const getCountyMetricData = async ({
             return;
         }
 
-        const responseData: Data = response.data;
+        const responseData: Data = response?.data;
 
         setSessionStorage(
             `${countyFips}-county-metric`,
-            responseData.data.data,
+            responseData?.data?.data,
             ttl
         );
-        setCountyData(responseData.data.data);
-        if (responseData.message) {
-            setMessage(responseData.message);
+        setCountyData(responseData?.data?.data);
+        if (responseData?.message) {
+            setMessage(responseData?.message);
         } else {
             setMessage("County covid data");
         }

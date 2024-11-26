@@ -1,4 +1,4 @@
-import React, {
+import {
     lazy,
     memo,
     Suspense,
@@ -7,7 +7,6 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { StatesDashboardComponentsProps } from "../../../../types";
 import {
     DataGrid,
     GridRowParams,
@@ -94,6 +93,7 @@ const StatesPopulation = () => {
 
             const fetchCovidTrendsData = async () => {
                 try {
+                    console.log("API_URL: ", API_URL);
                     const response = await axios.get(
                         `${API_URL}/monthly-state-metrics-timeseries/${selectedData.state}`
                     );
