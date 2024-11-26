@@ -238,5 +238,4 @@ export interface DownloadResponse {
 
 export interface CountyMetricsProps {
     data: any;
-    loading: boolean;
 }

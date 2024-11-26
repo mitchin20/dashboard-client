@@ -3,14 +3,7 @@ import { CountyMetricsProps } from "../../../../types";
 import ChartLineUpIcon from "../../../../svgIcons/ChartLineUpIcon";
 import ChartLineDownIcon from "../../../../svgIcons/ChartLineDownIcon";
 
-const CountyCommunityRiskLevels: React.FC<CountyMetricsProps> = ({
-    data,
-    loading,
-}) => {
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
+const CountyCommunityRiskLevels: React.FC<CountyMetricsProps> = ({ data }) => {
     return (
         <div>
             <div className="pl-2 bg-white-gradient-conic xxs:text-sm font-bold mt-10">

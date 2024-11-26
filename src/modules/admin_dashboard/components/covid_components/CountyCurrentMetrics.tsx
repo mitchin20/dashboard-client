@@ -6,14 +6,8 @@ import InfoIcon from "../../../../svgIcons/InfoIcon";
 import Tooltip from "../../../components/Tooltip";
 import { ThemeContext } from "../../../../context/ThemeContext";
 
-const CountyCurrentMetrics: React.FC<CountyMetricsProps> = ({
-    data,
-    loading,
-}) => {
+const CountyCurrentMetrics: React.FC<CountyMetricsProps> = ({ data }) => {
     const { theme } = useContext(ThemeContext);
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     const metricsFields = [
         "bedsWithCovidPatientsRatio",

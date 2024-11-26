@@ -7,11 +7,8 @@ import CardContent from "../../../components/CardContent";
 import Link from "../../../components/Link";
 import { ThemeContext } from "../../../../context/ThemeContext";
 
-const CountyGeneralInfo: React.FC<CountyMetricsProps> = ({ data, loading }) => {
+const CountyGeneralInfo: React.FC<CountyMetricsProps> = ({ data }) => {
     const { winSize } = useContext(ThemeContext);
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     const generalFields = [
         "county",

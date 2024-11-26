@@ -5,17 +5,10 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { StyledDiv } from "./styles";
 
-const CountyVaccDemographics: React.FC<CountyMetricsProps> = ({
-    data,
-    loading,
-}) => {
+const CountyVaccDemographics: React.FC<CountyMetricsProps> = ({ data }) => {
     const [panel1, setPanel1] = useState<boolean>(false);
     const [panel2, setPanel2] = useState<boolean>(false);
     const [panel3, setPanel3] = useState<boolean>(false);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     const byAge = data?.actuals?.vaccinationsInitiatedDemographics?.age;
     const byRace = data?.actuals?.vaccinationsInitiatedDemographics?.race;

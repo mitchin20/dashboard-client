@@ -8,6 +8,7 @@ import { getCountyMetricData } from "../utils/queryCountyMetricData";
 import { ThemeContext } from "../../../context/ThemeContext";
 import InfoIcon from "../../../svgIcons/InfoIcon";
 import Tooltip from "../../components/Tooltip";
+import Loading from "../../components/Loading";
 
 const CountyGeneralInfo = lazy(
     () => import("../components/covid_components/CountyGeneralInfo")
@@ -86,6 +87,8 @@ const CountyCovidData = () => {
         });
     }, []);
 
+    if (countyLoading) return <Loading />;
+
     const smallScreen = winSize && winSize <= 768;
     return (
         <div
@@ -104,14 +107,6 @@ const CountyCovidData = () => {
                     message={message}
                     open={!!message}
                     onClose={() => setMessage(null)}
-                    className="text-green-500 z-10"
-                />
-            )}
-            {countyLoading && (
-                <Snackbar
-                    message="Loading..."
-                    open={countyLoading}
-                    onClose={() => setCountyLoading(false)}
                     className="text-green-500 z-10"
                 />
             )}
@@ -143,10 +138,7 @@ const CountyCovidData = () => {
             {countyData && Object.entries(countyData).length > 0 ? (
                 <div className="grid grid-cols-12 mt-10 gap-5">
                     <div className="col-span-12">
-                        <CountyGeneralInfo
-                            data={countyData}
-                            loading={countyLoading}
-                        />
+                        <CountyGeneralInfo data={countyData} />
                     </div>
 
                     <div
@@ -158,42 +150,24 @@ const CountyCovidData = () => {
                         />
                     </div>
                     <div className={`col-span-12 md:col-span-6`}>
-                        <CountyActuals
-                            data={countyData}
-                            loading={countyLoading}
-                        />
+                        <CountyActuals data={countyData} />
                     </div>
 
                     <div className={`col-span-12 md:col-span-6`}>
-                        <CountyCurrentMetrics
-                            data={countyData}
-                            loading={countyLoading}
-                        />
+                        <CountyCurrentMetrics data={countyData} />
                     </div>
 
                     <div className={`col-span-12 md:col-span-6`}>
-                        <CountyCommunityRiskLevels
-                            data={countyData}
-                            loading={countyLoading}
-                        />
-                        <CountyAnnotations
-                            data={countyData}
-                            loading={countyLoading}
-                        />
+                        <CountyCommunityRiskLevels data={countyData} />
+                        <CountyAnnotations data={countyData} />
                     </div>
 
                     <div className="col-span-12">
-                        <CountyVaccDemographics
-                            data={countyData}
-                            loading={countyLoading}
-                        />
+                        <CountyVaccDemographics data={countyData} />
                     </div>
 
                     <div className="col-span-12">
-                        <CountyDataSources
-                            data={countyData}
-                            loading={countyLoading}
-                        />
+                        <CountyDataSources data={countyData} />
                     </div>
                 </div>
             ) : (

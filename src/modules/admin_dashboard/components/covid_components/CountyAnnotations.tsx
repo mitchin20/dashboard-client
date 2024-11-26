@@ -4,11 +4,7 @@ import DateDayIcon from "../../../../svgIcons/DateDayIcon";
 import CardHeader from "../../../components/CardHeader";
 import { StyledDiv } from "./styles";
 
-const CountyAnnotations: React.FC<CountyMetricsProps> = ({ data, loading }) => {
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
+const CountyAnnotations: React.FC<CountyMetricsProps> = ({ data }) => {
     const newCases = data?.annotations?.newCases?.anomalies;
     return (
         <div className="mt-10">

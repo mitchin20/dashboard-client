@@ -3,11 +3,7 @@ import { CountyMetricsProps } from "../../../../types";
 import Link from "../../../components/Link";
 import ApacheIcon from "../../../../svgIcons/ApacheIcon";
 
-const CountyDataSources: React.FC<CountyMetricsProps> = ({ data, loading }) => {
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
+const CountyDataSources: React.FC<CountyMetricsProps> = ({ data }) => {
     const casesAndDeathsSource = data?.annotations?.cases?.sources[0];
     const hospitalizationsSource = data?.annotations?.hospitalBeds?.sources[0];
     const vaccinationSource =

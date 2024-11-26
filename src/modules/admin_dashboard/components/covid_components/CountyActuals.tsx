@@ -6,11 +6,7 @@ import DeadFaceIcon from "../../../../svgIcons/DeadFaceIcon";
 import HospitalBedIcon from "../../../../svgIcons/HospitalBedIcon";
 import { StyledDiv } from "./styles";
 
-const CountyActuals: React.FC<CountyMetricsProps> = ({ data, loading }) => {
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
+const CountyActuals: React.FC<CountyMetricsProps> = ({ data }) => {
     return (
         <div>
             <CardHeader className="bg-white-gradient-conic rounded-t-xl">
