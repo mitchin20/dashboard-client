@@ -12,7 +12,11 @@ interface SidebarMenuProps {
 const menuItems = [
     {
         label: "States Data",
-        to: "covid19",
+        to: "states-covid19",
+    },
+    {
+        label: "County Data",
+        to: "county-covid19",
     },
 ];
 

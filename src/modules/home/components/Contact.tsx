@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { InferType } from "yup";
 import TextInput from "../../components/TextInput";
 import HeaderText from "../../components/HeaderText";
@@ -12,8 +12,8 @@ const Contact = () => {
     const emailRef = useRef<HTMLInputElement | null>(null);
     const messageRef = useRef<HTMLTextAreaElement | null>(null);
 
-    const [error, setError] = React.useState<string | null>(null);
-    const [message, setMessage] = React.useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
     // Clear out the input field
     const clearInput = (

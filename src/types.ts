@@ -235,3 +235,8 @@ export interface DownloadResponse {
     error?: string;
     message: string;
 }
+
+export interface CountyMetricsProps {
+    data: any;
+    loading: boolean;
+}

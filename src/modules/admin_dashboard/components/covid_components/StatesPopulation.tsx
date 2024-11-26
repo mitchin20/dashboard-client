@@ -30,8 +30,6 @@ const ttl = 10 * 60 * 1000;
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL || process.env.REACT_APP_SERVER_URL;
 
-console.log("API URL: ", API_URL);
-
 const StatesPopulation = () => {
     const { theme } = useContext(ThemeContext);
     const [data, setData] = useState<any[]>([]);
@@ -179,7 +177,7 @@ const StatesPopulation = () => {
     useEffect(() => {
         const currentPath = window.location.pathname;
         setRecentPageVisited("recentPageVisited", {
-            name: "Covid-19",
+            name: "States-Covid19",
             url: currentPath,
         });
     }, []);

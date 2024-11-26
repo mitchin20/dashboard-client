@@ -1,19 +1,20 @@
-// src/index.js or src/App.js
 import "./index.css";
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const Home = lazy(() => import("./modules/home/Home"));
-// const Dashboard = lazy(() => import("./modules/dashboard/Dashboard"));
 const AdminDashboard = lazy(
     () => import("./modules/admin_dashboard/AdminDashboard")
 );
 const DefaultAdminDashboard = lazy(
     () => import("./modules/admin_dashboard/pages/DefaultAdminDashboard")
 );
-const CovidData = lazy(
-    () => import("./modules/admin_dashboard/pages/CovidData")
+const StatesCovidData = lazy(
+    () => import("./modules/admin_dashboard/pages/StatesCovidData")
+);
+const CountyCovidData = lazy(
+    () => import("./modules/admin_dashboard/pages/CountyCovidData")
 );
 
 function App() {
@@ -29,10 +30,13 @@ function App() {
                             element={<AdminDashboard />}
                         >
                             <Route index element={<DefaultAdminDashboard />} />
-                            <Route path="covid19" element={<CovidData />} />
                             <Route
-                                path="weather"
-                                element={<div>Weather</div>}
+                                path="states-covid19"
+                                element={<StatesCovidData />}
+                            />
+                            <Route
+                                path="county-covid19"
+                                element={<CountyCovidData />}
                             />
                             <Route path="charts" element={<div>Charts</div>} />
                         </Route>

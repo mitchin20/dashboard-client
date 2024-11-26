@@ -54,20 +54,15 @@ const TextInput = forwardRef<
         },
         ref
     ) => {
-        const [currentValue, setCurrentValue] = useState<string>(value);
-        const [isFilled, setIsFilled] = useState<boolean>(!!value);
-        const [wordCount, setWordCount] = useState<number>(0);
+        const [localValue, setLocalValue] = useState<string>(value);
+        const [wordCount, setWordCount] = useState<number>(value.length);
         const [isLimitExceeded, setIsLimitExceeded] = useState<boolean>(false);
 
-        // Calculate word count in the textarea input field
+        // Sync local state with value prop when it changes
         useEffect(() => {
-            if (value) {
-                const count = value.length;
-                setWordCount(count);
-                setIsLimitExceeded(count > maxChars);
-            } else {
-                setWordCount(0);
-            }
+            setLocalValue(value);
+            setWordCount(value.length);
+            setIsLimitExceeded(value.length > maxChars);
         }, [value, maxChars]);
 
         const handleOnChange = (
@@ -77,14 +72,16 @@ const TextInput = forwardRef<
 
             // Enforce max character limit
             if (newValue.length <= maxChars) {
-                setCurrentValue(newValue);
+                setLocalValue(newValue);
                 setWordCount(newValue.length);
-                setIsLimitExceeded(newValue.length > maxChars);
+                setIsLimitExceeded(false);
 
                 // Call the external onChange handler if provided
                 if (onChange) {
                     onChange(event);
                 }
+            } else {
+                setIsLimitExceeded(true);
             }
         };
 
@@ -94,33 +91,37 @@ const TextInput = forwardRef<
                     <textarea
                         id={id}
                         placeholder={placeholder}
-                        value={currentValue}
+                        value={localValue}
                         onChange={handleOnChange}
                         name={name}
                         disabled={disabled}
                         required={required}
                         rows={rows}
                         ref={ref as React.Ref<HTMLTextAreaElement>}
-                        className={`border-solid border-2 rounded-lg p-2 w-full shadow-lg peer focus:outline-none resize-none ${error ? "border-red-500" : "border-gray-400"} ${disabled ? "bg-gray-100" : ""} ${className}`}
+                        className={`border-solid border-2 rounded-lg p-2 w-full shadow-lg peer focus:outline-none resize-none ${
+                            error ? "border-red-500" : "border-gray-400"
+                        } ${disabled ? "bg-gray-100" : ""} ${className}`}
                     />
                 ) : (
                     <input
                         id={id}
                         type={type}
                         placeholder={placeholder}
-                        value={value}
+                        value={localValue}
                         onChange={handleOnChange}
                         name={name}
                         disabled={disabled}
                         required={required}
                         ref={ref as React.Ref<HTMLInputElement>}
-                        className={`border-solid border-2 rounded-lg p-2 w-full shadow-lg peer focus:outline-none ${error ? "border-red-500" : "border-gray-400"} ${disabled ? "bg-gray-100" : ""} ${className}`}
+                        className={`border-solid border-2 rounded-lg p-2 w-full shadow-lg peer focus:outline-none ${
+                            error ? "border-red-500" : "border-gray-400"
+                        } ${disabled ? "bg-gray-100" : ""} ${className}`}
                     />
                 )}
                 <label
                     htmlFor={id}
                     className={`absolute left-2 text-gray-400 bg-white px-2 transition-all duration-200 transform ${
-                        isFilled
+                        localValue
                             ? "top-0 scale-75 -translate-y-3"
                             : "top-1/2 scale-100 -translate-y-1/2"
                     } pointer-events-none ${
@@ -136,9 +137,11 @@ const TextInput = forwardRef<
                 </label>
                 {multiline && (
                     <p
-                        className={`text-sm mt-1 ${isLimitExceeded ? "text-red-500" : "text-gray-500"}`}
+                        className={`text-sm mt-1 ${
+                            isLimitExceeded ? "text-red-500" : "text-gray-500"
+                        }`}
                     >
-                        {wordCount}/{maxChars} words
+                        {wordCount}/{maxChars} characters
                     </p>
                 )}
                 {error && typeof error === "string" && (
@@ -148,4 +151,5 @@ const TextInput = forwardRef<
         );
     }
 );
+
 export default memo(TextInput);
