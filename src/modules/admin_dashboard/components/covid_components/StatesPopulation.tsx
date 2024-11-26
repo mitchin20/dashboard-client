@@ -7,28 +7,19 @@ import {
     useMemo,
     useState,
 } from "react";
-import axios from "axios";
 import {
     DataGrid,
     GridRowParams,
     GridToolbar,
     GridValueOptionsParams,
 } from "@mui/x-data-grid";
-import {
-    getSessionStorage,
-    setSessionStorage,
-} from "../../../../helpers/sessionStorage";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { setRecentPageVisited } from "../../../../helpers/recentPageVisited";
 import { queryUsStatesCovidData } from "../../utils/queryUsStatesCovidData";
+import { queryCovidTrendsData } from "../../utils/queryCovidTrendsData";
 
 const StatePopulationDetails = lazy(() => import("./StatePopulationDetails"));
 const CovidTrends = lazy(() => import("./CovidTrends"));
-
-const ttl = 10 * 60 * 1000;
-
-const API_URL =
-    process.env.NEXT_PUBLIC_SERVER_URL || process.env.REACT_APP_SERVER_URL;
 
 const StatesPopulation = () => {
     const { theme, winSize } = useContext(ThemeContext);
@@ -51,33 +42,7 @@ const StatesPopulation = () => {
 
     // Fetch CovidTrends data
     useEffect(() => {
-        if (selectedData) {
-            const cachedTrendsData: any = getSessionStorage(
-                `covid-trends-${selectedData.state}`
-            );
-            if (cachedTrendsData) {
-                setCovidTrendsData(cachedTrendsData);
-                return;
-            }
-
-            const fetchCovidTrendsData = async () => {
-                try {
-                    const response = await axios.get(
-                        `${API_URL}/monthly-state-metrics-timeseries/${selectedData.state}`
-                    );
-                    setCovidTrendsData(response.data.data);
-                    setSessionStorage(
-                        `covid-trends-${selectedData.state}`,
-                        response.data.data,
-                        ttl
-                    );
-                } catch (error) {
-                    console.error("Error fetching Covid trends data:", error);
-                }
-            };
-
-            fetchCovidTrendsData();
-        }
+        queryCovidTrendsData({ selectedData, setCovidTrendsData });
     }, [selectedData]);
 
     const handleShowDetails = (params: GridRowParams) => {
@@ -203,25 +168,7 @@ const StatesPopulation = () => {
                 />
             </div>
 
-            <div className="my-10 w-[100%] md:w-[50%] mx-auto text-sm xxs:text-xs">
-                <p>
-                    The COVID-19 metrics reflect various aspects of the
-                    pandemic's impact, including the level of community
-                    transmission, healthcare capacity, and the effectiveness of
-                    contact tracing efforts. These data points help assess the
-                    current risk level, healthcare strain, and readiness of
-                    public health systems to manage the ongoing situation.
-                    Tracking positivity rates, case density, hospital and ICU
-                    usage, as well as infection trends, provides a comprehensive
-                    view of the pandemic’s evolving dynamics in each state.
-                </p>
-                <p className="my-3">
-                    Select a state from the table to view more details.
-                </p>
-            </div>
-
-            {detailsVisible &&
-                memoizedSelectedData &&
+            {detailsVisible && memoizedSelectedData ? (
                 Object.entries(memoizedSelectedData).length > 0 && (
                     <Suspense fallback={<div>Loading details...</div>}>
                         <StatePopulationDetails
@@ -237,7 +184,26 @@ const StatesPopulation = () => {
                             </Suspense>
                         </StatePopulationDetails>
                     </Suspense>
-                )}
+                )
+            ) : (
+                <div className="my-10 w-[100%] md:w-[50%] mx-auto text-sm xxs:text-xs">
+                    <p>
+                        The COVID-19 metrics reflect various aspects of the
+                        pandemic's impact, including the level of community
+                        transmission, healthcare capacity, and the effectiveness
+                        of contact tracing efforts. These data points help
+                        assess the current risk level, healthcare strain, and
+                        readiness of public health systems to manage the ongoing
+                        situation. Tracking positivity rates, case density,
+                        hospital and ICU usage, as well as infection trends,
+                        provides a comprehensive view of the pandemic’s evolving
+                        dynamics in each state.
+                    </p>
+                    <p className="my-3">
+                        Select a state from the table to view more details.
+                    </p>
+                </div>
+            )}
         </div>
     );
 };
