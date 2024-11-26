@@ -7,19 +7,20 @@ import {
     useMemo,
     useState,
 } from "react";
+import axios from "axios";
 import {
     DataGrid,
     GridRowParams,
     GridToolbar,
     GridValueOptionsParams,
 } from "@mui/x-data-grid";
-import { ThemeContext } from "../../../../context/ThemeContext";
 import {
     getSessionStorage,
     setSessionStorage,
 } from "../../../../helpers/sessionStorage";
-import axios from "axios";
+import { ThemeContext } from "../../../../context/ThemeContext";
 import { setRecentPageVisited } from "../../../../helpers/recentPageVisited";
+import { queryUsStatesCovidData } from "../../utils/queryUsStatesCovidData";
 
 const StatePopulationDetails = lazy(() => import("./StatePopulationDetails"));
 const CovidTrends = lazy(() => import("./CovidTrends"));
@@ -30,13 +31,12 @@ const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL || process.env.REACT_APP_SERVER_URL;
 
 const StatesPopulation = () => {
-    const { theme } = useContext(ThemeContext);
+    const { theme, winSize } = useContext(ThemeContext);
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [selectedData, setSelectedData] = useState<any>(null);
     const [covidTrendsData, setCovidTrendsData] = useState<any>(null);
     const [detailsVisible, setDetailsVisible] = useState<boolean>(false);
-    const [winSize, setWinSize] = useState<number>(window.innerWidth);
     const [columnVisibilityModel, setColumnVisibilityModel] = useState<
         Record<string, boolean>
     >({
@@ -46,38 +46,7 @@ const StatesPopulation = () => {
     });
 
     useEffect(() => {
-        setLoading(true);
-        const fetchData = async () => {
-            // local cache if page refreshing
-            const cachedData: any = getSessionStorage("all-states-covid-data");
-            if (cachedData) {
-                // return cachedData;
-                setData(cachedData);
-            }
-
-            try {
-                const response = await axios.get(
-                    `${API_URL}/all-us-states-covid-data`
-                );
-
-                if (Array.isArray(response.data.data)) {
-                    setSessionStorage(
-                        "all-states-covid-data",
-                        response.data.data,
-                        ttl
-                    );
-                    setData(response.data.data);
-                } else {
-                    setData([]);
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
+        queryUsStatesCovidData({ setData, setLoading });
     }, []);
 
     // Fetch CovidTrends data
@@ -155,23 +124,12 @@ const StatesPopulation = () => {
     ];
 
     useEffect(() => {
-        const handleResize = () => {
-            const newWinSize = window.innerWidth;
-            setWinSize(newWinSize);
-            // Update column visibility based on new window size
-            setColumnVisibilityModel({
-                cdcTransmissionLevel: newWinSize >= 768,
-                "actuals.cases": newWinSize >= 768,
-                "actuals.deaths": newWinSize >= 768,
-            });
-        };
-
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+        setColumnVisibilityModel({
+            cdcTransmissionLevel: winSize >= 768,
+            "actuals.cases": winSize >= 768,
+            "actuals.deaths": winSize >= 768,
+        });
+    }, [winSize]);
 
     useEffect(() => {
         const currentPath = window.location.pathname;
