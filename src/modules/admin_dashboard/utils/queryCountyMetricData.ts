@@ -37,7 +37,7 @@ export const getCountyMetricData = async ({
         );
         if (cachedData) {
             setCountyData(cachedData);
-            setMessage("County covid data");
+            setMessage("Successfully fetch data");
             return;
         }
 
@@ -61,11 +61,7 @@ export const getCountyMetricData = async ({
             ttl
         );
         setCountyData(responseData?.data?.data);
-        if (responseData?.message) {
-            setMessage(responseData?.message);
-        } else {
-            setMessage("County covid data");
-        }
+        setMessage("Successfully fetch data");
     } catch (error) {
         console.error(error);
         setErrorMessage("Failed to fetch county data");
