@@ -1,4 +1,5 @@
 import React, { useEffect, useState, memo, forwardRef } from "react";
+import { TextInputProps } from "../../types";
 
 // type: Allow the component to support different input types, such as "text", "password", "email", etc.
 // placeholder: Optionally show placeholder text if the label is not enough or for accessibility.
@@ -10,26 +11,6 @@ import React, { useEffect, useState, memo, forwardRef } from "react";
 // className: Allow for custom styling or additional classes to be passed to the component.
 // multiline: New prop to switch between input and textarea
 // rows: Rows for textarea
-
-export interface TextInputProps {
-    label?: string;
-    value?: string;
-    onChange?: (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => void;
-    type?: string;
-    placeholder?: string;
-    name?: string;
-    id?: string;
-    disabled?: boolean;
-    error?: string | boolean;
-    required?: boolean;
-    className?: string;
-    multiline?: boolean;
-    rows?: number;
-    maxChars?: number;
-    ref?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
-}
 
 const TextInput = forwardRef<
     HTMLInputElement | HTMLTextAreaElement,

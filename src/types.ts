@@ -239,3 +239,23 @@ export interface DownloadResponse {
 export interface CountyMetricsProps {
     data: any;
 }
+
+export interface TextInputProps {
+    label?: string;
+    value?: string;
+    onChange?: (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void;
+    type?: string;
+    placeholder?: string;
+    name?: string;
+    id?: string;
+    disabled?: boolean;
+    error?: string | boolean;
+    required?: boolean;
+    className?: string;
+    multiline?: boolean;
+    rows?: number;
+    maxChars?: number;
+    ref?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
+}

@@ -58,6 +58,10 @@ const Snackbar: React.FC<SnackbarProps> = ({
         }
     }, [open, autoHideDuration, onClose]);
 
+    if (!open) {
+        return null;
+    }
+
     return (
         <div
             className={`fixed inset-x-0 flex items-start justify-center mx-auto max-w-xs ${textStyle()} ${positionStyle()} border-solid border-2 px-4 py-2 rounded-2xl transform duration-500 animate-slideIn z-2 shadow-lg shadow-gray-600 bg-white ${className}`}
