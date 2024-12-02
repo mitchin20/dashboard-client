@@ -4,6 +4,7 @@ import { Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { menuItemStyles } from "../themes";
 import BuildIcon from "../../../../svgIcons/BuildIcon";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import GamesIcon from "../../../../svgIcons/GamesIcon";
 
 interface SidebarMenuProps {
     collapsed?: boolean;
@@ -17,6 +18,13 @@ const menuItems = [
     {
         label: "County Data",
         to: "county-covid19",
+    },
+];
+
+const menuItems2 = [
+    {
+        label: "Bingo",
+        to: "bingo",
     },
 ];
 
@@ -62,6 +70,24 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
                 >
                     Extra
                 </h6> */}
+            </Menu>
+
+            <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+                <SubMenu
+                    label="Family Times"
+                    icon={<GamesIcon className="h-6 w-6" />}
+                >
+                    {menuItems2 &&
+                        menuItems2.map((item, index) => (
+                            <MenuItem
+                                key={index}
+                                component={<RouterLink to={item.to} />}
+                                className=""
+                            >
+                                {item.label}
+                            </MenuItem>
+                        ))}
+                </SubMenu>
             </Menu>
         </div>
     );
