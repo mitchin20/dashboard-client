@@ -181,7 +181,7 @@ const BingoGame: React.FC = () => {
         <div>
             <div className="grid grid-cols-12 gap-5 mt-10">
                 <div
-                    className={`flex flex-col col-span-2 xs:col-span-12 xs:flex-row xs:justify-center xs:items-center xxs:col-span-12 xxs:flex-row xxs:justify-center xxs:items-center gap-10`}
+                    className={`flex flex-row lg:flex-col lg:col-span-2 xxs:col-span-12 xxs:flex-row col-span-12 justify-center items-center gap-10`}
                 >
                     <button
                         onClick={toggleGame}
@@ -232,7 +232,7 @@ const BingoGame: React.FC = () => {
                 )}
 
                 <div
-                    className={`col-span-10 xs:col-span-12 xs:place-items-center xxs:col-span-12 xxs:place-items-center`}
+                    className={`col-span-12 lg:col-span-10 place-items-center`}
                 >
                     <GameBoard
                         gameNumbers={gameNumbers}
