@@ -16,9 +16,8 @@ const StatesCovidData = lazy(
 const CountyCovidData = lazy(
     () => import("./modules/admin_dashboard/pages/CountyCovidData")
 );
-
-const BingoGame = lazy(
-    () => import("./modules/admin_dashboard/pages/BingoGame")
+const BingoGame2 = lazy(
+    () => import("./modules/admin_dashboard/pages/BingoGame2")
 );
 
 function App() {
@@ -42,7 +41,7 @@ function App() {
                                 path="county-covid19"
                                 element={<CountyCovidData />}
                             />
-                            <Route path="bingo" element={<BingoGame />} />
+                            <Route path="bingo" element={<BingoGame2 />} />
                         </Route>
                     </Routes>
                 </Suspense>
