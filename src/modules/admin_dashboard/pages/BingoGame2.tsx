@@ -5,12 +5,15 @@ import React, {
     useMemo,
     useCallback,
     useRef,
+    useContext,
 } from "react";
 import TextInput from "../../components/TextInput";
 import { styled } from "@mui/material";
 import { getBingoLetter } from "../../../helpers/getBingoLetter";
 import { useCachedVoices } from "../../../helpers/cacheVoices";
 import useBingoSpeech from "../../../helpers/useBingoSpeech";
+import { ThemeContext } from "../../../context/ThemeContext";
+import Tooltip from "../../components/Tooltip";
 
 const Countdown = lazy(
     () => import("../components/bingo_game_components/Countdown")
@@ -37,6 +40,8 @@ const ButtonStyled = styled("button")(({ disabled }) => ({
 type IntervalId = ReturnType<typeof setInterval> | null;
 
 const BingoGame: React.FC = () => {
+    const { theme, winSize } = useContext(ThemeContext);
+
     // Game Control States
     const [isGameActive, setIsGameActive] = useState<boolean>(false);
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
@@ -104,6 +109,26 @@ const BingoGame: React.FC = () => {
         setIsGameActive((prev) => !prev);
     };
 
+    // Add event listener for spacebar key to toggle game start/stop
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.code === "Space") {
+                event.preventDefault(); // Prevent the page from scrolling
+                toggleGame();
+            }
+        };
+
+        // Add keydown event listener when game is not over
+        if (!isGameOver) {
+            window.addEventListener("keydown", handleKeyDown);
+        }
+
+        // Cleanup function to remove the event listener when the component unmounts or game state changes
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isGameActive, isGameOver]);
+
     // Function to reset the game
     const resetGame = () => {
         setIsGameActive(false);
@@ -150,17 +175,26 @@ const BingoGame: React.FC = () => {
         vietnameseVoice,
     });
 
+    const xsScreen = winSize && winSize <= 640;
+
     return (
         <div>
             <div className="grid grid-cols-12 gap-5 mt-10">
-                <div className="flex flex-col col-span-2 gap-10">
-                    <ButtonStyled
+                <div
+                    className={`flex flex-col col-span-2 xs:col-span-12 xs:flex-row xs:justify-center xs:items-center xxs:col-span-12 xxs:flex-row xxs:justify-center xxs:items-center gap-10`}
+                >
+                    <button
                         onClick={toggleGame}
                         disabled={isGameOver}
-                        className="md:!text-lg"
+                        className={`border rounded-full p-2 text-base xl:text-2xl font-semibold shadow-md ${theme === "dark" ? "text-white" : "text-black"}`}
                     >
-                        {isGameActive ? "Stop" : "Start"} Game
-                    </ButtonStyled>
+                        <Tooltip
+                            content="Use mouse or Spacebar to toggle"
+                            position="right"
+                        >
+                            {isGameActive ? "Stop" : "Start"} Game
+                        </Tooltip>
+                    </button>
                     <TextInput
                         label="Timer"
                         type="text"
@@ -168,15 +202,38 @@ const BingoGame: React.FC = () => {
                         onChange={handleTimerInput}
                         disabled={isGameActive}
                     />
-                    <ButtonStyled
+                    <button
                         onClick={() => resetGame()}
                         type="reset"
-                        className="md:!text-lg"
+                        className={`border rounded-full p-2 text-base xl:text-2xl font-semibold shadow-md ${theme === "dark" ? "text-white" : "text-black"}`}
                     >
                         Reset Game
-                    </ButtonStyled>
+                    </button>
                 </div>
-                <div className="col-span-10">
+
+                {xsScreen && (
+                    <div className="col-span-12 place-items-center text-center">
+                        <div
+                            className={`col-span-3 xs:col-span-12 xs:mt-10 xxs:col-span-12 xxs:mt-10`}
+                        >
+                            <Countdown
+                                isGameActive={isGameActive}
+                                timer={timer}
+                            />
+                        </div>
+                        <h2
+                            className={`${theme === "dark" ? "text-white" : "text-green-600"} col-span-9 xs:col-span-12 xxs:col-span-12 xxs:mt-5 font-bold mb-2 xxs:text-7xl xs:text-[150px] md:text-[200px] lg:text-[280px]`}
+                        >
+                            {currentNumber !== null &&
+                                getBingoLetter(currentNumber).toUpperCase()}
+                            -{currentNumber !== null ? currentNumber : "-"}
+                        </h2>
+                    </div>
+                )}
+
+                <div
+                    className={`col-span-10 xs:col-span-12 xs:place-items-center xxs:col-span-12 xxs:place-items-center`}
+                >
                     <GameBoard
                         gameNumbers={gameNumbers}
                         rolledNumbers={rolledNumbers}
@@ -184,16 +241,22 @@ const BingoGame: React.FC = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-12 place-items-center text-center">
-                <h2 className=" col-span-9 text-[280px] text-red-600 font-bold mb-2 md:text-[200px]">
-                    {currentNumber !== null &&
-                        getBingoLetter(currentNumber).toUpperCase()}
-                    -{currentNumber !== null ? currentNumber : "-"}
-                </h2>
-                <div className="col-span-3">
-                    <Countdown isGameActive={isGameActive} timer={timer} />
+            {!xsScreen && (
+                <div className="grid grid-cols-12 place-items-center text-center">
+                    <div
+                        className={`col-span-3 xs:col-span-12 xs:mt-10 xxs:col-span-12 xxs:mt-10`}
+                    >
+                        <Countdown isGameActive={isGameActive} timer={timer} />
+                    </div>
+                    <h2
+                        className={`${theme === "dark" ? "text-white" : "text-green-600"} col-span-9 xs:col-span-12 xxs:col-span-12 xxs:mt-5 font-bold mb-2 xxs:text-7xl xs:text-[150px] md:text-[200px] lg:text-[280px]`}
+                    >
+                        {currentNumber !== null &&
+                            getBingoLetter(currentNumber).toUpperCase()}
+                        -{currentNumber !== null ? currentNumber : "-"}
+                    </h2>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

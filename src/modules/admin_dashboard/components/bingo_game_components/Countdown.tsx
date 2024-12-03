@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 interface CountdownProps {
     isGameActive: boolean;
@@ -6,6 +7,7 @@ interface CountdownProps {
 }
 
 const Countdown: React.FC<CountdownProps> = ({ isGameActive, timer }) => {
+    const { theme } = useContext(ThemeContext);
     const [currentTimer, setCurrentTimer] = useState<number>(timer);
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const Countdown: React.FC<CountdownProps> = ({ isGameActive, timer }) => {
 
     return (
         <div
-            className={`p-10 border rounded-2xl text-9xl font-bold text-blue-600 md:text-7xl`}
+            className={`p-10 border rounded-2xl text-9xl font-bold ${theme === "dark" ? "text-white bg-green-400" : "text-red-500 bg-gray-200"} xxs:p-5 xxs:text-5xl xs:p-5 xs:text-5xl md:text-7xl shadow-xl`}
         >
             {currentTimer}
         </div>
