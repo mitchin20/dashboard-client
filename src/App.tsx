@@ -19,6 +19,9 @@ const CountyCovidData = lazy(
 const BingoGame2 = lazy(
     () => import("./modules/admin_dashboard/pages/BingoGame2")
 );
+const BauCuaTomCa = lazy(
+    () => import("./modules/admin_dashboard/pages/BauCuaTomCa")
+);
 
 function App() {
     return (
@@ -42,6 +45,10 @@ function App() {
                                 element={<CountyCovidData />}
                             />
                             <Route path="bingo" element={<BingoGame2 />} />
+                            <Route
+                                path="bau-cua-tom-ca"
+                                element={<BauCuaTomCa />}
+                            />
                         </Route>
                     </Routes>
                 </Suspense>

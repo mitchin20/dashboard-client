@@ -22,21 +22,6 @@ const GameBoard = lazy(
     () => import("../components/bingo_game_components/GameBoard")
 );
 
-const ButtonStyled = styled("button")(({ disabled }) => ({
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    padding: "0.5rem 1rem",
-    border: "1px solid #ccc",
-    borderRadius: "50px",
-    cursor: disabled ? "not-allowed" : "pointer",
-    textAlign: "center",
-    backgroundColor: disabled ? "#e0e0e0" : "initial",
-    color: disabled ? "#999" : "initial",
-    "&:hover": {
-        backgroundColor: disabled ? "#e0e0e0" : "#ccc",
-    },
-}));
-
 type IntervalId = ReturnType<typeof setInterval> | null;
 
 const BingoGame: React.FC = () => {

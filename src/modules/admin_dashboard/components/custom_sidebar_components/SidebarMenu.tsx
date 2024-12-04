@@ -26,6 +26,10 @@ const menuItems2 = [
         label: "Bingo",
         to: "bingo",
     },
+    {
+        label: "Bau Cua Tom Ca",
+        to: "bau-cua-tom-ca",
+    },
 ];
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
