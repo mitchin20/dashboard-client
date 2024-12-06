@@ -1,7 +1,8 @@
 import "./index.css";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
+import Loading2 from "./modules/components/Loading2";
 
 const Home = lazy(() => import("./modules/home/Home"));
 const AdminDashboard = lazy(
@@ -24,10 +25,24 @@ const BauCuaTomCa = lazy(
 );
 
 function App() {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) {
+        return <Loading2 />;
+    }
+
     return (
         <ThemeProvider>
             <Router>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Loading2 />}>
                     <Routes>
                         <Route path="/" element={<Home />} />
                         {/* <Route path="/dashboard" element={<Dashboard />} /> */}

@@ -1,0 +1,10 @@
+@keyframes shoot {
+    0% {
+        transform: scaleY(0) rotate(var(--angle)) translateY(100px);
+        opacity: 1;
+    }
+    100% {
+        transform: scaleY(1) rotate(var(--angle)) translateY(100px);
+        opacity: 0;
+    }
+}
