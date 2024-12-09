@@ -23,6 +23,13 @@ const BingoGame2 = lazy(
 const BauCuaTomCa = lazy(
     () => import("./modules/admin_dashboard/pages/BauCuaTomCa")
 );
+const Booking = lazy(() => import("./modules/admin_dashboard/pages/Booking"));
+const Appointments = lazy(
+    () => import("./modules/admin_dashboard/pages/Appointments")
+);
+const OwnerAdmin = lazy(
+    () => import("./modules/admin_dashboard/pages/OwnerAdmin")
+);
 
 function App() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,6 +58,15 @@ function App() {
                             element={<AdminDashboard />}
                         >
                             <Route index element={<DefaultAdminDashboard />} />
+                            <Route path="booking" element={<Booking />} />
+                            <Route
+                                path="appointments"
+                                element={<Appointments />}
+                            />
+                            <Route
+                                path="owner-admin"
+                                element={<OwnerAdmin />}
+                            />
                             <Route
                                 path="states-covid19"
                                 element={<StatesCovidData />}

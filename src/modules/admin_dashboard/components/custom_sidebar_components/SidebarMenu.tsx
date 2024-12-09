@@ -32,6 +32,21 @@ const menuItems2 = [
     },
 ];
 
+const menuItems3 = [
+    {
+        label: "Booking",
+        to: "booking",
+    },
+    {
+        label: "Appointments",
+        to: "appointments",
+    },
+    {
+        label: "Owner Admin",
+        to: "owner-admin",
+    },
+];
+
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
     const { theme } = useContext(ThemeContext);
     return (
@@ -53,6 +68,24 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
             </Menu> */}
 
             {/* Sizebar Menu */}
+            <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+                <SubMenu
+                    label="Bookme"
+                    icon={<GamesIcon className="h-6 w-6" />}
+                >
+                    {menuItems3 &&
+                        menuItems3.map((item, index) => (
+                            <MenuItem
+                                key={index}
+                                component={<RouterLink to={item.to} />}
+                                className=""
+                            >
+                                {item.label}
+                            </MenuItem>
+                        ))}
+                </SubMenu>
+            </Menu>
+
             <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
                 <SubMenu
                     label="States/Counties Summary"
