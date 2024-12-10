@@ -1,8 +1,10 @@
-import { memo, useEffect, useState } from "react";
+import { lazy, memo, useEffect, useState } from "react";
 import { getEmployees } from "../../utils/queryEmployees";
 import Loading from "../../../components/Loading";
 import Tooltip from "../../../components/Tooltip";
 import MuiDrawer from "../../../components/MuiDrawer";
+
+const EmployeeForm = lazy(() => import("./EmployeeForm"));
 
 type EmployeesType = {
     id: number;
@@ -82,7 +84,13 @@ const Employees = () => {
                 }}
             >
                 <div>
-                    <h1>Add new employee</h1>
+                    <h1 className="text-xl font-semibold mb-3">
+                        Add new employee
+                    </h1>
+                    <EmployeeForm
+                        selectedEmployee={selectedEmployee}
+                        handleCloseDrawer={handleCloseUserDrawer}
+                    />
                 </div>
             </MuiDrawer>
         </div>

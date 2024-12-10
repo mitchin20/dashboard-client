@@ -1,3 +1,5 @@
+import plugin from "tailwindcss/plugin";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -35,6 +37,10 @@ module.exports = {
                 "white-gradient-conic":
                     "conic-gradient(white 0%, #f0f0f0 25%, #e0e0e0 50%, #d0d0d0 75%, white 100%)",
             },
+            borderImage: {
+                "gradient-conic":
+                    "conic-gradient(#3b82f6 0%, #a855f7 25%, #ec4899 50%, #f59e0b 75%, #3b82f6 100%)",
+            },
             keyframes: {
                 slideIn: {
                     "0%": {
@@ -57,5 +63,18 @@ module.exports = {
             },
         },
     },
-    plugins: [],
+    variants: {
+        borderGradient: ["responsive"],
+    },
+    plugins: [
+        plugin(function ({ addUtilities }) {
+            addUtilities({
+                ".border-gradient-conic": {
+                    "border-image-source":
+                        "conic-gradient(#3b82f6 0%, #a855f7 25%, #ec4899 50%, #f59e0b 75%, #3b82f6 100%)",
+                    "border-image-slice": "1",
+                },
+            });
+        }),
+    ],
 };
