@@ -3,6 +3,7 @@ import { getEmployees } from "../../utils/queryEmployees";
 import Loading from "../../../components/Loading";
 import Tooltip from "../../../components/Tooltip";
 import MuiDrawer from "../../../components/MuiDrawer";
+import Snackbar from "../../../components/Snackbar";
 
 const EmployeeForm = lazy(() => import("./EmployeeForm"));
 
@@ -20,6 +21,8 @@ const Employees = () => {
     const [employees, setEmployees] = useState<EmployeesType[]>([]);
     const [selectedEmployee, setSelectedEmployee] =
         useState<EmployeesType | null>(null);
+    const [message, setMessage] = useState<string | null>("");
+    const [errorMessage, setErrorMessage] = useState<string | null>("");
     const [loading, setLoading] = useState<boolean>(true);
     const [showUserDrawer, setShowUserDrawer] = useState<boolean>(false);
 
@@ -36,15 +39,28 @@ const Employees = () => {
     };
 
     useEffect(() => {
-        getEmployees({ setEmployees, setLoading });
+        getEmployees({ setEmployees, setLoading, ignoreCache: false });
     }, []);
 
-    console.log("employees: ", selectedEmployee);
+    const refetchEmployees = async () => {
+        getEmployees({ setEmployees, setLoading, ignoreCache: true });
+    };
+
+    // console.log("employees: ", selectedEmployee);
 
     if (loading) return <Loading />;
 
     return (
         <div>
+            {message && (
+                <Snackbar
+                    message={message}
+                    open={!!message}
+                    severity="success"
+                    onClose={() => setMessage("")}
+                    autoHideDuration={3000}
+                />
+            )}
             <div className="flex justify-between">
                 <h4 className="text-lg text-emerald-900 font-semibold">
                     Employees
@@ -90,6 +106,11 @@ const Employees = () => {
                     <EmployeeForm
                         selectedEmployee={selectedEmployee}
                         handleCloseDrawer={handleCloseUserDrawer}
+                        refetchEmployees={refetchEmployees}
+                        isSuccess={!!message}
+                        setMessage={setMessage}
+                        errorMessage={errorMessage}
+                        setErrorMessage={setErrorMessage}
                     />
                 </div>
             </MuiDrawer>

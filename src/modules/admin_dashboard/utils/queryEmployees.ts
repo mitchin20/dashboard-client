@@ -11,6 +11,7 @@ const ttl = 10 * 60 * 1000;
 type QueryEmployeesType = {
     setEmployees: (data: any) => void;
     setLoading: (data: boolean) => void;
+    ignoreCache: boolean;
 };
 
 type Employees = {
@@ -26,11 +27,12 @@ type Employees = {
 export const getEmployees = async ({
     setEmployees,
     setLoading,
+    ignoreCache,
 }: QueryEmployeesType): Promise<void> => {
     try {
         setLoading(true);
         const cachedEmployees: Employees[] = getSessionStorage("employees");
-        if (cachedEmployees) {
+        if (cachedEmployees && !ignoreCache) {
             setEmployees(cachedEmployees);
             return;
         }

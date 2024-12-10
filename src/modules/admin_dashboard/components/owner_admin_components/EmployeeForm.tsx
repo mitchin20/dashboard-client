@@ -1,19 +1,38 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import TextInput from "../../../components/TextInput";
 import { Sketch } from "@uiw/react-color";
 import { trimInputsValue } from "../../../home/utils/trimInputValue";
 import Snackbar from "../../../components/Snackbar";
 import Loading from "../../../components/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import { createEmployeeQuery } from "../../utils/createEmployeeQuery";
+
+type Employee = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    color: string;
+};
 
 interface EmployeeFormProps {
     selectedEmployee?: any | null;
     handleCloseDrawer: () => void;
+    refetchEmployees: () => void;
+    isSuccess: boolean;
+    setMessage: (message: string) => void;
+    errorMessage: string | null;
+    setErrorMessage: (message: string) => void;
 }
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({
     selectedEmployee,
     handleCloseDrawer,
+    refetchEmployees,
+    isSuccess,
+    setMessage,
+    errorMessage,
+    setErrorMessage,
 }) => {
     const { winSize } = useContext(ThemeContext);
     const firstNameRef = useRef<HTMLInputElement | null>(null);
@@ -21,7 +40,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
     const emailRef = useRef<HTMLInputElement | null>(null);
     const phoneRef = useRef<HTMLInputElement | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string | null>("");
     const [color, setColor] = useState<string>("#c2c2c2");
 
     const handleColorChange = (color: any) => {
@@ -36,7 +54,9 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         }
     };
 
-    const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleFormSubmit = async (
+        event: React.FormEvent<HTMLFormElement>
+    ) => {
         event.preventDefault();
 
         // Handle form submission here
@@ -46,9 +66,17 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             const payload = Object.fromEntries(formData);
             payload.color = color;
 
-            const processedPayload = trimInputsValue(payload);
+            const processedPayload = trimInputsValue(payload) as Employee;
 
-            console.log(processedPayload);
+            const res = await createEmployeeQuery({
+                data: processedPayload,
+                setErrorMessage,
+                setMessage,
+                setLoading,
+                refetchEmployees,
+            });
+
+            console.log("res", res);
         } catch (error) {
             console.error("Error processing form data:", error);
             setErrorMessage("Error processing form data");
@@ -60,21 +88,32 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             clearInput(phoneRef);
             // Reset color to default color
             setColor("#c2c2c2");
-            // Clear error message
-            setErrorMessage(null);
-            // Reset loading state
-            setLoading(false);
         }
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            handleCloseDrawer();
+        }
+    }, [isSuccess]);
 
     if (loading) return <Loading />;
 
     const lgScreen = winSize && winSize >= 768;
 
     return (
-        <form onSubmit={handleFormSubmit} className="transform duration-500">
+        <form
+            id="employee-form"
+            aria-hidden="true"
+            onSubmit={handleFormSubmit}
+            className="transform duration-500"
+        >
             {errorMessage && (
-                <Snackbar message={errorMessage} open={!!errorMessage} />
+                <Snackbar
+                    message={errorMessage}
+                    open={!!errorMessage}
+                    severity="error"
+                />
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 xxs:grid-cols-1 gap-3">
                 <div className="flex flex-col justify-center">
