@@ -20,6 +20,7 @@ import {
     FieldDirty,
     FormMode,
 } from "../../../../types";
+import { updateEmployeeQuery } from "../../utils/updateEmployeeQuery";
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({
     selectedEmployee,
@@ -162,8 +163,14 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
                 selectedEmployee &&
                 hasChanges
             ) {
-                // Handle edit logic here
-                console.log("Editing employee:", processedPayload);
+                await updateEmployeeQuery({
+                    employeeId: selectedEmployee.id,
+                    data: processedPayload,
+                    setErrorMessage,
+                    setMessage,
+                    setLoading,
+                    refetchEmployees,
+                });
             }
         } catch (error) {
             console.error("Error processing form data:", error);
