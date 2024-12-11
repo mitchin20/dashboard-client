@@ -121,6 +121,7 @@ export interface MuiDrawerProps {
     open?: boolean;
     onClose?: () => void;
     PaperProps?: any;
+    ModalProps?: any;
     props?: any;
 }
 
@@ -258,4 +259,47 @@ export interface TextInputProps {
     rows?: number;
     maxChars?: number;
     ref?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
+}
+
+export type EmployeeInput = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    color: string;
+};
+
+export type EmployeeDetail = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    color: string;
+    phone: string;
+    email: string;
+};
+
+export enum FormMode {
+    CREATE = "create",
+    EDIT = "edit",
+    READONLY = "readonly",
+}
+
+export interface FieldDirty {
+    firstName: boolean;
+    lastName: boolean;
+    email: boolean;
+    phone: boolean;
+}
+
+export interface EmployeeFormProps {
+    selectedEmployee?: any | null;
+    handleCloseDrawer: () => void;
+    refetchEmployees: () => void;
+    isSuccess: boolean;
+    setMessage: (message: string) => void;
+    errorMessage: string | null;
+    setErrorMessage: (message: string) => void;
+    formMode: FormMode;
+    setFormMode: (mode: FormMode) => void;
 }

@@ -50,7 +50,7 @@ const Tooltip: React.FC<TooltipProps> = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            {children}
+            <div className="flex justify-center items-center">{children}</div>
             {visible && (
                 <div
                     className={`absolute whitespace-nowrap bg-gray-500 text-white text-sm px-3 py-1 rounded shadow-lg ${positionClasses[position]} ${className} z-50`}

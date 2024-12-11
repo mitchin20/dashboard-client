@@ -7,6 +7,7 @@ const MuiDrawer: React.FC<MuiDrawerProps> = ({
     open,
     onClose,
     PaperProps,
+    ModalProps,
     children,
     props,
 }) => {
@@ -16,6 +17,12 @@ const MuiDrawer: React.FC<MuiDrawerProps> = ({
             open={open}
             onClose={onClose}
             PaperProps={PaperProps}
+            ModalProps={ModalProps}
+            sx={{
+                "& .MuiDrawer-overlay": {
+                    ariaHidden: "false",
+                },
+            }}
         >
             <Box
                 sx={{
