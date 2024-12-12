@@ -303,3 +303,13 @@ export interface EmployeeFormProps {
     formMode: FormMode;
     setFormMode: (mode: FormMode) => void;
 }
+
+export type EmployeeType = {
+    id: number;
+    fristName: string;
+    lastName: string;
+    fullName: string;
+    color: string;
+    phone: string;
+    email: string;
+};

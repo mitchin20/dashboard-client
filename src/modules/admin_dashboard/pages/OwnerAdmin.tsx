@@ -6,21 +6,19 @@ const Employees = lazy(
 
 const OwnerAdmin = () => {
     return (
-        <div>
-            <h1>Owner Dashboard (In Development)</h1>
-            <div className="grid grid-cols-2 gap-x-5">
-                <div>
-                    <Employees />
-                </div>
-                <div>
-                    <h4 className="text-lg text-emerald-900 font-semibold">
-                        Customers
-                    </h4>
-                </div>
+        <div className="mt-5">
+            <h1 className="text-3xl mb-5">Owner Dashboard (In Development)</h1>
+            <div>
+                <Employees />
             </div>
             <div>
                 <h4 className="text-lg text-emerald-900 font-semibold">
                     Services
+                </h4>
+            </div>
+            <div>
+                <h4 className="text-lg text-emerald-900 font-semibold">
+                    Customers
                 </h4>
             </div>
         </div>

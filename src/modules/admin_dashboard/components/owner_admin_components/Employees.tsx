@@ -1,4 +1,4 @@
-import { lazy, memo, useEffect, useState } from "react";
+import { lazy, memo, useContext, useEffect, useState } from "react";
 import { getEmployees } from "../../utils/queryEmployees";
 import Loading from "../../../components/Loading";
 import Tooltip from "../../../components/Tooltip";
@@ -6,31 +6,27 @@ import MuiDrawer from "../../../components/MuiDrawer";
 import Snackbar from "../../../components/Snackbar";
 import AddIcon from "../../../../svgIcons/AddIcon";
 import DeleteIcon from "../../../../svgIcons/DeleteIcon";
-import { FormMode } from "../../../../types";
+import { EmployeeType, FormMode } from "../../../../types";
+import { deleteEmployeeQuery } from "../../utils/deleteEmployeeQuery";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 const EmployeeForm = lazy(() => import("./EmployeeForm"));
 
-type EmployeesType = {
-    id: number;
-    fristName: string;
-    lastName: string;
-    fullName: string;
-    color: string;
-    phone: string;
-    email: string;
-};
-
 const Employees = () => {
-    const [employees, setEmployees] = useState<EmployeesType[]>([]);
+    const { theme } = useContext(ThemeContext);
+    const [employees, setEmployees] = useState<EmployeeType[]>([]);
     const [selectedEmployee, setSelectedEmployee] =
-        useState<EmployeesType | null>(null);
+        useState<EmployeeType | null>(null);
     const [message, setMessage] = useState<string | null>("");
     const [errorMessage, setErrorMessage] = useState<string | null>("");
+    const [deletedEmployee, setDeletedEmployee] = useState<EmployeeType | null>(
+        null
+    );
     const [loading, setLoading] = useState<boolean>(true);
     const [showUserDrawer, setShowUserDrawer] = useState<boolean>(false);
     const [formMode, setFormMode] = useState<FormMode>(FormMode.CREATE);
 
-    const handleSelectEmployee = (employee: EmployeesType) => {
+    const handleSelectEmployee = (employee: EmployeeType) => {
         setSelectedEmployee(employee);
     };
 
@@ -59,6 +55,17 @@ const Employees = () => {
         getEmployees({ setEmployees, setLoading, ignoreCache: true });
     };
 
+    const handleDeleteEmployee = (employeeId: number) => {
+        deleteEmployeeQuery({
+            employeeId,
+            setErrorMessage,
+            setMessage,
+            setLoading,
+            setDeletedEmployee,
+            refetchEmployees,
+        });
+    };
+
     if (loading) return <Loading />;
 
     return (
@@ -72,11 +79,26 @@ const Employees = () => {
                     autoHideDuration={3000}
                 />
             )}
+
+            {message && deletedEmployee && (
+                <Snackbar
+                    message={`${deletedEmployee.fullName} ${message}`}
+                    open={!!message}
+                    severity="success"
+                    onClose={() => {
+                        setMessage("");
+                        setDeletedEmployee(null);
+                    }}
+                    autoHideDuration={4000}
+                />
+            )}
             <div className="flex justify-between mb-5">
-                <h4 className="text-lg text-emerald-900 font-semibold">
+                <h4
+                    className={`text-lg ${theme === "dark" ? "text-white" : "text-emerald-900"} font-semibold`}
+                >
                     Employees
                 </h4>
-                <Tooltip content="Add new employee" position="bottom">
+                <Tooltip content="Add new employee" position="left">
                     <button
                         type="button"
                         onClick={handleOpenUserDrawer}
@@ -90,7 +112,7 @@ const Employees = () => {
                 {employees.map((employee, index) => (
                     <div
                         key={index}
-                        className="flex justify-between items-center ml-5 p-2 border rounded-lg hover:bg-slate-100"
+                        className={`flex justify-between items-center ml-5 p-2 border rounded-lg ${theme === "dark" ? "hover:bg-slate-400" : "hover:bg-slate-100"}`}
                     >
                         <button
                             onClick={() => handleSelectEmployee(employee)}
@@ -98,12 +120,14 @@ const Employees = () => {
                         >
                             {employee.fullName}
                         </button>
-                        <Tooltip
-                            content="Delete user (In Development)"
-                            position="bottom"
-                        >
-                            <button className="">
-                                <DeleteIcon className="w-6 h-6" />
+                        <Tooltip content="Delete user" position="left">
+                            <button
+                                onClick={() =>
+                                    handleDeleteEmployee(employee.id)
+                                }
+                                className="flex items-center justify-center p-2 border rounded-lg bg-white"
+                            >
+                                <DeleteIcon className="w-4 h-4" />
                             </button>
                         </Tooltip>
                     </div>

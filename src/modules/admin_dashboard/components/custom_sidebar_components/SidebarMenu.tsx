@@ -33,14 +33,14 @@ const menuItems2 = [
 ];
 
 const menuItems3 = [
-    {
-        label: "Booking",
-        to: "booking",
-    },
-    {
-        label: "Appointments",
-        to: "appointments",
-    },
+    // {
+    //     label: "Booking",
+    //     to: "booking",
+    // },
+    // {
+    //     label: "Appointments",
+    //     to: "appointments",
+    // },
     {
         label: "Owner Admin",
         to: "owner-admin",
