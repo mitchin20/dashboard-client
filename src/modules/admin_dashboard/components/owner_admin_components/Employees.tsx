@@ -52,11 +52,11 @@ const Employees = () => {
     }, [selectedEmployee]);
 
     const refetchEmployees = async () => {
-        getEmployees({ setEmployees, setLoading, ignoreCache: true });
+        await getEmployees({ setEmployees, setLoading, ignoreCache: true });
     };
 
-    const handleDeleteEmployee = (employeeId: number) => {
-        deleteEmployeeQuery({
+    const handleDeleteEmployee = async (employeeId: number) => {
+        await deleteEmployeeQuery({
             employeeId,
             setErrorMessage,
             setMessage,

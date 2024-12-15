@@ -38,7 +38,6 @@ export const createEmployeeQuery = async ({
         throw error;
     } finally {
         refetchEmployees();
-        setErrorMessage("");
         setLoading(false);
     }
 };

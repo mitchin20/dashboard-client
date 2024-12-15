@@ -269,23 +269,13 @@ export type EmployeeInput = {
     color: string;
 };
 
-export type EmployeeDetail = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    fullName: string;
-    color: string;
-    phone: string;
-    email: string;
-};
-
 export enum FormMode {
     CREATE = "create",
     EDIT = "edit",
     READONLY = "readonly",
 }
 
-export interface FieldDirty {
+export interface EmployeeFieldDirty {
     firstName: boolean;
     lastName: boolean;
     email: boolean;
@@ -306,10 +296,49 @@ export interface EmployeeFormProps {
 
 export type EmployeeType = {
     id: number;
-    fristName: string;
+    firstName: string;
     lastName: string;
     fullName: string;
     color: string;
     phone: string;
     email: string;
 };
+
+export interface DeleteEmployeeQueryProps {
+    employeeId: number;
+    setErrorMessage: (message: string) => void;
+    setMessage: (message: string) => void;
+    setLoading: (loading: boolean) => void;
+    setDeletedEmployee: (employee: EmployeeType) => void;
+    refetchEmployees: () => void;
+}
+
+export interface ServiceQueryProps {
+    serviceId: number;
+    data: Service;
+    setErrorMessage: (message: string) => void;
+    setMessage: (message: string) => void;
+    setLoading: (loading: boolean) => void;
+    refetchServices: () => void;
+}
+
+export interface ServiceFieldDirty {
+    category: boolean;
+    name: boolean;
+    price: boolean;
+}
+
+export type Service = {
+    category: string;
+    name: string;
+    price: number;
+};
+
+export interface DeleteServiceQueryProps {
+    serviceId: number;
+    setErrorMessage: (message: string) => void;
+    setMessage: (message: string) => void;
+    setLoading: (loading: boolean) => void;
+    setDeletedService: (service: any) => void;
+    refetchServices: () => void;
+}

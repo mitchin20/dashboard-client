@@ -1,19 +1,12 @@
 import axios from "axios";
+import { EmployeeInput } from "../../../types";
 
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL || process.env.REACT_APP_SERVER_URL;
 
-type Employee = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    color: string;
-};
-
 interface EmployeeQueryProps {
     employeeId: number;
-    data: Employee;
+    data: EmployeeInput;
     setErrorMessage: (message: string) => void;
     setMessage: (message: string) => void;
     setLoading: (loading: boolean) => void;

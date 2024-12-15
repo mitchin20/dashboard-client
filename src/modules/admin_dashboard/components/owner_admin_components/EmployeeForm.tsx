@@ -14,10 +14,10 @@ import { ThemeContext } from "../../../../context/ThemeContext";
 import { createEmployeeQuery } from "../../utils/createEmployeeQuery";
 import Tooltip from "../../../components/Tooltip";
 import {
-    EmployeeDetail,
+    EmployeeType,
     EmployeeFormProps,
     EmployeeInput,
-    FieldDirty,
+    EmployeeFieldDirty,
     FormMode,
 } from "../../../../types";
 import { updateEmployeeQuery } from "../../utils/updateEmployeeQuery";
@@ -34,7 +34,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
     setFormMode,
 }) => {
     const { winSize } = useContext(ThemeContext);
-    const [employee, setEmployee] = useState<EmployeeDetail>(selectedEmployee);
+    const [employee, setEmployee] = useState<EmployeeType>(selectedEmployee);
     const firstNameRef = useRef<HTMLInputElement | null>(null);
     const lastNameRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
@@ -56,7 +56,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         }
     }, [isSuccess]);
 
-    const [isFieldDirty, setIsFieldDirty] = useState<FieldDirty>({
+    const [isFieldDirty, setIsFieldDirty] = useState<EmployeeFieldDirty>({
         firstName: false,
         lastName: false,
         email: false,
@@ -96,7 +96,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
     // Compares the new input value with the original value to mark the field as "dirty" or not.
     // Updates the employee state with the new value, ensuring what you see on the form and what’s stored in state stay in sync.
     const handleFieldChange = useCallback(
-        (fieldName: keyof FieldDirty) =>
+        (fieldName: keyof EmployeeFieldDirty) =>
             (
                 event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
             ) => {
@@ -126,7 +126,8 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             if (dirty) {
                 setEmployee((prevEmployee) => ({
                     ...prevEmployee,
-                    [fieldName]: originalValues[fieldName as keyof FieldDirty],
+                    [fieldName]:
+                        originalValues[fieldName as keyof EmployeeFieldDirty],
                 }));
             }
         });
