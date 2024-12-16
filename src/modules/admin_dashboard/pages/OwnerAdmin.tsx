@@ -3,6 +3,9 @@ import { lazy } from "react";
 const Employees = lazy(
     () => import("../components/owner_admin_components/Employees")
 );
+const Category = lazy(
+    () => import("../components/services_components/Category")
+);
 const Services = lazy(
     () => import("../components/services_components/Services")
 );
@@ -13,6 +16,9 @@ const OwnerAdmin = () => {
             <h1 className="text-3xl mb-5">Owner Dashboard (In Development)</h1>
             <div>
                 <Employees />
+            </div>
+            <div>
+                <Category />
             </div>
             <div>
                 <Services />

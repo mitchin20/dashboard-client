@@ -6,37 +6,18 @@ import React, {
     useState,
 } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
-import { FormMode, ServiceFieldDirty } from "../../../../types";
+import {
+    FormMode,
+    ServiceDetail,
+    ServiceFieldDirty,
+    ServiceFormProps,
+    ServiceInput,
+} from "../../../../types";
 import { trimInputsValue } from "../../../home/utils/trimInputValue";
 import { createServiceQuery } from "../../utils/createServiceQuery";
 import TextInput from "../../../components/TextInput";
 import { updateServiceQuery } from "../../utils/updateServiceQuery";
 import Snackbar from "../../../components/Snackbar";
-
-export type ServiceInput = {
-    category: string;
-    name: string;
-    price: number;
-};
-
-export type ServiceDetail = {
-    id: number;
-    category: string;
-    name: string;
-    price: number;
-};
-
-export interface ServiceFormProps {
-    selectedService: any | null;
-    handleCloseDrawer: () => void;
-    refetchServices: () => void;
-    isSuccess: boolean;
-    setMessage: (message: string) => void;
-    errorMessage: string | null;
-    setErrorMessage: (message: string) => void;
-    formMode: FormMode;
-    setFormMode: (mode: FormMode) => void;
-}
 
 const ServiceForm: React.FC<ServiceFormProps> = ({
     selectedService,

@@ -342,3 +342,28 @@ export interface DeleteServiceQueryProps {
     setDeletedService: (service: any) => void;
     refetchServices: () => void;
 }
+
+export type ServiceInput = {
+    category: string;
+    name: string;
+    price: number;
+};
+
+export type ServiceDetail = {
+    id: number;
+    category: string;
+    name: string;
+    price: number;
+};
+
+export interface ServiceFormProps {
+    selectedService: any | null;
+    handleCloseDrawer: () => void;
+    refetchServices: () => void;
+    isSuccess: boolean;
+    setMessage: (message: string) => void;
+    errorMessage: string | null;
+    setErrorMessage: (message: string) => void;
+    formMode: FormMode;
+    setFormMode: (mode: FormMode) => void;
+}
