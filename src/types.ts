@@ -367,3 +367,38 @@ export interface ServiceFormProps {
     formMode: FormMode;
     setFormMode: (mode: FormMode) => void;
 }
+
+export type CategoryType = {
+    id: number;
+    name: string;
+};
+
+type CategoryInput = {
+    name: string;
+};
+
+export interface CategoryQueryProps {
+    categoryId?: number;
+    data?: CategoryInput;
+    setErrorMessage: (message: string) => void;
+    setMessage: (message: string) => void;
+    setLoading: (loading: boolean) => void;
+    setDeletedCategory?: (category: CategoryType) => void;
+    refetchCategories: () => void;
+}
+
+export interface CategoryFormProps {
+    selectedCategory: any | null;
+    handleCloseDrawer: () => void;
+    refetchCategories: () => void;
+    isSuccess: boolean;
+    setMessage: (message: string) => void;
+    errorMessage: string | null;
+    setErrorMessage: (message: string) => void;
+    formMode: FormMode;
+    setFormMode: (mode: FormMode) => void;
+}
+
+export type CategoryFieldDirty = {
+    name: boolean;
+};

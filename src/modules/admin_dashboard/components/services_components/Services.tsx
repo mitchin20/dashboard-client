@@ -3,7 +3,6 @@ import { ThemeContext } from "../../../../context/ThemeContext";
 import Tooltip from "../../../components/Tooltip";
 import AddIcon from "../../../../svgIcons/AddIcon";
 import { getServices } from "../../utils/queryServices";
-import { createServiceQuery } from "../../utils/createServiceQuery";
 import { FormMode } from "../../../../types";
 import MuiDrawer from "../../../components/MuiDrawer";
 import DeleteIcon from "../../../../svgIcons/DeleteIcon";
