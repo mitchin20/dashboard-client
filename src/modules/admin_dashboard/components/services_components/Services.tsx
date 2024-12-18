@@ -3,7 +3,7 @@ import { ThemeContext } from "../../../../context/ThemeContext";
 import Tooltip from "../../../components/Tooltip";
 import AddIcon from "../../../../svgIcons/AddIcon";
 import { getServices } from "../../utils/queryServices";
-import { FormMode } from "../../../../types";
+import { FormMode, ServiceDetail } from "../../../../types";
 import MuiDrawer from "../../../components/MuiDrawer";
 import DeleteIcon from "../../../../svgIcons/DeleteIcon";
 import { deleteServiceQuery } from "../../utils/deleteServiceQuery";
@@ -12,36 +12,34 @@ import Snackbar from "../../../components/Snackbar";
 
 const ServiceForm = lazy(() => import("./ServiceForm"));
 
-type ServiceType = {
-    id: number;
-    category: string;
-    name: string;
-    price: number;
-};
+interface Services {
+    services: ServiceDetail[];
+    setServices: (services: ServiceDetail[]) => void;
+}
 
-const Services = () => {
+const Services: React.FC<Services> = ({ services, setServices }) => {
     const { theme, winSize } = useContext(ThemeContext);
 
-    const [services, setServices] = useState<ServiceType[]>([]);
-    const [deletedService, setDeletedService] = useState<ServiceType | null>(
+    const [deletedService, setDeletedService] = useState<ServiceDetail | null>(
         null
     );
     const [message, setMessage] = useState<string | null>("");
     const [errorMessage, setErrorMessage] = useState<string | null>("");
     const [loading, setLoading] = useState<boolean>(false);
 
-    const [selectedService, setSelectedService] = useState<ServiceType | null>(
-        null
-    );
+    const [selectedService, setSelectedService] =
+        useState<ServiceDetail | null>(null);
     const [openServiceDrawer, setOpenServiceDrawer] = useState<boolean>(false);
     const [formMode, setFormMode] = useState<FormMode>(FormMode.CREATE);
 
-    const handleSelectedService = (service: ServiceType) => {
+    const handleSelectedService = (service: ServiceDetail) => {
         setSelectedService(service);
     };
 
     const handleOpenServiceDrawer = () => {
         setOpenServiceDrawer(true);
+        setMessage("");
+        setErrorMessage("");
     };
 
     const handleCloseServiceDrawer = () => {
@@ -85,7 +83,7 @@ const Services = () => {
             acc[category].push(service);
             return acc;
         },
-        {} as { [key: string]: ServiceType[] }
+        {} as { [key: string]: ServiceDetail[] }
     );
 
     if (loading) return <Loading />;

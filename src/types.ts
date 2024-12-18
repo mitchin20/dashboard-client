@@ -323,7 +323,7 @@ export interface ServiceQueryProps {
 }
 
 export interface ServiceFieldDirty {
-    category: boolean;
+    categoryId: boolean;
     name: boolean;
     price: boolean;
 }
@@ -347,6 +347,7 @@ export type ServiceInput = {
     category: string;
     name: string;
     price: number;
+    categoryId: number;
 };
 
 export type ServiceDetail = {
@@ -354,6 +355,7 @@ export type ServiceDetail = {
     category: string;
     name: string;
     price: number;
+    categoryId: number;
 };
 
 export interface ServiceFormProps {

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import {
+    CategoryType,
     FormMode,
     ServiceDetail,
     ServiceFieldDirty,
@@ -18,6 +19,12 @@ import { createServiceQuery } from "../../utils/createServiceQuery";
 import TextInput from "../../../components/TextInput";
 import { updateServiceQuery } from "../../utils/updateServiceQuery";
 import Snackbar from "../../../components/Snackbar";
+import { getCategories } from "../../utils/queryCategories";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 const ServiceForm: React.FC<ServiceFormProps> = ({
     selectedService,
@@ -31,6 +38,9 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
     setFormMode,
 }) => {
     const { theme, winSize } = useContext(ThemeContext);
+
+    const [categories, setCategories] = useState<CategoryType[]>([]);
+    useState<CategoryType | null>(null);
     const [service, setService] = useState<ServiceDetail>(selectedService);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -52,26 +62,30 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
         }
     }, [isSuccess]);
 
+    useEffect(() => {
+        getCategories({ setCategories, setLoading, ignoreCache: true });
+    }, [selectedService]);
+
     const [isFieldDirty, setIsFieldDirty] = useState<ServiceFieldDirty>({
-        category: false,
+        categoryId: false,
         name: false,
         price: false,
     });
 
     const originalValuesRef = useRef({
-        category: selectedService?.category || "",
+        categoryId: selectedService?.categoryId || 0,
         name: selectedService?.name || "",
         price: selectedService?.price || 0,
     });
 
     const originalValues = originalValuesRef.current;
 
-    const handleFieldChange = useCallback(
+    const handleTextFieldChange = useCallback(
         (fieldName: keyof ServiceFieldDirty) =>
             (
                 event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
             ) => {
-                const newValue = event.target.value;
+                let newValue: string | number = event.target.value;
 
                 setIsFieldDirty((prevDirty) => ({
                     ...prevDirty,
@@ -83,6 +97,24 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                     [fieldName]: newValue,
                 }));
             },
+        [originalValues]
+    );
+
+    // Handler that works with RadioGroup directly
+    const handleCategoryChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>, newValue: string) => {
+            const categoryId = Number(newValue);
+
+            setIsFieldDirty((prevDirty) => ({
+                ...prevDirty,
+                categoryId: categoryId !== originalValues.categoryId,
+            }));
+
+            setService((prevService) => ({
+                ...prevService,
+                categoryId: categoryId,
+            }));
+        },
         [originalValues]
     );
 
@@ -117,10 +149,27 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
             const payload = Object.fromEntries(formData);
 
             const processedPayload = trimInputsValue(payload) as ServiceInput;
+            const categoryId = Number(processedPayload.category);
+
+            const parsedCategory = categories?.find(
+                (cate) => cate.id === categoryId
+            );
+
+            if (!parsedCategory) {
+                setErrorMessage("Selected category not found.");
+                return;
+            }
+
+            const transformedData = {
+                category: parsedCategory?.name,
+                name: processedPayload.name,
+                price: processedPayload.price,
+                categoryId: parsedCategory?.id,
+            };
 
             if (formMode === FormMode.CREATE) {
                 await createServiceQuery({
-                    data: processedPayload,
+                    data: transformedData,
                     setErrorMessage,
                     setMessage,
                     setLoading,
@@ -133,7 +182,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
             ) {
                 await updateServiceQuery({
                     serviceId: selectedService.id,
-                    data: processedPayload,
+                    data: transformedData,
                     setErrorMessage,
                     setMessage,
                     setLoading,
@@ -153,6 +202,14 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
 
     return (
         <div>
+            {errorMessage && (
+                <Snackbar
+                    message={errorMessage}
+                    open={!!errorMessage}
+                    severity="error"
+                    position="top"
+                />
+            )}
             <div className="flex items-center mb-5 gap-3">
                 <h1 className="text-xl font-semibold">
                     {selectedService
@@ -189,27 +246,30 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                 onSubmit={handleFormSubmit}
                 className="transform duration-500"
             >
-                {errorMessage && (
-                    <Snackbar
-                        message={errorMessage}
-                        open={!!errorMessage}
-                        severity="error"
-                    />
-                )}
                 <div className="flex flex-col gap-3">
-                    <TextInput
-                        label="Category"
-                        name="category"
-                        ref={categoryRef}
-                        value={
-                            formMode === FormMode.READONLY ||
-                            formMode === FormMode.EDIT
-                                ? service.category
-                                : ""
-                        }
-                        disabled={formMode === FormMode.READONLY}
-                        onChange={handleFieldChange("category")}
-                    />
+                    <FormControl>
+                        <FormLabel>Tags</FormLabel>
+
+                        <RadioGroup
+                            row
+                            value={String(service?.categoryId)}
+                            onChange={handleCategoryChange}
+                        >
+                            {categories.map((category, index) => (
+                                <FormControlLabel
+                                    key={index}
+                                    value={String(category.id)}
+                                    control={
+                                        <Radio size="small" name="category" />
+                                    }
+                                    ref={categoryRef}
+                                    label={category.name}
+                                    className="text-sm"
+                                    disabled={formMode === FormMode.READONLY}
+                                />
+                            ))}
+                        </RadioGroup>
+                    </FormControl>
                     <TextInput
                         label="Service name"
                         name="name"
@@ -222,7 +282,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                                 : ""
                         }
                         disabled={formMode === FormMode.READONLY}
-                        onChange={handleFieldChange("name")}
+                        onChange={handleTextFieldChange("name")}
                     />
                     <TextInput
                         label="Service price"
@@ -236,7 +296,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                                 : "0"
                         }
                         disabled={formMode === FormMode.READONLY}
-                        onChange={handleFieldChange("price")}
+                        onChange={handleTextFieldChange("price")}
                     />
                 </div>
                 <button

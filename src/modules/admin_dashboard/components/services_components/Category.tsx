@@ -2,7 +2,7 @@ import React, { lazy, memo, useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import Tooltip from "../../../components/Tooltip";
 import AddIcon from "../../../../svgIcons/AddIcon";
-import { CategoryType, FormMode } from "../../../../types";
+import { CategoryType, FormMode, ServiceDetail } from "../../../../types";
 import { getCategories } from "../../utils/queryCategories";
 import Loading from "../../../components/Loading";
 import MuiDrawer from "../../../components/MuiDrawer";
@@ -11,10 +11,16 @@ import DeleteIcon from "../../../../svgIcons/DeleteIcon";
 import { Modal } from "@mui/material";
 import TextInput from "../../../components/TextInput";
 import { deleteCategoryQuery } from "../../utils/deleteCategoryQuery";
+import { getServices } from "../../utils/queryServices";
 
 const CategoryForm = lazy(() => import("./CategoryForm"));
 
-const Category = () => {
+interface Services {
+    services: ServiceDetail[];
+    setServices: (services: ServiceDetail[]) => void;
+}
+
+const Category: React.FC<Services> = ({ services, setServices }) => {
     const { theme } = useContext(ThemeContext);
 
     const [categories, setCategories] = useState<CategoryType[]>([]);
@@ -42,6 +48,8 @@ const Category = () => {
 
     const handleOpenDrawer = () => {
         setOpenDrawer(true);
+        setMessage("");
+        setErrorMessage("");
     };
 
     const handleCloseDrawer = () => {
@@ -86,6 +94,7 @@ const Category = () => {
             refetchCategories,
         });
         handleCloseModal();
+        await getServices({ setServices, setLoading, ignoreCache: true });
     };
 
     if (loading) return <Loading />;
@@ -136,7 +145,7 @@ const Category = () => {
                     <div key={index} className="col-span-2 flex">
                         <button
                             onClick={() => handleSelectedCategory(category)}
-                            className={`px-2 py-1 text-sm text-center ${theme === "dark" ? "text-white" : "text-black"} border rounded-l-xl`}
+                            className={`flex-1 px-2 py-1 text-sm text-center ${theme === "dark" ? "text-white" : "text-black"} border rounded-l-xl`}
                         >
                             {category.name}
                         </button>
@@ -176,6 +185,7 @@ const Category = () => {
             </MuiDrawer>
 
             <Modal
+                aria-hidden="false"
                 open={openModal}
                 onClose={handleCloseModal}
                 className="place-items-center place-content-center"
