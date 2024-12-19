@@ -149,6 +149,15 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
             const payload = Object.fromEntries(formData);
 
             const processedPayload = trimInputsValue(payload) as ServiceInput;
+
+            if (
+                processedPayload.name === "" &&
+                processedPayload.price.toString() === "0.00"
+            ) {
+                setErrorMessage("All fields are required.");
+                return;
+            }
+
             const categoryId = Number(processedPayload.category);
 
             const parsedCategory = categories?.find(
@@ -156,7 +165,7 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
             );
 
             if (!parsedCategory) {
-                setErrorMessage("Selected category not found.");
+                setErrorMessage("Missing category tag.");
                 return;
             }
 
@@ -284,20 +293,27 @@ const ServiceForm: React.FC<ServiceFormProps> = ({
                         disabled={formMode === FormMode.READONLY}
                         onChange={handleTextFieldChange("name")}
                     />
-                    <TextInput
-                        label="Service price"
-                        type="number"
-                        name="price"
-                        ref={priceRef}
-                        value={
-                            formMode === FormMode.READONLY ||
-                            formMode === FormMode.EDIT
-                                ? service.price.toString()
-                                : "0"
-                        }
-                        disabled={formMode === FormMode.READONLY}
-                        onChange={handleTextFieldChange("price")}
-                    />
+                    <div className="flex gap-1">
+                        <p className="border-2 border-gray-400 rounded-lg p-2 shadow-lg">
+                            $
+                        </p>
+                        <div className="w-full">
+                            <TextInput
+                                label="Service price"
+                                type="money"
+                                name="price"
+                                ref={priceRef}
+                                value={
+                                    formMode === FormMode.READONLY ||
+                                    formMode === FormMode.EDIT
+                                        ? service.price.toString()
+                                        : "0.00"
+                                }
+                                disabled={formMode === FormMode.READONLY}
+                                onChange={handleTextFieldChange("price")}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <button
                     type="submit"

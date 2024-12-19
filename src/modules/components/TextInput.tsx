@@ -1,17 +1,6 @@
 import React, { useEffect, useState, memo, forwardRef } from "react";
 import { TextInputProps } from "../../types";
 
-// type: Allow the component to support different input types, such as "text", "password", "email", etc.
-// placeholder: Optionally show placeholder text if the label is not enough or for accessibility.
-// name: Specify the name attribute to facilitate form submission.
-// id: Allow custom id for the input, which will be especially useful when multiple instances are used on the same page.
-// disabled: Handle cases where the input should be read-only or inactive.
-// error: Pass an error state or message to style or indicate errors.
-// required: Set the input as required for form validation.
-// className: Allow for custom styling or additional classes to be passed to the component.
-// multiline: New prop to switch between input and textarea
-// rows: Rows for textarea
-
 const TextInput = forwardRef<
     HTMLInputElement | HTMLTextAreaElement,
     TextInputProps
@@ -39,27 +28,72 @@ const TextInput = forwardRef<
         const [wordCount, setWordCount] = useState<number>(value.length);
         const [isLimitExceeded, setIsLimitExceeded] = useState<boolean>(false);
 
-        // Sync local state with value prop when it changes
+        const formatAsCents = (val: string) => {
+            // Remove all non-digits
+            let numericVal = val.replace(/[^\d]/g, "");
+            if (!numericVal) numericVal = "0";
+
+            // Convert to integer (cents)
+            const cents = parseInt(numericVal, 10);
+
+            // Calculate dollars and fractional cents
+            const dollars = Math.floor(cents / 100);
+            const fractional = cents % 100;
+
+            // Format: if dollars is 0, show "0.xx", else show "dollars.xx"
+            return `${dollars === 0 ? "0" : dollars}.${fractional
+                .toString()
+                .padStart(2, "0")}`;
+        };
+
         useEffect(() => {
-            setLocalValue(value);
-            setWordCount(value.length);
-            setIsLimitExceeded(value.length > maxChars);
-        }, [value, maxChars]);
+            // If type is money (cents mode)
+            if (type === "money") {
+                if (value && value.toString().trim() !== "") {
+                    // Format initial value
+                    const formatted = formatAsCents(value.toString());
+                    setLocalValue(formatted);
+                    setWordCount(formatted.length);
+                    setIsLimitExceeded(formatted.length > maxChars);
+                } else {
+                    // If no initial value, start empty
+                    setLocalValue("");
+                    setWordCount(0);
+                    setIsLimitExceeded(false);
+                }
+            } else {
+                setLocalValue(value);
+                setWordCount(value.length);
+                setIsLimitExceeded(value.length > maxChars);
+            }
+        }, [value, maxChars, type]);
 
         const handleOnChange = (
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
         ) => {
-            const newValue = event.target.value;
+            let newValue = event.target.value;
 
-            // Enforce max character limit
+            if (type === "money") {
+                newValue = formatAsCents(newValue);
+            }
+
             if (newValue.length <= maxChars) {
                 setLocalValue(newValue);
                 setWordCount(newValue.length);
                 setIsLimitExceeded(false);
 
-                // Call the external onChange handler if provided
+                // Pass the formatted value up to the parent
                 if (onChange) {
-                    onChange(event);
+                    const syntheticEvent = {
+                        ...event,
+                        target: {
+                            ...event.target,
+                            value: newValue,
+                        },
+                    } as React.ChangeEvent<
+                        HTMLInputElement | HTMLTextAreaElement
+                    >;
+                    onChange(syntheticEvent);
                 }
             } else {
                 setIsLimitExceeded(true);
@@ -86,7 +120,7 @@ const TextInput = forwardRef<
                 ) : (
                     <input
                         id={id}
-                        type={type}
+                        type={type === "money" ? "text" : type}
                         placeholder={placeholder}
                         value={localValue}
                         onChange={handleOnChange}

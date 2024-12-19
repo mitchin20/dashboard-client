@@ -135,7 +135,11 @@ const Services: React.FC<Services> = ({ services, setServices }) => {
                 {Object.entries(groupServiceByCategory).map(
                     (service, index) => (
                         <div key={index} className="col-span-4">
-                            <h4 className="font-semibold mb-3">{service[0]}</h4>
+                            <h4
+                                className={`font-semibold mb-3 ${theme === "dark" ? "text-white" : "text-black"}`}
+                            >
+                                {service[0]}
+                            </h4>
                             {service[1].map((service, index) => (
                                 <div
                                     key={index}
@@ -153,7 +157,7 @@ const Services: React.FC<Services> = ({ services, setServices }) => {
                                         <div
                                             className={`text-sm ${theme === "dark" ? "text-white" : "text-dark"}`}
                                         >
-                                            {service.price}
+                                            $ {service.price}
                                         </div>
                                         <Tooltip
                                             content="Delete service"
