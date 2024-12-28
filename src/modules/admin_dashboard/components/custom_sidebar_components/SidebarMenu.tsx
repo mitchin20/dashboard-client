@@ -33,6 +33,10 @@ const menuItems2 = [
 ];
 
 const menuItems3 = [
+    {
+        label: "Owner Admin",
+        to: "owner-admin",
+    },
     // {
     //     label: "Booking",
     //     to: "booking",
@@ -41,10 +45,6 @@ const menuItems3 = [
     //     label: "Appointments",
     //     to: "appointments",
     // },
-    {
-        label: "Owner Admin",
-        to: "owner-admin",
-    },
 ];
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {

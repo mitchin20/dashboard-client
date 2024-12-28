@@ -34,7 +34,12 @@ const OwnerAdmin = lazy(
 function App() {
     return (
         <ThemeProvider>
-            <Router>
+            <Router
+                future={{
+                    v7_relativeSplatPath: true,
+                    v7_startTransition: true,
+                }}
+            >
                 <Suspense fallback={<Loading />}>
                     <Routes>
                         <Route path="/" element={<Home />} />
