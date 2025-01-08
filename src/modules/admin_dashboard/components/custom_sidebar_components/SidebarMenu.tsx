@@ -37,10 +37,10 @@ const menuItems3 = [
         label: "Owner Admin",
         to: "owner-admin",
     },
-    // {
-    //     label: "Booking",
-    //     to: "booking",
-    // },
+    {
+        label: "Booking",
+        to: "booking",
+    },
     // {
     //     label: "Appointments",
     //     to: "appointments",

@@ -192,13 +192,6 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
 
             const processedPayload = trimInputsValue(payload) as EmployeeInput;
 
-            console.log("Processed Payload: ", processedPayload);
-            console.log("Form Mode: ", {
-                formMode,
-                selectedEmployee,
-                hasChanges,
-            });
-
             // If in create mode perform create new record action
             if (formMode === FormMode.CREATE) {
                 await createEmployeeQuery({

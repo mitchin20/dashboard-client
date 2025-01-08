@@ -106,7 +106,9 @@ const Booking = () => {
 
     return (
         <div className="mt-10">
-            <h1 className="text-xl font-semibold mb-10">Bookme</h1>
+            <h1 className="text-xl font-semibold mb-10">
+                Bookme (In Development)
+            </h1>
 
             <form onSubmit={handleFormSubmit}>
                 <div>
@@ -137,15 +139,12 @@ const Booking = () => {
                         />
                     </div>
 
-                    <FormLabel
-                        sx={{
-                            fontSize: "14px",
-                        }}
-                    >
-                        Service selection
-                    </FormLabel>
-
                     <FormGroup>
+                        <h4
+                            className={`text-sm font-semibold mt-5 ${theme === "dark" ? "text-white" : "text-black"}`}
+                        >
+                            Service selection
+                        </h4>
                         <div className="grid grid-cols-12 ml-2">
                             {groupServicesByCategory &&
                                 Object.entries(groupServicesByCategory).map(
@@ -158,7 +157,7 @@ const Booking = () => {
                                                 <h4
                                                     className={`text-sm font-semibold mb-2 ${theme === "dark" ? "text-white" : "text-black"}`}
                                                 >
-                                                    Technicians
+                                                    Available Technicians
                                                 </h4>
                                                 <RadioGroup
                                                     aria-labelledby="demo-controlled-radio-buttons-group"
