@@ -22,6 +22,7 @@ export const updateEmployeeQuery = async ({
     refetchEmployees,
 }: EmployeeQueryProps) => {
     try {
+        console.log("data", data);
         const response = await axios.put(
             `${API_URL}/update-employee/${employeeId}`,
             data

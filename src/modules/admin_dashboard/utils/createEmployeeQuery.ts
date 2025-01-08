@@ -9,6 +9,7 @@ type Employee = {
     email: string;
     phone: string;
     color: string;
+    employeeType: string;
 };
 
 interface EmployeeQueryProps {

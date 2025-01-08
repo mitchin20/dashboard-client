@@ -2,9 +2,12 @@ import React, {
     useCallback,
     useContext,
     useEffect,
+    useMemo,
     useRef,
     useState,
 } from "react";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import TextInput from "../../../components/TextInput";
 import { Sketch } from "@uiw/react-color";
 import { trimInputsValue } from "../../../home/utils/trimInputValue";
@@ -21,6 +24,17 @@ import {
     FormMode,
 } from "../../../../types";
 import { updateEmployeeQuery } from "../../utils/updateEmployeeQuery";
+
+// const employeeTypes = ["FULL-TIME", "PART-TIME"];
+const employeeTypes = [
+    { label: "Full Time", value: "FULL-TIME" },
+    { label: "Part Time", value: "PART-TIME" },
+];
+
+interface EmployeeTypeOption {
+    label: string;
+    value: string;
+}
 
 const EmployeeForm: React.FC<EmployeeFormProps> = ({
     selectedEmployee,
@@ -39,8 +53,10 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
     const lastNameRef = useRef<HTMLInputElement | null>(null);
     const emailRef = useRef<HTMLInputElement | null>(null);
     const phoneRef = useRef<HTMLInputElement | null>(null);
+    const employeeTypeRef = useRef<HTMLInputElement | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [color, setColor] = useState<string>("#c2c2c2");
+    const [employeeType, setEmployeeType] = useState<string>("FULL-TIME");
 
     const clearInput = (
         ref: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
@@ -61,6 +77,8 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         lastName: false,
         email: false,
         phone: false,
+        color: false,
+        employeeType: false,
     });
 
     const originalValuesRef = useRef({
@@ -69,6 +87,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         email: selectedEmployee?.email || "",
         phone: selectedEmployee?.phone || "",
         color: selectedEmployee?.color || "#c2c2c2",
+        employeeType: selectedEmployee?.employeeType || "",
     });
     const originalValues = originalValuesRef.current;
 
@@ -91,6 +110,22 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         }));
     };
 
+    const handleEmployeeTypeChange = (
+        event: React.SyntheticEvent,
+        newValue: EmployeeTypeOption | null
+    ) => {
+        const stringValue = newValue?.value || "";
+        setEmployeeType(stringValue);
+        setEmployee((prevEmployee) => ({
+            ...prevEmployee,
+            employeeType: stringValue,
+        }));
+        setIsFieldDirty((prevDirty) => ({
+            ...prevDirty,
+            employeeType: stringValue !== originalValues.employeeType, // Correct dirty state logic
+        }));
+    };
+
     // This function except input field name in the form
     // The function returns an event handler for the given field
     // Compares the new input value with the original value to mark the field as "dirty" or not.
@@ -100,12 +135,16 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             (
                 event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
             ) => {
-                const newValue = event.target.value;
+                const newValue = event.target.value.trim();
 
-                setIsFieldDirty((prevDirty) => ({
-                    ...prevDirty,
-                    [fieldName]: newValue !== originalValues[fieldName],
-                }));
+                // Update the isFieldDirty state
+                setIsFieldDirty((prevDirty) => {
+                    const updatedDirty = {
+                        ...prevDirty,
+                        [fieldName]: newValue !== originalValues[fieldName],
+                    };
+                    return updatedDirty;
+                });
 
                 // Update employee state with the new value
                 setEmployee((prevEmployee) => ({
@@ -133,7 +172,11 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
         });
     };
 
-    const hasChanges = Object.values(isFieldDirty).some((dirty) => dirty);
+    // const hasChanges = Object.values(isFieldDirty).some((dirty) => dirty);
+    const hasChanges = useMemo(
+        () => Object.values(isFieldDirty).some((dirty) => dirty),
+        [isFieldDirty]
+    );
 
     const handleFormSubmit = async (
         event: React.FormEvent<HTMLFormElement>
@@ -148,6 +191,13 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             payload.color = color;
 
             const processedPayload = trimInputsValue(payload) as EmployeeInput;
+
+            console.log("Processed Payload: ", processedPayload);
+            console.log("Form Mode: ", {
+                formMode,
+                selectedEmployee,
+                hasChanges,
+            });
 
             // If in create mode perform create new record action
             if (formMode === FormMode.CREATE) {
@@ -182,6 +232,7 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
             clearInput(lastNameRef);
             clearInput(emailRef);
             clearInput(phoneRef);
+            clearInput(employeeTypeRef);
             // Reset color to default color
             setColor("#c2c2c2");
         }
@@ -309,6 +360,37 @@ const EmployeeForm: React.FC<EmployeeFormProps> = ({
                                 ref={phoneRef}
                                 disabled={formMode === FormMode.READONLY}
                                 onChange={handleFieldChange("phone")}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <Autocomplete
+                                options={employeeTypes}
+                                getOptionLabel={(option) => option.label}
+                                value={
+                                    formMode === FormMode.READONLY ||
+                                    formMode === FormMode.EDIT
+                                        ? employeeTypes.find(
+                                              (opt) =>
+                                                  opt.value ===
+                                                  employee.employeeType
+                                          ) || null
+                                        : null
+                                }
+                                onChange={handleEmployeeTypeChange}
+                                disabled={formMode === FormMode.READONLY}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Employee Type"
+                                    />
+                                )}
+                            />
+
+                            {/* If you're submitting a form the old-school way: */}
+                            <input
+                                type="hidden"
+                                name="employeeType"
+                                value={employeeType}
                             />
                         </div>
 

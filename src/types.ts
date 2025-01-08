@@ -267,6 +267,7 @@ export type EmployeeInput = {
     email: string;
     phone: string;
     color: string;
+    employeeType: string;
 };
 
 export enum FormMode {
@@ -280,6 +281,8 @@ export interface EmployeeFieldDirty {
     lastName: boolean;
     email: boolean;
     phone: boolean;
+    color: boolean;
+    employeeType: boolean;
 }
 
 export interface EmployeeFormProps {
@@ -302,6 +305,7 @@ export type EmployeeType = {
     color: string;
     phone: string;
     email: string;
+    employeeType: string;
 };
 
 export interface DeleteEmployeeQueryProps {
