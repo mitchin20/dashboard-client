@@ -68,7 +68,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
             </Menu> */}
 
             {/* Sizebar Menu */}
-            <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
+            {/* <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
                 <SubMenu
                     label="Bookme"
                     icon={<GamesIcon className="h-6 w-6" />}
@@ -84,7 +84,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ collapsed = false }) => {
                             </MenuItem>
                         ))}
                 </SubMenu>
-            </Menu>
+            </Menu> */}
 
             <Menu menuItemStyles={menuItemStyles(theme, collapsed)}>
                 <SubMenu
